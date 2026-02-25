@@ -1,1 +1,2374 @@
-# gencare
+<!doctype html>
+<html lang="sq">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GENCARE • GENE4LIFE</title>
+
+  <!-- “Save to gallery” (screenshot si imazh) -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+  <style>
+    :root{
+      --tabacco:#A89982;
+      --stone:#AAA297;
+      --coffee:#5A493B;
+      --cream:#C8BDB1;
+      --chai:#968473;
+      --walnut:#60544D;
+
+      --text:#1f1a16;
+      --muted:#4d433b;
+      --card: rgba(255,255,255,.14);
+      --card2: rgba(255,255,255,.10);
+      --stroke: rgba(255,255,255,.22);
+      --stroke2: rgba(0,0,0,.14);
+      --shadow: 0 18px 45px rgba(0,0,0,.22);
+      --radius: 22px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color:var(--text);
+      background: radial-gradient(1200px 900px at 20% 10%, rgba(200,189,177,.78), rgba(170,162,151,.45) 45%, rgba(96,84,77,.22) 100%),
+                  linear-gradient(135deg, rgba(150,132,115,.25), rgba(90,73,59,.16));
+      overflow-x:hidden;
+    }
+
+    /* Grain i lehtë */
+    body:before{
+      content:"";
+      position:fixed; inset:0;
+      pointer-events:none;
+      opacity:.18;
+      mix-blend-mode:soft-light;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23n)' opacity='.18'/%3E%3C/svg%3E");
+    }
+
+    a{color:inherit; text-decoration:none}
+    button{font:inherit; cursor:pointer}
+    .hidden{display:none !important}
+
+    /* Layout */
+    .app{
+      min-height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+    }
+    .shell{
+      width:min(1100px, 100%);
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.08));
+      border:1px solid rgba(255,255,255,.20);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+      backdrop-filter: blur(10px);
+    }
+
+    /* Top bar */
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 16px;
+      border-bottom:1px solid rgba(255,255,255,.18);
+      background: linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.06));
+    }
+    .brand-mini{
+      display:flex; gap:10px; align-items:center;
+      font-weight:800;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      font-size:12px;
+      opacity:.92;
+    }
+    .dot{
+      width:10px;height:10px;border-radius:99px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.85), rgba(255,255,255,.18));
+      border:1px solid rgba(0,0,0,.12);
+      box-shadow: 0 8px 18px rgba(0,0,0,.12);
+    }
+    .right-actions{display:flex; gap:10px; align-items:center}
+
+    .pill{
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.22);
+      background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.08));
+      box-shadow: 0 10px 24px rgba(0,0,0,.12);
+      backdrop-filter: blur(12px);
+      color:rgba(31,26,22,.9);
+      font-weight:650;
+      font-size:13px;
+    }
+    .pill.secondary{opacity:.86}
+    .pill:active{transform: translateY(1px)}
+    .pill:hover{filter: brightness(1.03)}
+    .pill:focus{outline:2px solid rgba(255,255,255,.35); outline-offset:2px}
+
+    .content{
+      min-height: calc(100vh - 90px);
+      padding:18px;
+    }
+
+    /* Frutiger-aero glass buttons/cards */
+    .glass{
+      background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.08));
+      border:1px solid rgba(255,255,255,.22);
+      box-shadow: 0 18px 40px rgba(0,0,0,.14);
+      backdrop-filter: blur(12px);
+      border-radius: var(--radius);
+      position:relative;
+      overflow:hidden;
+    }
+    .glass:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(800px 220px at 20% 10%, rgba(255,255,255,.35), transparent 55%),
+                  radial-gradient(700px 220px at 80% 0%, rgba(255,255,255,.22), transparent 60%);
+      pointer-events:none;
+    }
+    .glass > *{position:relative}
+
+    .grid2{display:grid; grid-template-columns: 1.1fr .9fr; gap:16px}
+    @media (max-width: 900px){ .grid2{grid-template-columns:1fr} }
+
+    h1,h2,h3{margin:0}
+    .muted{color:rgba(31,26,22,.66)}
+    .small{font-size:13px}
+    .tiny{font-size:12px}
+
+    .card-pad{padding:18px}
+    .stack{display:flex; flex-direction:column; gap:12px}
+    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+
+    .section-title{
+      font-weight:850;
+      letter-spacing:.02em;
+      font-size:18px;
+      color:rgba(31,26,22,.92);
+    }
+
+    /* Inputs */
+    .field{display:flex; flex-direction:column; gap:6px}
+    label{font-size:12px; opacity:.78; font-weight:700}
+    input, select, textarea{
+      width:100%;
+      padding:11px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.25);
+      background: rgba(255,255,255,.10);
+      outline:none;
+      color:rgba(31,26,22,.92);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.22);
+      backdrop-filter: blur(10px);
+    }
+    textarea{min-height:88px; resize:vertical}
+
+    .note{
+      padding:12px 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.18);
+      color:rgba(31,26,22,.78);
+    }
+
+    /* Page transitions */
+    .fade-in{animation: fade .22s ease-out}
+    @keyframes fade{from{opacity:.0; transform: translateY(6px)} to{opacity:1; transform:none}}
+
+    /* ============ LANDING (FAQJA 1) ============ */
+    .landing{
+      min-height: 78vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:26px 16px;
+      position:relative;
+      overflow:hidden;
+
+      /* background i errët por jo shumë */
+      background:
+        radial-gradient(1200px 800px at 25% 20%, rgba(150,132,115,.40), rgba(96,84,77,.32) 50%, rgba(90,73,59,.24) 100%),
+        linear-gradient(140deg, rgba(96,84,77,.35), rgba(170,162,151,.10));
+    }
+
+    /* background levizës */
+    .landing:before{
+      content:"";
+      position:absolute; inset:-50%;
+      background:
+        radial-gradient(900px 600px at 30% 20%, rgba(200,189,177,.16), transparent 55%),
+        radial-gradient(700px 500px at 80% 70%, rgba(168,153,130,.14), transparent 60%),
+        radial-gradient(650px 450px at 15% 85%, rgba(170,162,151,.12), transparent 60%),
+        linear-gradient(120deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      filter: blur(0px);
+      animation: drift 14s ease-in-out infinite;
+      pointer-events:none;
+    }
+    @keyframes drift{
+      0%{transform: translate(-3%, -2%) rotate(0deg)}
+      50%{transform: translate(3%, 2%) rotate(1.4deg)}
+      100%{transform: translate(-3%, -2%) rotate(0deg)}
+    }
+
+    .helix-layer{
+      position:absolute; inset:0;
+      pointer-events:none;
+      opacity:.92;
+    }
+    .helix{
+      position:absolute;
+      width:min(520px, 85vw);
+      height:auto;
+      filter: drop-shadow(0 22px 40px rgba(0,0,0,.20));
+      opacity:.85;
+      animation: spin 18s linear infinite;
+      transform-origin:center;
+    }
+    .helix.h1{left:-8%; top:8%; animation-duration:22s; opacity:.62}
+    .helix.h2{right:-10%; bottom:-8%; animation-duration:26s; opacity:.55}
+    .helix.h3{left:55%; top:18%; width:min(420px, 70vw); animation-duration:30s; opacity:.36; filter: blur(1px) drop-shadow(0 22px 40px rgba(0,0,0,.16))}
+    @keyframes spin{to{transform: rotate(360deg)}}
+
+    .landing-center{
+      position:relative;
+      text-align:center;
+      padding:26px 18px;
+      border-radius: 30px;
+      background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.06));
+      border:1px solid rgba(255,255,255,.20);
+      box-shadow: 0 26px 70px rgba(0,0,0,.22);
+      backdrop-filter: blur(14px);
+      max-width: 860px;
+    }
+
+    /* GENCARE clickable (as button) */
+    .gencare-link{
+      display:inline-block;
+      font-weight: 950;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      font-size: clamp(44px, 9vw, 96px);
+      line-height: 1.02;
+      padding: 6px 10px;
+      border-radius: 20px;
+      cursor:pointer;
+      user-select:none;
+
+      color: rgba(255,255,255,.92);
+      text-shadow:
+        0 1px 0 rgba(0,0,0,.22),
+        0 18px 60px rgba(0,0,0,.22);
+
+      background:
+        radial-gradient(900px 120px at 30% 15%, rgba(255,255,255,.26), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.03));
+      border: 1px solid rgba(255,255,255,.24);
+      box-shadow:
+        0 24px 64px rgba(0,0,0,.22),
+        inset 0 1px 0 rgba(255,255,255,.22);
+      transition: transform .12s ease, filter .12s ease;
+    }
+    .gencare-link:hover{filter: brightness(1.05)}
+    .gencare-link:active{transform: translateY(2px) scale(.995)}
+
+    .landing-slogan{
+      margin-top:10px;
+      font-size: clamp(14px, 2.2vw, 18px);
+      color: rgba(255,255,255,.82);
+      font-weight: 650;
+      letter-spacing:.02em;
+    }
+
+    /* ============ HOME (FAQJA 2 & MENU) ============ */
+    .home-scroll{
+      max-height: 72vh;
+      overflow:auto;
+      padding-right:6px;
+    }
+    .home-scroll::-webkit-scrollbar{width:10px}
+    .home-scroll::-webkit-scrollbar-thumb{
+      background: rgba(0,0,0,.12);
+      border-radius:999px;
+      border:2px solid rgba(255,255,255,.18);
+    }
+
+    .hero{
+      padding:20px;
+      border-radius: 26px;
+      background: radial-gradient(900px 360px at 30% 10%, rgba(200,189,177,.38), rgba(170,162,151,.14) 55%, rgba(96,84,77,.10) 100%),
+                  linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.06));
+      border: 1px solid rgba(255,255,255,.20);
+      box-shadow: 0 18px 45px rgba(0,0,0,.14);
+    }
+
+    .hero h1{
+      font-size: clamp(28px, 4.8vw, 54px);
+      font-weight: 950;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .hero p{
+      margin:8px 0 0;
+      color: rgba(31,26,22,.78);
+      font-weight:650;
+      line-height: 1.55;
+    }
+
+    .color-break{
+      height:18px;
+      border-radius: 999px;
+      background: linear-gradient(90deg,
+        rgba(168,153,130,.75),
+        rgba(170,162,151,.70),
+        rgba(200,189,177,.72),
+        rgba(150,132,115,.70),
+        rgba(96,84,77,.68),
+        rgba(90,73,59,.62)
+      );
+      border:1px solid rgba(255,255,255,.18);
+      box-shadow: 0 12px 26px rgba(0,0,0,.10);
+      margin:14px 0;
+    }
+
+    .menu-grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+      margin-top:14px;
+    }
+    @media (max-width: 980px){ .menu-grid{grid-template-columns: repeat(2,1fr)} }
+    @media (max-width: 600px){ .menu-grid{grid-template-columns: 1fr} }
+
+    .bigbtn{
+      padding:16px 16px;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.22);
+      background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.08));
+      box-shadow: 0 18px 44px rgba(0,0,0,.14);
+      backdrop-filter: blur(12px);
+      text-align:left;
+      position:relative;
+      overflow:hidden;
+      transition: transform .12s ease, filter .12s ease;
+    }
+    .bigbtn:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(800px 180px at 18% 10%, rgba(255,255,255,.30), transparent 55%),
+        radial-gradient(900px 240px at 90% 0%, rgba(255,255,255,.18), transparent 60%);
+      pointer-events:none;
+    }
+    .bigbtn:hover{filter: brightness(1.03)}
+    .bigbtn:active{transform: translateY(2px)}
+    .bigbtn .t{position:relative; font-weight:900; letter-spacing:.02em; font-size:16px}
+    .bigbtn .d{position:relative; margin-top:6px; color:rgba(31,26,22,.68); font-weight:650; font-size:13px; line-height:1.35}
+
+    /* ============ INFORMOHU (DNA + markers) ============ */
+    .dna-stage{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:16px;
+      align-items:stretch;
+    }
+    @media (max-width: 900px){ .dna-stage{grid-template-columns:1fr} }
+
+    .dna-box{
+      padding:18px;
+      position:relative;
+      min-height: 420px;
+      overflow:hidden;
+    }
+    .dna-bg{
+      position:absolute; inset:0;
+      background: radial-gradient(900px 500px at 20% 10%, rgba(200,189,177,.26), transparent 55%),
+                  radial-gradient(700px 500px at 80% 70%, rgba(168,153,130,.20), transparent 60%),
+                  linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
+      animation: drift 14s ease-in-out infinite;
+      opacity:.9;
+    }
+
+    .helix-svg{
+      position:absolute;
+      left:50%; top:50%;
+      width:min(440px, 78vw);
+      transform: translate(-50%,-50%);
+      opacity:.95;
+      filter: drop-shadow(0 18px 35px rgba(0,0,0,.16));
+    }
+
+    .marker{
+      position:absolute;
+      width:46px; height:46px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.22);
+      background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.06));
+      box-shadow: 0 18px 36px rgba(0,0,0,.16);
+      display:flex; align-items:center; justify-content:center;
+      font-weight: 950;
+      cursor:pointer;
+      transition: transform .12s ease, filter .12s ease;
+      user-select:none;
+    }
+    .marker:hover{filter: brightness(1.05)}
+    .marker:active{transform: translateY(2px)}
+    .marker span{
+      display:inline-block;
+      width:28px; height:28px;
+      border-radius: 999px;
+      display:flex; align-items:center; justify-content:center;
+      color: rgba(255,255,255,.92);
+      text-shadow: 0 1px 0 rgba(0,0,0,.22);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.18);
+    }
+
+    /* ============ GAMES ============ */
+    .game-grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+    }
+    @media (max-width: 980px){ .game-grid{grid-template-columns: repeat(2,1fr)} }
+    @media (max-width: 600px){ .game-grid{grid-template-columns: 1fr} }
+
+    .starrow{display:flex; gap:10px; flex-wrap:wrap}
+    .star{
+      width:54px; height:54px;
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.22);
+      background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.06));
+      box-shadow: 0 18px 34px rgba(0,0,0,.14);
+      display:flex; align-items:center; justify-content:center;
+      font-size:22px;
+      cursor:pointer;
+      user-select:none;
+      transition: transform .12s ease, filter .12s ease;
+    }
+    .star:hover{filter: brightness(1.04)}
+    .star:active{transform: translateY(2px)}
+    .progressbar{
+      height:12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.08);
+      overflow:hidden;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.12);
+    }
+    .progressbar > div{
+      height:100%;
+      width:0%;
+      background: linear-gradient(90deg, rgba(168,153,130,.85), rgba(200,189,177,.75), rgba(96,84,77,.70));
+      border-right:1px solid rgba(255,255,255,.20);
+      transition: width .25s ease;
+    }
+
+    .game-board{
+      padding:16px;
+      min-height: 320px;
+    }
+    .game-hud{
+      display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;
+      margin-bottom:10px;
+    }
+    .hud-chip{
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.20);
+      background: rgba(255,255,255,.10);
+      font-weight:800;
+      font-size:12px;
+      color: rgba(31,26,22,.78);
+    }
+
+    /* Pause/Resume icons (as requested: Pause=triangle, Resume=||) */
+    .iconbtn{
+      width:46px; height:46px;
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.22);
+      background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.06));
+      box-shadow: 0 16px 34px rgba(0,0,0,.14);
+      display:flex; align-items:center; justify-content:center;
+      cursor:pointer;
+      user-select:none;
+      transition: transform .12s ease, filter .12s ease;
+    }
+    .iconbtn:hover{filter: brightness(1.05)}
+    .iconbtn:active{transform: translateY(2px)}
+    .tri{
+      width:0;height:0;
+      border-top:10px solid transparent;
+      border-bottom:10px solid transparent;
+      border-left:16px solid rgba(31,26,22,.80);
+      margin-left:3px;
+    }
+    .bars{
+      width:16px; height:20px; display:flex; justify-content:space-between;
+    }
+    .bars i{
+      display:block; width:5px; height:20px; border-radius:4px;
+      background: rgba(31,26,22,.78);
+    }
+
+    .tiles{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap:10px;
+      margin-top:10px;
+    }
+    @media (max-width: 720px){ .tiles{grid-template-columns: repeat(3,1fr)} }
+    @media (max-width: 480px){ .tiles{grid-template-columns: repeat(2,1fr)} }
+
+    .tile{
+      padding:14px;
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.20);
+      background: rgba(255,255,255,.10);
+      box-shadow: 0 14px 30px rgba(0,0,0,.10);
+      min-height: 70px;
+      display:flex; align-items:center; justify-content:center;
+      text-align:center;
+      font-weight:900;
+      cursor:pointer;
+      user-select:none;
+      transition: transform .12s ease, filter .12s ease;
+    }
+    .tile:hover{filter: brightness(1.04)}
+    .tile:active{transform: translateY(2px)}
+    .tile.good{outline: 2px solid rgba(110,160,110,.35)}
+    .tile.bad{outline: 2px solid rgba(190,110,110,.35)}
+
+    .center{display:flex; align-items:center; justify-content:center}
+    .divider{height:1px; background: rgba(255,255,255,.18); margin: 8px 0}
+
+    /* Questionnaire */
+    .q-item{
+      padding:14px;
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.10);
+      box-shadow: 0 16px 34px rgba(0,0,0,.10);
+    }
+    .q-title{font-weight:900; margin-bottom:10px}
+    .radio-row{display:flex; gap:10px; flex-wrap:wrap}
+    .radio{
+      display:flex; align-items:center; gap:8px;
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.08);
+      cursor:pointer;
+      user-select:none;
+      font-weight:800;
+      font-size:13px;
+      color: rgba(31,26,22,.76);
+    }
+    .radio input{width:auto}
+    .radio.active{
+      background: rgba(255,255,255,.16);
+      border-color: rgba(255,255,255,.26);
+      color: rgba(31,26,22,.92);
+    }
+
+    /* Routine list */
+    .task{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      padding:12px 12px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.10);
+      align-items:center;
+    }
+    .task b{font-size:13px}
+    .check{
+      width:22px;height:22px;
+      border-radius:7px;
+      border:1px solid rgba(255,255,255,.22);
+      background: rgba(255,255,255,.10);
+      display:flex; align-items:center; justify-content:center;
+      cursor:pointer;
+      user-select:none;
+      font-weight:900;
+    }
+    .check.on{
+      background: rgba(255,255,255,.22);
+      border-color: rgba(255,255,255,.28);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <div class="shell" id="shell">
+
+      <div class="topbar">
+        <div class="brand-mini">
+          <span class="dot"></span>
+          <span>GENCARE</span>
+          <span style="opacity:.65">•</span>
+          <span class="muted">GENE4LIFE</span>
+        </div>
+        <div class="right-actions">
+          <button class="pill secondary" id="btnBack" title="Kthehu" style="display:none">← Kthehu</button>
+          <button class="pill" id="btnHome" title="Faqja Kryesore" style="display:none">🏠 Kryesore</button>
+        </div>
+      </div>
+
+      <div class="content" id="view"></div>
+    </div>
+  </div>
+
+<script>
+/* =======================
+   STORAGE + STATE
+======================= */
+const LS_USERS = "gencare_users_v1";
+const LS_SESSION = "gencare_session_v1";
+const LS_ROUTINE = "gencare_routine_v1";
+
+const state = {
+  route: "landing",   // landing | home | manual | profile | informohu | infoTopic | games | gameLevels | gamePlay | change | routine | result
+  routeStack: [],
+  infoTopicIndex: 0,
+  selectedGameId: null,
+  selectedLevel: 1,
+  gameRuntime: null,
+};
+
+const GAMES = [
+  { id:"komunikimi", title:"Komunikimi", desc:"Fjalë, figura, shprehje — për të ndihmuar komunikimin." },
+  { id:"social", title:"Socializimi", desc:"Situata sociale dhe zgjedhje të thjeshta." },
+  { id:"perqendrim", title:"Të Nxënit & Përqendrimi", desc:"Kujtesë e shpejtë dhe fokus." },
+  { id:"emocione", title:"Emocionet", desc:"Njohja e emocioneve në mënyrë të qetë." },
+  { id:"sensori", title:"Ndjeshmëria Sensorjale", desc:"Zgjedhje të buta — tinguj/ndjesi të imagjinuara." },
+  { id:"koordinim", title:"Lëvizja & Koordinimi", desc:"Reagim i kontrolluar — prek/shfaq." },
+];
+
+const INFO_TOPICS = [
+  {
+    key:"komunikimi",
+    title:"Komunikimi & Gjuha",
+    bullets:[
+      "Shenjat e para mund të shfaqen gradualisht: vonesë në fjalë, pak gjeste, ose vështirësi në përdorimin e fjalëve për kërkesa.",
+      "Mund të vërehet përsëritje fjalësh/frasash (ekolali) ose përdorim i kufizuar i gjuhës funksionale.",
+      "Ndihmon: rutinë e qetë, fjali të shkurtra, zgjedhje me 2 opsione, vizualë (figura)."
+    ]
+  },
+  {
+    key:"social",
+    title:"Ndërveprimi Social & Kontakti me Sy",
+    bullets:[
+      "Mund të ketë kontakt me sy të kufizuar, vështirësi në ndjekjen e lojës së përbashkët, ose mungesë interesi për bashkëmoshatarët.",
+      "Reagimi ndaj emrit mund të jetë i dobët, ose preferon lojë të vetmuar për kohë të gjatë.",
+      "Ndihmon: lojëra me radhë, aktivitete të shkurtra bashkë, lavdërim i qartë dhe i butë."
+    ]
+  },
+  {
+    key:"perqendrim",
+    title:"Të Nxënit & Përqendrimi",
+    bullets:[
+      "Vështirësi në fokus, kalim i shpejtë nga një aktivitet tek tjetri, ose vëmendje shumë e lartë vetëm për një interes specifik.",
+      "Mund të ketë sfida në ndjekjen e udhëzimeve me shumë hapa.",
+      "Ndihmon: udhëzime 1–2 hapa, pushime të shkurtra, strukturë vizuale e ditës."
+    ]
+  },
+  {
+    key:"emocione",
+    title:"Emocionet",
+    bullets:[
+      "Vështirësi në shprehjen/kuptimin e emocioneve; shpërthime kur nuk kuptohet nevoja ose kur ka ndryshime të papritura.",
+      "Rritje ankthi në ambiente të zhurmshme ose gjatë tranzicioneve.",
+      "Ndihmon: paralajmërime të buta për ndryshime, “karte emocioni”, frymëmarrje e udhëzuar."
+    ]
+  },
+  {
+    key:"sensori",
+    title:"Ndjeshmëria Sensorjale",
+    bullets:[
+      "Reagime të forta ndaj dritës, zhurmës, prekjes, erërave ose teksturave të caktuara.",
+      "Mund të kërkojë stimulim (lëkundje, rrotullim) ose të shmangë disa ndjesi.",
+      "Ndihmon: “kënd qetësimi”, kufje, lodra sensoriale të buta, zgjedhje të kontrolluara."
+    ]
+  },
+  {
+    key:"koordinim",
+    title:"Lëvizja & Koordinimi",
+    bullets:[
+      "Mund të ketë vështirësi me motorikën e imët (laps, gërshërë) ose koordinimin në lojëra fizike.",
+      "Sjellje përsëritëse (p.sh. lëkundje) mund të shërbejë si vetërregullim.",
+      "Ndihmon: ushtrime të shkurtra motorike, aktivitete me ritëm të ngadaltë, progres gradual."
+    ]
+  }
+];
+
+function getUsers(){
+  try{ return JSON.parse(localStorage.getItem(LS_USERS) || "[]"); }catch(e){ return []; }
+}
+function setUsers(users){ localStorage.setItem(LS_USERS, JSON.stringify(users)); }
+function getSession(){
+  try{ return JSON.parse(localStorage.getItem(LS_SESSION) || "null"); }catch(e){ return null; }
+}
+function setSession(s){ localStorage.setItem(LS_SESSION, JSON.stringify(s)); }
+function clearSession(){ localStorage.removeItem(LS_SESSION); }
+function currentUser(){
+  const s = getSession();
+  if(!s) return null;
+  return getUsers().find(u => u.username === s.username) || null;
+}
+function updateUser(patch){
+  const users = getUsers();
+  const idx = users.findIndex(u => u.username === patch.username);
+  if(idx>=0){
+    users[idx] = { ...users[idx], ...patch };
+    setUsers(users);
+  }
+}
+
+/* =======================
+   ROUTING
+======================= */
+const view = document.getElementById("view");
+const btnBack = document.getElementById("btnBack");
+const btnHome = document.getElementById("btnHome");
+
+btnBack.addEventListener("click", () => popRoute());
+btnHome.addEventListener("click", () => go("home"));
+
+function go(route, params={}){
+  // stop any running game timers
+  stopGameRuntime();
+
+  state.routeStack.push({ route: state.route, snapshot: snapshotState() });
+  state.route = route;
+  Object.assign(state, params);
+  render();
+}
+
+function popRoute(){
+  stopGameRuntime();
+  const prev = state.routeStack.pop();
+  if(!prev){ state.route="home"; render(); return; }
+  state.route = prev.route;
+  restoreSnapshot(prev.snapshot);
+  render();
+}
+
+function snapshotState(){
+  return {
+    infoTopicIndex: state.infoTopicIndex,
+    selectedGameId: state.selectedGameId,
+    selectedLevel: state.selectedLevel,
+  };
+}
+function restoreSnapshot(s){
+  if(!s) return;
+  state.infoTopicIndex = s.infoTopicIndex;
+  state.selectedGameId = s.selectedGameId;
+  state.selectedLevel = s.selectedLevel;
+}
+
+function setNavButtons(){
+  const showBack = state.route !== "landing" && state.route !== "home";
+  const showHome = state.route !== "landing";
+  btnBack.style.display = showBack ? "inline-flex" : "none";
+  btnHome.style.display = showHome ? "inline-flex" : "none";
+}
+
+/* =======================
+   HELPERS
+======================= */
+function esc(s){ return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m])); }
+
+function niceDate(d = new Date()){
+  return d.toLocaleDateString("sq-AL", { weekday:"short", year:"numeric", month:"short", day:"2-digit" });
+}
+
+function ensureUserProgress(u){
+  return {
+    ...u,
+    progress: u.progress || { games:{}, routines:{ streak:0, lastDay:null } },
+    createdAt: u.createdAt || Date.now()
+  };
+}
+
+function computeOverallProgress(u){
+  u = ensureUserProgress(u);
+  let total=0, done=0;
+  for(const g of GAMES){
+    for(let lvl=1; lvl<=5; lvl++){
+      total++;
+      if(u.progress.games?.[g.id]?.[lvl] === true) done++;
+    }
+  }
+  const pct = total ? Math.round((done/total)*100) : 0;
+  return { pct, done, total };
+}
+
+/* =======================
+   RENDER
+======================= */
+function render(){
+  setNavButtons();
+  view.className = "fade-in";
+
+  if(state.route === "landing") return renderLanding();
+  if(state.route === "home") return renderHome();
+  if(state.route === "manual") return renderManual();
+  if(state.route === "profile") return renderProfile();
+  if(state.route === "informohu") return renderInformohu();
+  if(state.route === "infoTopic") return renderInfoTopic();
+  if(state.route === "games") return renderGamesMenu();
+  if(state.route === "gameLevels") return renderGameLevels();
+  if(state.route === "gamePlay") return renderGamePlay();
+  if(state.route === "change") return renderChange();
+  if(state.route === "routine") return renderRoutine();
+  if(state.route === "result") return renderResult();
+
+  view.innerHTML = `<div class="glass card-pad"><b>Rrugë e panjohur:</b> ${esc(state.route)}</div>`;
+}
+
+/* =======================
+   SVG HELIX (reuse)
+======================= */
+function helixSVG(opacity=1){
+  return `
+  <svg viewBox="0 0 220 520" class="helix-svg" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <linearGradient id="g1" x1="0" x2="1">
+        <stop offset="0" stop-color="${getComputedStyle(document.documentElement).getPropertyValue('--tabacco').trim()}" stop-opacity="${opacity}"/>
+        <stop offset="1" stop-color="${getComputedStyle(document.documentElement).getPropertyValue('--cream').trim()}" stop-opacity="${opacity}"/>
+      </linearGradient>
+      <linearGradient id="g2" x1="0" x2="1">
+        <stop offset="0" stop-color="${getComputedStyle(document.documentElement).getPropertyValue('--walnut').trim()}" stop-opacity="${opacity}"/>
+        <stop offset="1" stop-color="${getComputedStyle(document.documentElement).getPropertyValue('--chai').trim()}" stop-opacity="${opacity}"/>
+      </linearGradient>
+    </defs>
+
+    <!-- Strands -->
+    <path d="M70,10 C160,60 160,120 70,170 C-20,220 -20,300 70,350 C160,400 160,460 70,510"
+          fill="none" stroke="url(#g1)" stroke-width="10" stroke-linecap="round" opacity=".95"/>
+    <path d="M150,10 C60,60 60,120 150,170 C240,220 240,300 150,350 C60,400 60,460 150,510"
+          fill="none" stroke="url(#g2)" stroke-width="10" stroke-linecap="round" opacity=".9"/>
+
+    <!-- Rungs -->
+    ${Array.from({length:10}).map((_,i)=>{
+      const y = 40 + i*48;
+      const flip = i%2===0;
+      return `<line x1="${flip?78:142}" y1="${y}" x2="${flip?142:78}" y2="${y+12}"
+                    stroke="rgba(255,255,255,.22)" stroke-width="6" stroke-linecap="round"/>`;
+    }).join("")}
+
+    <!-- soft highlights -->
+    <circle cx="74" cy="40" r="4" fill="rgba(255,255,255,.25)"/>
+    <circle cx="146" cy="92" r="4" fill="rgba(255,255,255,.22)"/>
+    <circle cx="78" cy="244" r="4" fill="rgba(255,255,255,.20)"/>
+    <circle cx="148" cy="410" r="4" fill="rgba(255,255,255,.18)"/>
+  </svg>`;
+}
+
+/* =======================
+   LANDING
+======================= */
+function renderLanding(){
+  // Landing pa topbar buttons
+  btnHome.style.display = "none";
+  btnBack.style.display = "none";
+
+  view.innerHTML = `
+    <section class="landing">
+      <div class="helix-layer">
+        <div class="helix h1">${helixSVG(.95)}</div>
+        <div class="helix h2">${helixSVG(.85)}</div>
+        <div class="helix h3">${helixSVG(.60)}</div>
+      </div>
+
+      <div class="landing-center">
+        <div class="gencare-link" id="enterGencare" role="button" tabindex="0" aria-label="Hyr në GENCARE">
+          GENCARE
+        </div>
+        <div class="landing-slogan">Ndryshimet na bëjnë unike.</div>
+      </div>
+    </section>
+  `;
+
+  const enter = document.getElementById("enterGencare");
+  const open = () => {
+    // shko te faqja e dytë (home scrollable)
+    state.routeStack = []; // start clean
+    state.route = "home";
+    render();
+  };
+  enter.addEventListener("click", open);
+  enter.addEventListener("keydown", (e)=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); open(); } });
+}
+
+/* =======================
+   HOME (faqja 2)
+======================= */
+function renderHome(){
+  const u = currentUser();
+  const overall = u ? computeOverallProgress(u) : null;
+
+  view.innerHTML = `
+    <div class="home-scroll">
+      <div class="hero">
+        <h1>GENCARE</h1>
+        <p><b>Mirë se erdhët në website</b></p>
+        <p>
+          Një ndryshim i vogël në ADN nuk është pengesë. Me <b>GENE4LIFE</b>, çdo fëmijë mund të stimulohet,
+          të mësojë dhe të zhvillojë aftësitë e tij unike. Ndihmo fëmijën të arrijë potencialin e plotë.
+        </p>
+
+        <div class="color-break"></div>
+
+        <div class="row">
+          <span class="pill secondary">Status: ${u ? "I identifikuar" : "Pa profil"}</span>
+          ${u ? `<span class="pill secondary">Përdorues: <b>${esc(u.username)}</b></span>` : ""}
+          ${u ? `<span class="pill secondary">Progres: <b>${overall.pct}%</b> (${overall.done}/${overall.total})</span>` : ""}
+        </div>
+      </div>
+
+      <div style="height:12px"></div>
+
+      <div class="menu-grid">
+        ${menuBtn("Manuali i përdorimit","Si të përdoret website-i (burime të besueshme).","manual")}
+        ${menuBtn("Profili i fëmijës","Krijo profil (username unik) dhe shiko progresin.","profile")}
+        ${menuBtn("Informohu","Kliko në ADN dhe lexo informacionin për çdo temë.","informohu")}
+        ${menuBtn("Lojrat","6 lojëra me 5 nivele – me pauzë & resume.","games")}
+        ${menuBtn("Fillo Ndryshimin","Pyetësor diagnostifikues (12 pyetje).","change")}
+        ${menuBtn("Rutina Ime","Pyetësor (20) + plan javor me checklist.","routine")}
+      </div>
+
+      <div style="height:14px"></div>
+      <div class="note">
+        <b>Shënim:</b> Ky website është ndërtuar për informim dhe stimulim. Nuk zëvendëson vlerësimin profesional.
+      </div>
+    </div>
+  `;
+}
+
+function menuBtn(t,d,route){
+  return `
+    <button class="bigbtn" data-route="${route}">
+      <div class="t">${esc(t)}</div>
+      <div class="d">${esc(d)}</div>
+    </button>
+  `;
+}
+
+view.addEventListener("click", (e)=>{
+  const btn = e.target.closest("[data-route]");
+  if(!btn) return;
+  go(btn.getAttribute("data-route"));
+});
+
+/* =======================
+   MANUAL
+======================= */
+function renderManual(){
+  view.innerHTML = `
+    <div class="glass card-pad stack">
+      <div>
+        <div class="section-title">Manuali i përdorimit</div>
+        <div class="muted small">Si mund ta përdorë prindi këtë website, hap pas hapi.</div>
+      </div>
+
+      <div class="note">
+        <b>1) Fillimi</b><br>
+        Krijoni një profil tek <b>“Profili i fëmijës”</b>. Kjo ruan progresin në pajisjen tuaj (localStorage).
+      </div>
+
+      <div class="note">
+        <b>2) Informohu</b><br>
+        Tek <b>“Informohu”</b> klikoni shenjën <b>!</b> në heliksin e ADN për të lexuar tema të ndryshme.
+      </div>
+
+      <div class="note">
+        <b>3) Lojrat</b><br>
+        Zgjidhni një lojë → zgjidhni nivelin (1–5) → luani. Përfundimi i nivelit shënohet në profil.
+      </div>
+
+      <div class="note">
+        <b>4) Pyetësorët</b><br>
+        <b>“Fillo Ndryshimin”</b> jep një vlerësim orientues (jo diagnozë). <b>“Rutina Ime”</b> krijon një plan javor.
+      </div>
+
+      <div class="note">
+        <b>Burimet</b><br>
+        Përmbajtja është e formuluar në stil edukativ dhe orientues, duke u bazuar në parime të përgjithshme të praktikave të njohura (psikoedukim, struktura, vizualë, rutinë).
+        Për vendime klinike, konsultohuni me profesionistë.
+      </div>
+
+      <div class="row">
+        <button class="pill" onclick="go('home')">🏠 Ktheu në faqen kryesore</button>
+      </div>
+    </div>
+  `;
+}
+
+/* =======================
+   PROFILE (Sign up / Login + Progress)
+======================= */
+function renderProfile(){
+  const u = currentUser();
+
+  if(!u){
+    view.innerHTML = `
+      <div class="grid2">
+        <div class="glass card-pad stack">
+          <div>
+            <div class="section-title">Profili i fëmijës</div>
+            <div class="muted small">Krijo profil personal (username unik) dhe ruaj progresin.</div>
+          </div>
+
+          <div class="note">
+            <b>Siguria:</b> Të dhënat ruhen vetëm në pajisjen tuaj (browser) dhe nuk dërgohen askund.
+          </div>
+
+          <form id="signupForm" class="stack">
+            <div class="field"><label>Emri i prindit/kujdestarit ligjor</label><input required name="parentName" placeholder="p.sh. Renita"/></div>
+            <div class="field"><label>Emri i fëmijës</label><input required name="childName" placeholder="p.sh. Mateo"/></div>
+            <div class="row">
+              <div class="field" style="flex:1"><label>Mosha e fëmijës</label><input required name="childAge" type="number" min="1" max="18" placeholder="p.sh. 8"/></div>
+              <div class="field" style="flex:1"><label>Problemi i deklaruar/diagnostifikuar (opsional)</label><input name="declared" placeholder="opsional"/></div>
+            </div>
+            <div class="row">
+              <div class="field" style="flex:1"><label>Adresa e gmail të prindit</label><input required name="gmail" type="email" placeholder="emri@gmail.com"/></div>
+              <div class="field" style="flex:1"><label>Numri i kontaktit (opsional)</label><input name="phone" placeholder="+355 ..."/></div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="row">
+              <div class="field" style="flex:1"><label>Username (unik)</label><input required name="username" placeholder="p.sh. gencare_prindi"/></div>
+              <div class="field" style="flex:1"><label>Password (min 6 + karakter special)</label><input required name="password" type="password" placeholder="******"/></div>
+            </div>
+
+            <div class="row">
+              <button class="pill" type="submit">Ruaj profilin</button>
+              <button class="pill secondary" type="button" id="goLogin">Kam profil (Log in)</button>
+            </div>
+
+            <div class="note tiny" id="signupMsg" style="display:none"></div>
+          </form>
+        </div>
+
+        <div class="glass card-pad stack">
+          <div class="section-title">Pse profil?</div>
+          <div class="muted small">
+            Profili mban shënim:
+            <ul>
+              <li>Progresin në lojëra (nivel/yll)</li>
+              <li>Streak të rutinës (ditë rresht me aktivitete të kryera)</li>
+              <li>Rezultatet orientuese të pyetësorëve</li>
+            </ul>
+          </div>
+          <div class="note">
+            <b>Këshillë:</b> Filloni me nivelet 1–2 dhe rriteni gradualisht vështirësinë.
+          </div>
+        </div>
+      </div>
+    `;
+
+    document.getElementById("goLogin").addEventListener("click", () => renderLoginInline());
+    document.getElementById("signupForm").addEventListener("submit", (e)=>{
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const data = Object.fromEntries(fd.entries());
+
+      const msg = document.getElementById("signupMsg");
+      const users = getUsers();
+      const username = String(data.username||"").trim().toLowerCase();
+
+      // validations
+      if(username.length < 3){
+        msg.style.display="block"; msg.textContent="Username duhet të ketë të paktën 3 karaktere."; return;
+      }
+      if(users.some(u=>u.username === username)){
+        msg.style.display="block"; msg.textContent="Ky username ekziston. Zgjidh një tjetër."; return;
+      }
+      const pw = String(data.password||"");
+      if(pw.length < 6 || !/[^\w\s]/.test(pw)){
+        msg.style.display="block";
+        msg.textContent="Password duhet të ketë min 6 karaktere dhe të paktën 1 karakter special (p.sh. ! @ #).";
+        return;
+      }
+
+      const user = ensureUserProgress({
+        username,
+        password: pw, // demo/local – jo server
+        parentName: data.parentName.trim(),
+        childName: data.childName.trim(),
+        childAge: Number(data.childAge),
+        declared: (data.declared||"").trim(),
+        gmail: data.gmail.trim(),
+        phone: (data.phone||"").trim(),
+        createdAt: Date.now(),
+        lastResults: {}
+      });
+
+      users.push(user);
+      setUsers(users);
+      setSession({ username });
+
+      // ruaj mesazh + refresh i faqes (si kërkesa)
+      msg.style.display="block";
+      msg.textContent="Të dhënat tuaja u ruajtën. Duke rifreskuar…";
+      setTimeout(()=>{ renderProfile(); }, 650);
+    });
+
+    return;
+  }
+
+  // Logged in view (progress)
+  const fixed = ensureUserProgress(u);
+  updateUser(fixed); // ensure fields exist
+  const overall = computeOverallProgress(fixed);
+
+  const streak = fixed.progress?.routines?.streak || 0;
+  const lastDay = fixed.progress?.routines?.lastDay;
+
+  view.innerHTML = `
+    <div class="glass card-pad stack">
+      <div class="row" style="justify-content:space-between; align-items:flex-start">
+        <div>
+          <div class="section-title">Profili i fëmijës</div>
+          <div class="muted small">Të dhënat u ruajtën — ky është progresi aktual.</div>
+        </div>
+        <button class="pill secondary" id="logoutBtn">Dil (Log out)</button>
+      </div>
+
+      <div class="grid2">
+        <div class="glass card-pad stack">
+          <div class="row">
+            <span class="pill secondary">Username: <b>${esc(fixed.username)}</b></span>
+            <span class="pill secondary">Krijuar: <b>${niceDate(new Date(fixed.createdAt))}</b></span>
+          </div>
+
+          <div class="note">
+            <b>Prindi/Kujdestari:</b> ${esc(fixed.parentName)}<br>
+            <b>Fëmija:</b> ${esc(fixed.childName)} (${esc(fixed.childAge)} vjeç)<br>
+            <b>Diagnozë/Problem (ops.):</b> ${esc(fixed.declared || "—")}<br>
+            <b>Gmail:</b> ${esc(fixed.gmail)}<br>
+            <b>Kontakt (ops.):</b> ${esc(fixed.phone || "—")}
+          </div>
+
+          <div class="note">
+            <b>Streak i rutinës:</b> <b>${streak}</b> ditë rresht<br>
+            <span class="tiny muted">Dita e fundit e plotësuar: ${esc(lastDay || "—")}</span>
+          </div>
+
+          <div>
+            <div class="row" style="justify-content:space-between">
+              <b>Progresi i lojërave</b>
+              <span class="muted small">${overall.done}/${overall.total}</span>
+            </div>
+            <div class="progressbar"><div style="width:${overall.pct}%"></div></div>
+            <div class="tiny muted" style="margin-top:6px">Përfunduar: <b>${overall.pct}%</b></div>
+          </div>
+        </div>
+
+        <div class="glass card-pad stack">
+          <div class="section-title">Detaje progresi</div>
+          <div class="muted small">Kliko “Lojrat” për të vazhduar. Këtu shfaqen nivelet e përfunduara.</div>
+          <div class="stack" style="gap:10px">
+            ${GAMES.map(g=>{
+              const map = fixed.progress.games?.[g.id] || {};
+              const doneLvls = [1,2,3,4,5].filter(l=>map[l]===true).length;
+              return `
+                <div class="task">
+                  <div>
+                    <b>${esc(g.title)}</b><div class="tiny muted">${doneLvls}/5 nivele</div>
+                  </div>
+                  <span class="pill secondary">${doneLvls===5 ? "✅" : "⭐"}</span>
+                </div>
+              `;
+            }).join("")}
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <button class="pill" onclick="go('home')">🏠 Ktheu në faqen kryesore</button>
+      </div>
+    </div>
+  `;
+
+  document.getElementById("logoutBtn").addEventListener("click", ()=>{
+    clearSession();
+    renderProfile();
+  });
+}
+
+function renderLoginInline(){
+  view.innerHTML = `
+    <div class="glass card-pad stack" style="max-width:620px; margin:0 auto">
+      <div>
+        <div class="section-title">Log in</div>
+        <div class="muted small">Fut username dhe password për të hapur profilin.</div>
+      </div>
+
+      <form id="loginForm" class="stack">
+        <div class="field"><label>Username</label><input required name="username" placeholder="username"/></div>
+        <div class="field"><label>Password</label><input required type="password" name="password" placeholder="******"/></div>
+        <div class="row">
+          <button class="pill" type="submit">Hyr</button>
+          <button class="pill secondary" type="button" onclick="go('profile')">Kthehu</button>
+        </div>
+        <div class="note tiny" id="loginMsg" style="display:none"></div>
+      </form>
+    </div>
+  `;
+
+  document.getElementById("loginForm").addEventListener("submit", (e)=>{
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const username = String(fd.get("username")||"").trim().toLowerCase();
+    const password = String(fd.get("password")||"");
+
+    const msg = document.getElementById("loginMsg");
+    const u = getUsers().find(x => x.username===username && x.password===password);
+    if(!u){
+      msg.style.display="block";
+      msg.textContent="Të dhënat nuk përputhen. Provo përsëri.";
+      return;
+    }
+    setSession({ username });
+    renderProfile();
+  });
+}
+
+/* =======================
+   INFORMOHU
+======================= */
+function renderInformohu(){
+  view.innerHTML = `
+    <div class="dna-stage">
+      <div class="glass dna-box">
+        <div class="dna-bg"></div>
+        ${helixSVG(.95)}
+
+        ${INFO_TOPICS.map((t, i)=>{
+          // positions along helix
+          const pos = [
+            {x: "62%", y:"18%"},
+            {x: "48%", y:"30%"},
+            {x: "60%", y:"42%"},
+            {x: "46%", y:"56%"},
+            {x: "58%", y:"70%"},
+            {x: "50%", y:"83%"},
+          ][i];
+
+          const colors = ["--walnut","--tabacco","--coffee","--chai","--stone","--walnut"];
+          const c = getComputedStyle(document.documentElement).getPropertyValue(colors[i]).trim();
+          return `
+            <div class="marker" data-topic="${i}" style="left:${pos.x}; top:${pos.y}">
+              <span style="background:${c}">!</span>
+            </div>
+          `;
+        }).join("")}
+      </div>
+
+      <div class="glass card-pad stack">
+        <div>
+          <div class="section-title">Informohu</div>
+          <div class="muted small">
+            Kliko shenjën <b>!</b> në ADN për të hapur temën përkatëse. Pastaj mund të vazhdosh me shigjetë tek tema tjetër.
+          </div>
+        </div>
+
+        <div class="note">
+          <b>Temat:</b>
+          <ul class="small" style="margin:8px 0 0; color:rgba(31,26,22,.74)">
+            ${INFO_TOPICS.map(t=>`<li>${esc(t.title)}</li>`).join("")}
+          </ul>
+        </div>
+
+        <div class="row">
+          <button class="pill" onclick="go('home')">🏠 Ktheu në faqen kryesore</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  view.querySelectorAll("[data-topic]").forEach(el=>{
+    el.addEventListener("click", ()=>{
+      const idx = Number(el.getAttribute("data-topic"));
+      state.infoTopicIndex = idx;
+      go("infoTopic");
+    });
+  });
+}
+
+function renderInfoTopic(){
+  const idx = state.infoTopicIndex || 0;
+  const t = INFO_TOPICS[idx];
+
+  const prevIdx = (idx - 1 + INFO_TOPICS.length) % INFO_TOPICS.length;
+  const nextIdx = (idx + 1) % INFO_TOPICS.length;
+
+  view.innerHTML = `
+    <div class="glass card-pad stack" id="topicCard">
+      <div class="row" style="justify-content:space-between; align-items:flex-start">
+        <div>
+          <div class="section-title">${esc(t.title)}</div>
+          <div class="muted small">Kur shfaqen shenjat, si shfaqen, dhe çfarë mund të ndihmojë (orientuese).</div>
+        </div>
+        <div class="row">
+          <button class="pill secondary" id="prevTopic">←</button>
+          <button class="pill secondary" id="nextTopic">→</button>
+        </div>
+      </div>
+
+      <div class="note">
+        <b>Informacion i përgjithshëm</b>
+        <ul class="small" style="margin:8px 0 0; color:rgba(31,26,22,.76); line-height:1.55">
+          ${t.bullets.map(b=>`<li>${esc(b)}</li>`).join("")}
+        </ul>
+      </div>
+
+      <div class="note tiny">
+        <b>Kujdes:</b> Këto janë informacione orientuese. Për shqetësime specifike, konsultohuni me specialist.
+      </div>
+
+      <div class="row">
+        <button class="pill" onclick="go('home')">🏠 Ktheu në faqen kryesore</button>
+        <button class="pill secondary" onclick="popRoute()">↩ Kthehu te ADN</button>
+      </div>
+    </div>
+  `;
+
+  document.getElementById("prevTopic").addEventListener("click", ()=>{
+    state.infoTopicIndex = prevIdx; renderInfoTopic();
+  });
+  document.getElementById("nextTopic").addEventListener("click", ()=>{
+    state.infoTopicIndex = nextIdx; renderInfoTopic();
+  });
+}
+
+/* =======================
+   GAMES MENU + LEVELS
+======================= */
+function renderGamesMenu(){
+  view.innerHTML = `
+    <div class="glass card-pad stack">
+      <div>
+        <div class="section-title">Lojrat</div>
+        <div class="muted small">Zgjidh një lojë. Secila ka 5 nivele (⭐) dhe shënon progresin në profil.</div>
+      </div>
+
+      <div class="game-grid">
+        ${GAMES.map(g=>`
+          <button class="bigbtn" data-game="${g.id}">
+            <div class="t">${esc(g.title)}</div>
+            <div class="d">${esc(g.desc)}</div>
+          </button>
+        `).join("")}
+      </div>
+
+      <div class="note tiny">
+        <b>Pauz/Resume:</b> Në lojë do shohësh <b>pauzë</b> (▶) dhe <b>resume</b> (||) sipas ikonave standarde të kërkuara.
+      </div>
+
+      <div class="row">
+        <button class="pill" onclick="go('home')">🏠 Ktheu në faqen kryesore</button>
+      </div>
+    </div>
+  `;
+
+  view.querySelectorAll("[data-game]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      state.selectedGameId = btn.getAttribute("data-game");
+      go("gameLevels");
+    });
+  });
+}
+
+function renderGameLevels(){
+  const g = GAMES.find(x=>x.id===state.selectedGameId) || GAMES[0];
+  const u = currentUser();
+  const doneMap = u?.progress?.games?.[g.id] || {};
+
+  view.innerHTML = `
+    <div class="glass card-pad stack">
+      <div class="row" style="justify-content:space-between; align-items:flex-start">
+        <div>
+          <div class="section-title">${esc(g.title)}</div>
+          <div class="muted small">Zgjidh nivelin e vështirësisë (⭐1 më i thjeshti → ⭐5 më i vështiri).</div>
+        </div>
+        <button class="pill secondary" onclick="go('games')">← Te Lojrat</button>
+      </div>
+
+      <div class="starrow">
+        ${[1,2,3,4,5].map(l=>{
+          const done = doneMap[l]===true;
+          return `<div class="star" data-level="${l}" title="Niveli ${l}">${done ? "✅" : "⭐"}</div>`;
+        }).join("")}
+      </div>
+
+      <div class="note">
+        <b>Këshillë:</b> Nëse fëmija lodhet, përdor pauzë (▶) dhe vazhdo kur të jetë gati.
+      </div>
+
+      <div class="row">
+        <button class="pill" onclick="go('home')">🏠 Ktheu në faqen kryesore</button>
+      </div>
+    </div>
+  `;
+
+  view.querySelectorAll("[data-level]").forEach(el=>{
+    el.addEventListener("click", ()=>{
+      state.selectedLevel = Number(el.getAttribute("data-level"));
+      go("gamePlay");
+    });
+  });
+}
+
+/* =======================
+   GAME ENGINE (simple, functional)
+   - 6 games, each level changes difficulty
+   - Pause/Resume as requested (Pause=▶, Resume=||)
+======================= */
+function renderGamePlay(){
+  const g = GAMES.find(x=>x.id===state.selectedGameId) || GAMES[0];
+  const lvl = state.selectedLevel || 1;
+
+  // if no profile, we still allow play but won't save progress
+  const u = currentUser();
+
+  view.innerHTML = `
+    <div class="glass card-pad stack">
+      <div class="row" style="justify-content:space-between; align-items:flex-start">
+        <div>
+          <div class="section-title">${esc(g.title)} • Niveli ${lvl}</div>
+          <div class="muted small">Loja është e thjeshtë, qetësuese dhe me progres gradual.</div>
+        </div>
+        <div class="row">
+          <button class="pill secondary" onclick="go('gameLevels')">← Nivelet</button>
+          <button class="pill" onclick="go('home')">🏠 Kryesore</button>
+        </div>
+      </div>
+
+      ${u ? "" : `<div class="note"><b>Shënim:</b> Për të ruajtur progresin, krijo profil tek “Profili i fëmijës”.</div>`}
+
+      <div class="glass game-board">
+        <div class="game-hud">
+          <span class="hud-chip" id="hudGoal">Qëllimi: —</span>
+          <span class="hud-chip" id="hudScore">Progres: 0%</span>
+          <div class="row" style="gap:10px">
+            <div class="iconbtn" id="pauseBtn" title="Pauzë (▶)">
+              <div class="tri"></div>
+            </div>
+            <div class="iconbtn" id="resumeBtn" title="Vazhdo (||)" style="display:none">
+              <div class="bars"><i></i><i></i></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="gameArea"></div>
+      </div>
+
+      <div class="row">
+        <button class="pill secondary" id="endBtn">Përfundo & Kthehu</button>
+      </div>
+    </div>
+  `;
+
+  const gameArea = document.getElementById("gameArea");
+  const hudGoal = document.getElementById("hudGoal");
+  const hudScore = document.getElementById("hudScore");
+  const pauseBtn = document.getElementById("pauseBtn");
+  const resumeBtn = document.getElementById("resumeBtn");
+  const endBtn = document.getElementById("endBtn");
+
+  let paused = false;
+  const runtime = {
+    interval: null,
+    timeout: null,
+    cleanup: [],
+    setPaused(v){
+      paused = v;
+      pauseBtn.style.display = paused ? "none" : "flex";
+      resumeBtn.style.display = paused ? "flex" : "none";
+    },
+    isPaused(){ return paused; },
+    clearAll(){
+      if(runtime.interval) clearInterval(runtime.interval);
+      if(runtime.timeout) clearTimeout(runtime.timeout);
+      runtime.cleanup.forEach(fn=>{ try{fn()}catch{} });
+      runtime.cleanup = [];
+    }
+  };
+  state.gameRuntime = runtime;
+
+  pauseBtn.addEventListener("click", ()=> runtime.setPaused(true));
+  resumeBtn.addEventListener("click", ()=> runtime.setPaused(false));
+  endBtn.addEventListener("click", ()=>{
+    finishGame(false);
+  });
+
+  function setGoal(s){ hudGoal.textContent = "Qëllimi: " + s; }
+  function setPct(p){ hudScore.textContent = "Progres: " + p + "%"; }
+
+  function finishGame(completed){
+    runtime.clearAll();
+    state.gameRuntime = null;
+
+    if(completed){
+      // save progress
+      const u2 = currentUser();
+      if(u2){
+        const uu = ensureUserProgress(u2);
+        uu.progress.games = uu.progress.games || {};
+        uu.progress.games[g.id] = uu.progress.games[g.id] || {};
+        uu.progress.games[g.id][lvl] = true;
+        updateUser(uu);
+      }
+      gameArea.innerHTML = `
+        <div class="note" style="margin-top:10px">
+          <b>Bravo!</b> Niveli u përfundua dhe u shënua në profil.
+        </div>
+        <div class="row" style="margin-top:10px">
+          <button class="pill" onclick="go('home')">🏠 Ktheu në faqen kryesore</button>
+          <button class="pill secondary" onclick="go('gameLevels')">⭐ Zgjidh nivel tjetër</button>
+        </div>
+      `;
+      pauseBtn.style.display="none";
+      resumeBtn.style.display="none";
+    }else{
+      go("gameLevels");
+    }
+  }
+
+  // Choose game by id
+  if(g.id === "komunikimi") return game_Communication(lvl, gameArea, setGoal, setPct, runtime, finishGame);
+  if(g.id === "social") return game_Social(lvl, gameArea, setGoal, setPct, runtime, finishGame);
+  if(g.id === "perqendrim") return game_Focus(lvl, gameArea, setGoal, setPct, runtime, finishGame);
+  if(g.id === "emocione") return game_Emotions(lvl, gameArea, setGoal, setPct, runtime, finishGame);
+  if(g.id === "sensori") return game_Sensory(lvl, gameArea, setGoal, setPct, runtime, finishGame);
+  if(g.id === "koordinim") return game_Coordination(lvl, gameArea, setGoal, setPct, runtime, finishGame);
+}
+
+/* ==== GAME 1: Communication (match word → picture text) ==== */
+function game_Communication(lvl, root, setGoal, setPct, rt, finish){
+  const pool = [
+    {w:"Ujë", p:"🫗"},
+    {w:"Bukë", p:"🍞"},
+    {w:"Libër", p:"📘"},
+    {w:"Top", p:"⚽"},
+    {w:"Gjumi", p:"🌙"},
+    {w:"Luaj", p:"🎲"},
+    {w:"Muzikë", p:"🎵"},
+    {w:"Vizat", p:"✏️"},
+  ];
+  const count = Math.min(3+lvl, 8);
+  const items = shuffle(pool).slice(0,count);
+  let target = items[Math.floor(Math.random()*items.length)];
+  let correct = 0;
+  const need = Math.max(4, 3+lvl);
+
+  setGoal(`Kliko ikonën që përputhet me fjalën: “${target.w}” (duhen ${need} saktë)`);
+  setPct(0);
+
+  function nextTarget(){
+    target = items[Math.floor(Math.random()*items.length)];
+    setGoal(`Kliko ikonën që përputhet me fjalën: “${target.w}” (duhen ${need} saktë)`);
+  }
+
+  renderTiles();
+
+  function renderTiles(){
+    root.innerHTML = `
+      <div class="note small">Fjala: <b style="font-size:18px">${esc(target.w)}</b></div>
+      <div class="tiles">
+        ${items.map(it=>`<div class="tile" data-w="${esc(it.w)}" style="font-size:26px">${esc(it.p)}</div>`).join("")}
+      </div>
+    `;
+    root.querySelectorAll(".tile").forEach(t=>{
+      t.addEventListener("click", ()=>{
+        if(rt.isPaused()) return;
+        const w = t.getAttribute("data-w");
+        if(w === target.w){
+          t.classList.add("good");
+          correct++;
+          setPct(Math.min(100, Math.round((correct/need)*100)));
+          if(correct >= need) return finish(true);
+          setTimeout(()=>{ t.classList.remove("good"); nextTarget(); renderTiles(); }, 250);
+        }else{
+          t.classList.add("bad");
+          setTimeout(()=>t.classList.remove("bad"), 250);
+        }
+      });
+    });
+  }
+}
+
+/* ==== GAME 2: Social (choose best response in simple scenarios) ==== */
+function game_Social(lvl, root, setGoal, setPct, rt, finish){
+  const scenarios = [
+    {q:"Një shok thotë: “A luajmë bashkë?”", a:["Po, hajde të luajmë.","Ik.","Nuk e dëgjoj."], ok:0},
+    {q:"Kur dikush flet, çfarë bëjmë?", a:["Dëgjojmë dhe presim radhën.","Flasim mbi të.","Ikim."], ok:0},
+    {q:"Në radhë, çfarë është e sjellshme?", a:["Presim radhën.","Shtyjmë të parët.","Marrim pa pyetur."], ok:0},
+    {q:"Nëse lodhem, mund të them:", a:["Kam nevojë për pushim.","Jam i keq.","S’di."], ok:0},
+    {q:"Kur dua një lodër, mund të pyes:", a:["A mund ta marr, të lutem?","Ma jep tani!","E marr vetë."], ok:0},
+    {q:"Kur mbaroj lojën, mund të them:", a:["Faleminderit.","Hë.","S’ka gjë."], ok:0},
+  ];
+
+  const rounds = Math.max(4, 3+lvl);
+  let score = 0, idx = 0;
+  const deck = shuffle(scenarios).slice(0, Math.min(rounds, scenarios.length));
+
+  setGoal(`Zgjidh përgjigjen më të sjellshme (duhen ${rounds} raunde).`);
+  setPct(0);
+
+  function draw(){
+    const s = deck[idx];
+    root.innerHTML = `
+      <div class="note small"><b>Situata:</b> ${esc(s.q)}</div>
+      <div class="stack" style="margin-top:10px">
+        ${s.a.map((x,i)=>`<div class="tile" data-i="${i}" style="min-height:64px; font-size:14px">${esc(x)}</div>`).join("")}
+      </div>
+    `;
+    root.querySelectorAll(".tile").forEach(t=>{
+      t.addEventListener("click", ()=>{
+        if(rt.isPaused()) return;
+        const chosen = Number(t.getAttribute("data-i"));
+        if(chosen === s.ok){
+          t.classList.add("good");
+          score++;
+        }else{
+          t.classList.add("bad");
+        }
+        setTimeout(()=>{
+          idx++;
+          setPct(Math.round((idx/rounds)*100));
+          if(idx >= rounds) return finish(score >= Math.ceil(rounds*0.7));
+          draw();
+        }, 420);
+      });
+    });
+  }
+  draw();
+}
+
+/* ==== GAME 3: Focus (memory sequence) ==== */
+function game_Focus(lvl, root, setGoal, setPct, rt, finish){
+  const size = Math.min(12, 6+lvl*2);
+  const seqLen = Math.min(8, 3+lvl);
+  let seq = [];
+  let input = [];
+  let showing = true;
+
+  setGoal(`Mbaj mend sekuencën (gjatësia: ${seqLen}).`);
+  setPct(0);
+
+  const nums = Array.from({length:size}, (_,i)=>i+1);
+
+  function newRound(){
+    seq = [];
+    input = [];
+    for(let i=0;i<seqLen;i++){
+      seq.push(nums[Math.floor(Math.random()*nums.length)]);
+    }
+    showing = true;
+    render(true);
+    showSequence();
+  }
+
+  function showSequence(){
+    let i=0;
+    const highlight = () => {
+      if(rt.isPaused()) { rt.timeout = setTimeout(highlight, 200); return; }
+      if(i>=seq.length){
+        showing=false;
+        render(false);
+        return;
+      }
+      const n = seq[i];
+      const el = root.querySelector(`[data-n="${n}"]`);
+      if(el){
+        el.classList.add("good");
+        setTimeout(()=>el.classList.remove("good"), 260);
+      }
+      i++;
+      rt.timeout = setTimeout(highlight, Math.max(320, 520 - lvl*50));
+    };
+    rt.timeout = setTimeout(highlight, 450);
+  }
+
+  function render(isShowing){
+    root.innerHTML = `
+      <div class="note small">
+        ${isShowing ? "Shiko me qetësi…" : "Tani përsërite sekuencën duke klikuar numrat."}
+      </div>
+      <div class="tiles" style="margin-top:10px">
+        ${nums.map(n=>`<div class="tile" data-n="${n}" style="font-size:16px">${n}</div>`).join("")}
+      </div>
+    `;
+
+    root.querySelectorAll(".tile").forEach(t=>{
+      t.addEventListener("click", ()=>{
+        if(rt.isPaused()) return;
+        if(showing) return;
+
+        const n = Number(t.getAttribute("data-n"));
+        input.push(n);
+
+        const k = input.length - 1;
+        if(n !== seq[k]){
+          t.classList.add("bad");
+          setTimeout(()=>finish(false), 520);
+          return;
+        }else{
+          t.classList.add("good");
+          setTimeout(()=>t.classList.remove("good"), 180);
+        }
+
+        setPct(Math.round((input.length/seqLen)*100));
+        if(input.length >= seqLen){
+          setTimeout(()=>finish(true), 320);
+        }
+      });
+    });
+  }
+
+  newRound();
+}
+
+/* ==== GAME 4: Emotions (match face to word) ==== */
+function game_Emotions(lvl, root, setGoal, setPct, rt, finish){
+  const faces = [
+    {w:"I gëzuar", f:"😊"},
+    {w:"I trishtuar", f:"😢"},
+    {w:"I zemëruar", f:"😠"},
+    {w:"I frikësuar", f:"😨"},
+    {w:"I befasuar", f:"😮"},
+    {w:"I qetë", f:"😌"},
+  ];
+
+  const rounds = Math.max(4, 3+lvl);
+  let done = 0;
+
+  setGoal(`Zgjidh fytyrën që përputhet me emocioni (raunde: ${rounds}).`);
+  setPct(0);
+
+  function round(){
+    const target = faces[Math.floor(Math.random()*faces.length)];
+    const opts = shuffle([target, ...shuffle(faces.filter(x=>x!==target)).slice(0, Math.min(2+lvl, faces.length-1))]);
+
+    root.innerHTML = `
+      <div class="note small">Emocioni: <b style="font-size:18px">${esc(target.w)}</b></div>
+      <div class="tiles" style="margin-top:10px">
+        ${opts.map(o=>`<div class="tile" data-w="${esc(o.w)}" style="font-size:30px">${esc(o.f)}</div>`).join("")}
+      </div>
+    `;
+    root.querySelectorAll(".tile").forEach(t=>{
+      t.addEventListener("click", ()=>{
+        if(rt.isPaused()) return;
+        const w = t.getAttribute("data-w");
+        if(w === target.w){
+          t.classList.add("good");
+          done++;
+          setPct(Math.round((done/rounds)*100));
+          if(done>=rounds) return finish(true);
+          setTimeout(round, 360);
+        }else{
+          t.classList.add("bad");
+          setTimeout(()=>t.classList.remove("bad"), 260);
+        }
+      });
+    });
+  }
+  round();
+}
+
+/* ==== GAME 5: Sensory (choose calmer option - gentle) ==== */
+function game_Sensory(lvl, root, setGoal, setPct, rt, finish){
+  const pairs = [
+    {q:"Zhurmë e lartë apo zë i butë?", a:["Zë i butë","Zhurmë e lartë"], ok:0},
+    {q:"Dritë e fortë apo dritë e ngrohtë?", a:["Dritë e ngrohtë","Dritë e fortë"], ok:0},
+    {q:"Teksturë e ashpër apo e butë?", a:["E butë","E ashpër"], ok:0},
+    {q:"Shumë njerëz apo kënd i qetë?", a:["Kënd i qetë","Shumë njerëz"], ok:0},
+    {q:"Ritëm i shpejtë apo i ngadaltë?", a:["I ngadaltë","I shpejtë"], ok:0},
+  ];
+
+  const rounds = Math.max(4, 3+lvl);
+  let i=0, ok=0;
+  const deck = shuffle(pairs);
+  setGoal(`Zgjidh opsionin më qetësues (raunde: ${rounds}).`);
+  setPct(0);
+
+  function draw(){
+    const s = deck[i % deck.length];
+    root.innerHTML = `
+      <div class="note small"><b>Pyetje:</b> ${esc(s.q)}</div>
+      <div class="row" style="margin-top:10px">
+        ${s.a.map((x,idx)=>`<div class="tile" data-i="${idx}" style="flex:1; min-height:70px">${esc(x)}</div>`).join("")}
+      </div>
+    `;
+    root.querySelectorAll(".tile").forEach(t=>{
+      t.addEventListener("click", ()=>{
+        if(rt.isPaused()) return;
+        const chosen = Number(t.getAttribute("data-i"));
+        if(chosen === s.ok){ ok++; t.classList.add("good"); } else t.classList.add("bad");
+        i++;
+        setPct(Math.round((i/rounds)*100));
+        setTimeout(()=>{
+          if(i>=rounds) return finish(ok >= Math.ceil(rounds*0.7));
+          draw();
+        }, 380);
+      });
+    });
+  }
+  draw();
+}
+
+/* ==== GAME 6: Coordination (tap appearing target calmly) ==== */
+function game_Coordination(lvl, root, setGoal, setPct, rt, finish){
+  const needed = Math.max(8, 6 + lvl*4);
+  let hit = 0;
+  setGoal(`Prek shenjën që shfaqet (duhen ${needed} goditje të sakta).`);
+  setPct(0);
+
+  root.innerHTML = `
+    <div class="note small">Prek shenjën kur shfaqet. Merr kohën tënde.</div>
+    <div id="arena" class="glass" style="height:320px; border-radius:22px; position:relative; overflow:hidden; margin-top:10px; background: rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18)"></div>
+  `;
+  const arena = document.getElementById("arena");
+
+  function spawn(){
+    if(rt.isPaused()){ rt.timeout = setTimeout(spawn, 220); return; }
+
+    arena.innerHTML = "";
+    const b = document.createElement("div");
+    b.className = "marker";
+    b.style.width = "58px";
+    b.style.height = "58px";
+    b.style.borderRadius = "18px";
+    b.style.left = (10 + Math.random()*80) + "%";
+    b.style.top = (10 + Math.random()*70) + "%";
+
+    const c = ["var(--tabacco)","var(--chai)","var(--walnut)","var(--stone)","var(--coffee)"][Math.floor(Math.random()*5)];
+    b.innerHTML = `<span style="background:${c}; width:34px; height:34px">●</span>`;
+    arena.appendChild(b);
+
+    b.addEventListener("click", ()=>{
+      if(rt.isPaused()) return;
+      hit++;
+      setPct(Math.round((hit/needed)*100));
+      b.style.transform = "translateY(2px) scale(.98)";
+      if(hit>=needed) return finish(true);
+      rt.timeout = setTimeout(spawn, Math.max(300, 900 - lvl*120));
+    });
+
+    // auto-move on timeout (gentle)
+    rt.timeout = setTimeout(spawn, Math.max(700, 1400 - lvl*120));
+  }
+
+  spawn();
+}
+
+/* Stop running game when navigating */
+function stopGameRuntime(){
+  if(state.gameRuntime){
+    try{ state.gameRuntime.clearAll(); }catch{}
+    state.gameRuntime = null;
+  }
+}
+
+/* =======================
+   Fillo Ndryshimin (12 Q)
+======================= */
+function renderChange(){
+  const questions = [
+    "Reagon kur e thërrasin në emër?",
+    "Përdor gjeste (tregon, tund kokën, etj.)?",
+    "Ka kontakt me sy gjatë komunikimit?",
+    "Ndjek udhëzime të thjeshta (1–2 hapa)?",
+    "Preferon lojë të përbashkët me të tjerët?",
+    "Ka sjellje përsëritëse (p.sh. lëkundje, rrotullim objektesh)?",
+    "Ka sensitivitet të lartë ndaj zhurmës/dritës/prekjes?",
+    "Ka vështirësi në ndryshime rutine?",
+    "Shfaq interes të kufizuar për lodra të ndryshme?",
+    "Përdor fjalë/frasë të përsëritura (ekolali)?",
+    "Ka shpërthime emocionale kur nuk kuptohet nevoja?",
+    "Preferon të luajë vetëm për periudha të gjata?"
+  ];
+
+  view.innerHTML = `
+    <div class="glass card-pad stack" id="changeCard">
+      <div>
+        <div class="section-title">Fillo Ndryshimin</div>
+        <div class="muted small">Pyetësor orientues (12 pyetje) — përgjigju: Rrallë / Mjaftueshëm / Shpesh.</div>
+      </div>
+
+      <div class="note tiny">
+        <b>Shënim:</b> Rezultati është vetëm orientues dhe nuk është diagnozë.
+      </div>
+
+      <form id="changeForm" class="stack">
+        ${questions.map((q, i)=>questionBlock(q, "c"+i)).join("")}
+
+        <div class="row">
+          <button class="pill" type="submit">Shfaq rezultatin</button>
+          <button class="pill secondary" type="button" onclick="go('home')">🏠 Ktheu në faqen kryesore</button>
+        </div>
+      </form>
+
+      <div class="glass card-pad stack hidden" id="changeResult">
+        <div class="section-title">Rezultati</div>
+        <div class="note" id="changeText"></div>
+        <div class="row">
+          <button class="pill" id="saveChange">Ruaje në gallery</button>
+          <button class="pill secondary" id="backChange">Kthehu te pyetësori</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  const form = document.getElementById("changeForm");
+  const resultBox = document.getElementById("changeResult");
+  const text = document.getElementById("changeText");
+
+  form.addEventListener("submit", (e)=>{
+    e.preventDefault();
+    const score = scoreScale(form, questions.length, "c");
+    const pct = Math.round((score.maxScore? (score.sum/score.maxScore)*100 : 0));
+
+    const msg = interpretPct(pct);
+    text.innerHTML = `
+      <div><b>Probabilitet orientues:</b> <span style="font-size:22px">${pct}%</span></div>
+      <div class="small muted" style="margin-top:6px">${esc(msg)}</div>
+      <div class="tiny muted" style="margin-top:10px">Këshillë: Nëse keni shqetësime, konsultohuni me specialist.</div>
+    `;
+
+    // save to profile
+    const u = currentUser();
+    if(u){
+      const uu = ensureUserProgress(u);
+      uu.lastResults = uu.lastResults || {};
+      uu.lastResults.change = { pct, at: Date.now() };
+      updateUser(uu);
+    }
+
+    resultBox.classList.remove("hidden");
+    form.classList.add("hidden");
+  });
+
+  document.getElementById("backChange").addEventListener("click", ()=>{
+    resultBox.classList.add("hidden");
+    form.classList.remove("hidden");
+  });
+
+  document.getElementById("saveChange").addEventListener("click", async ()=>{
+    await saveElementAsImage(document.getElementById("changeCard"));
+  });
+}
+
+/* =======================
+   Rutina Ime (20 Q + weekly plan + streak)
+======================= */
+function renderRoutine(){
+  const questions = [
+    "Ka vështirësi në ndryshime të papritura?",
+    "Ka ndjeshmëri ndaj zhurmës/dritës?",
+    "Shfaq sjellje përsëritëse?",
+    "Vështirësi në kontakt me sy?",
+    "Vështirësi në ndarjen e lodrave?",
+    "Ndjek udhëzime me 2 hapa?",
+    "Ka shpërthime emocionale?",
+    "Preferon lojë të vetmuar?",
+    "Ka interes të ngushtë për një temë?",
+    "Ka vështirësi në gjumë/ritëm ditor?",
+    "Vështirësi në komunikim të kërkesave?",
+    "Vështirësi në pritjen e radhës?",
+    "Vështirësi në motorikën e imët (laps, gërshërë)?",
+    "Vështirësi në motorikën e madhe (ekuilibër)?",
+    "Vështirësi në përqendrim?",
+    "Reagon dobët ndaj emrit?",
+    "Vështirësi në lojë imagjinative?",
+    "Shpesh stres në ambiente sociale?",
+    "Preferon rutinë shumë të rreptë?",
+    "Ka vështirësi në kuptimin e emocioneve të të tjerëve?"
+  ];
+
+  const u = currentUser();
+
+  view.innerHTML = `
+    <div class="glass card-pad stack" id="routineCard">
+      <div>
+        <div class="section-title">Rutina Ime</div>
+        <div class="muted small">
+          Pyetësor (20) → gjeneron plan javor me aktivitete. Çdo aktivitet ka check. Ditët e plota numërohen si streak.
+        </div>
+      </div>
+
+      ${u ? "" : `<div class="note"><b>Shënim:</b> Për streak dhe ruajtje, krijo profil tek “Profili i fëmijës”.</div>`}
+
+      <form id="routineForm" class="stack">
+        ${questions.map((q, i)=>questionBlock(q, "r"+i)).join("")}
+
+        <div class="row">
+          <button class="pill" type="submit">Gjenero planin javor</button>
+          <button class="pill secondary" type="button" onclick="go('home')">🏠 Ktheu në faqen kryesore</button>
+        </div>
+      </form>
+
+      <div class="glass card-pad stack hidden" id="planBox">
+        <div class="row" style="justify-content:space-between; align-items:flex-start">
+          <div>
+            <div class="section-title">Plani Javor</div>
+            <div class="muted small">Aktivitetet janë të sugjeruara sipas përgjigjeve.</div>
+          </div>
+          <button class="pill secondary" id="editRoutine">↩ Ndrysho pyetësorin</button>
+        </div>
+
+        <div class="note tiny" id="planNote"></div>
+        <div id="planDays" class="stack"></div>
+
+        <div class="row">
+          <button class="pill" id="saveRoutine">Ruaje në gallery</button>
+          <button class="pill secondary" onclick="go('home')">🏠 Ktheu në faqen kryesore</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  const form = document.getElementById("routineForm");
+  const planBox = document.getElementById("planBox");
+  const planDays = document.getElementById("planDays");
+  const planNote = document.getElementById("planNote");
+
+  form.addEventListener("submit", (e)=>{
+    e.preventDefault();
+    const score = scoreScale(form, questions.length, "r");
+    const pct = Math.round((score.maxScore? (score.sum/score.maxScore)*100 : 0));
+
+    // Based on profile + pct, choose emphasis
+    const emphasis = getEmphasisFromAnswers(score.answers, pct);
+
+    // Build weekly plan (7 days, 3 tasks/day)
+    const plan = buildWeeklyPlan(emphasis);
+
+    // Store plan in localStorage per-user
+    const key = routineKeyForUser();
+    localStorage.setItem(key, JSON.stringify({ createdAt: Date.now(), emphasis, plan, checks:{} }));
+
+    // Save result to profile too
+    const uu = currentUser();
+    if(uu){
+      const u2 = ensureUserProgress(uu);
+      u2.lastResults = u2.lastResults || {};
+      u2.lastResults.routine = { pct, emphasis, at: Date.now() };
+      updateUser(u2);
+    }
+
+    showPlan(plan, emphasis);
+  });
+
+  document.getElementById("editRoutine").addEventListener("click", ()=>{
+    planBox.classList.add("hidden");
+    form.classList.remove("hidden");
+  });
+
+  document.getElementById("saveRoutine").addEventListener("click", async ()=>{
+    await saveElementAsImage(document.getElementById("routineCard"));
+  });
+
+  // If existing plan exists, show it (nice UX)
+  const existing = loadRoutine();
+  if(existing){
+    showPlan(existing.plan, existing.emphasis, true);
+  }
+
+  function showPlan(plan, emphasis, existing=false){
+    form.classList.add("hidden");
+    planBox.classList.remove("hidden");
+
+    planNote.innerHTML = `
+      <b>Fokus:</b> ${esc(emphasis.join(", "))}<br>
+      <span class="muted">Plani është ${existing ? "i ruajtur nga më parë" : "gjeneruar tani"} dhe mund të kontrollohet me checklist.</span>
+    `;
+
+    const store = loadRoutine() || { checks:{} };
+    const checks = store.checks || {};
+
+    planDays.innerHTML = plan.map((day, di)=>{
+      const dayKey = `d${di}`;
+      const allChecked = day.tasks.every((_,ti)=>checks[`${dayKey}_t${ti}`]===true);
+
+      return `
+        <div class="glass card-pad stack">
+          <div class="row" style="justify-content:space-between">
+            <b>${esc(day.name)}</b>
+            <span class="pill secondary">${allChecked ? "✅ Dita e plotë" : "☑️ Checklist"}</span>
+          </div>
+          ${day.tasks.map((t, ti)=>{
+            const k = `${dayKey}_t${ti}`;
+            const on = checks[k]===true;
+            return `
+              <div class="task">
+                <div>
+                  <b>${esc(t.title)}</b>
+                  <div class="tiny muted">${esc(t.how)}</div>
+                </div>
+                <div class="check ${on ? "on":""}" data-check="${k}">${on ? "✓" : ""}</div>
+              </div>
+            `;
+          }).join("")}
+        </div>
+      `;
+    }).join("");
+
+    planDays.querySelectorAll("[data-check]").forEach(el=>{
+      el.addEventListener("click", ()=>{
+        const k = el.getAttribute("data-check");
+        const store = loadRoutine() || { checks:{} };
+        store.checks = store.checks || {};
+        store.checks[k] = !store.checks[k];
+        saveRoutine(store);
+        showPlan(plan, emphasis, true);
+        maybeUpdateStreak(plan, store.checks);
+      });
+    });
+
+    // initial streak update too
+    maybeUpdateStreak(plan, checks);
+  }
+}
+
+/* =======================
+   RESULT placeholder (not used much)
+======================= */
+function renderResult(){
+  view.innerHTML = `<div class="glass card-pad">Rezultat.</div>`;
+}
+
+/* =======================
+   QUESTION BLOCKS + SCORING
+======================= */
+function questionBlock(text, name){
+  return `
+    <div class="q-item">
+      <div class="q-title">${esc(text)}</div>
+      <div class="radio-row" data-group="${esc(name)}">
+        ${radioOpt(name,"Rrallë",1)}
+        ${radioOpt(name,"Mjaftueshëm",2)}
+        ${radioOpt(name,"Shpesh",3)}
+      </div>
+    </div>
+  `;
+}
+function radioOpt(name,label,val){
+  const id = `${name}_${val}`;
+  return `
+    <label class="radio" for="${id}">
+      <input id="${id}" type="radio" name="${esc(name)}" value="${val}" required />
+      ${esc(label)}
+    </label>
+  `;
+}
+document.addEventListener("change", (e)=>{
+  const r = e.target;
+  if(!(r && r.matches('input[type="radio"]'))) return;
+  const group = r.closest("[data-group]");
+  if(!group) return;
+  group.querySelectorAll(".radio").forEach(x=>x.classList.remove("active"));
+  r.closest(".radio").classList.add("active");
+});
+
+function scoreScale(formEl, n, prefix){
+  let sum = 0;
+  let answers = [];
+  for(let i=0;i<n;i++){
+    const v = Number(formEl.querySelector(`input[name="${prefix+i}"]:checked`)?.value || 0);
+    answers.push(v);
+    sum += v;
+  }
+  return { sum, maxScore: n*3, answers };
+}
+function interpretPct(pct){
+  if(pct < 35) return "Shenja të pakta të raportuara. Vazhdo me stimulim dhe strukturë të butë.";
+  if(pct < 60) return "Disa shenja të raportuara. Mund të ndihmojë rutinë, vizualë dhe ushtrime të shkurtra sociale.";
+  if(pct < 80) return "Shenja të moderuara. Sugjerohet konsultim profesional për vlerësim më të thelluar.";
+  return "Shenja të shumta të raportuara. Konsultimi profesional rekomandohet fuqimisht për udhëzime të personalizuara.";
+}
+
+/* =======================
+   ROUTINE PLAN LOGIC
+======================= */
+function getEmphasisFromAnswers(answers, pct){
+  // answers are 1..3; take top buckets
+  const buckets = {
+    "Komunikimi": [10], // question index approximate mapping
+    "Socializimi": [4,11,17],
+    "Përqendrimi": [14,5],
+    "Sensorjale": [1,2],
+    "Emocione": [6,19,7,18],
+    "Koordinimi": [12,13],
+  };
+  const scores = Object.entries(buckets).map(([k, idxs])=>{
+    const s = idxs.reduce((a,i)=>a + (answers[i]||1), 0);
+    return {k, s};
+  }).sort((a,b)=>b.s-a.s);
+
+  const top = scores.slice(0,3).map(x=>x.k);
+  if(pct > 70 && !top.includes("Emocione")) top[2] = "Emocione";
+  return top;
+}
+
+function buildWeeklyPlan(emphasis){
+  const bank = {
+    "Komunikimi":[
+      {title:"Zgjedhje me 2 opsione", how:"Pyet: “Dëshiron ujë apo lëng?” dhe prit 5 sekonda."},
+      {title:"Fjalë + figurë", how:"Trego figurën dhe thuaj fjalën ngadalë 3 herë."},
+      {title:"Kërkesë e thjeshtë", how:"Fëmija kërkon një objekt me 1 fjalë/gest."},
+      {title:"Përshkrim i shkurtër", how:"Përshkruaj një veprim: “Po veshim këpucët.”"},
+    ],
+    "Socializimi":[
+      {title:"Lojë me radhë", how:"2–3 minuta: radhë me top ose zar."},
+      {title:"Pershëndetje e butë", how:"Model: “Përshëndetje” + buzëqeshje."},
+      {title:"Kontakt i shkurtër", how:"1–2 sekonda kontakt sysh gjatë një pyetjeje."},
+      {title:"Rregull i vetëm", how:"“Presim radhën” në një aktivitet të vogël."},
+    ],
+    "Përqendrimi":[
+      {title:"Detyrë 2-minutëshe", how:"Puzzle i vogël ose renditje ngjyrash."},
+      {title:"Udhëzim me 2 hapa", how:"“Merr lapsin dhe vendose në tavolinë.”"},
+      {title:"Kujtesë e thjeshtë", how:"Trego 3 objekte, mbuloji, dhe gjej 1."},
+      {title:"Pushim i planifikuar", how:"25–60 sekonda pushim pas fokusit."},
+    ],
+    "Sensorjale":[
+      {title:"Kënd qetësimi", how:"Krijo një vend të vogël të qetë (jastek + dritë e ngrohtë)."},
+      {title:"Zgjedhje teksturash", how:"Zgjidh midis 2 teksturave të buta."},
+      {title:"Frymëmarrje e udhëzuar", how:"3 frymëmarrje të ngadalta, me numërim 1–3."},
+      {title:"Planifikim i zhurmës", how:"Nëse ka zhurmë, përdor kufje ose largim të shkurtër."},
+    ],
+    "Emocione":[
+      {title:"Kartë emocioni", how:"Zgjidh “i qetë / i trishtuar / i gëzuar” me figurë."},
+      {title:"Emërto ndjesinë", how:"Thuaj: “Duket se je i lodhur.” (pa gjykim)."},
+      {title:"Tranzicion i butë", how:"Paralajmëro 2 minuta para ndryshimit."},
+      {title:"Shpërblim i vogël", how:"Lavdëro për përpjekjen: “Bravo që u përpoqe!”"},
+    ],
+    "Koordinimi":[
+      {title:"Motorikë e imët", how:"Kapëse rrobash, rruaza të mëdha, ose plastelinë."},
+      {title:"Ekuilibër i lehtë", how:"Ecje e ngadaltë në vijë të imagjinuar 30 sek."},
+      {title:"Koordinim sy-dorë", how:"Hedhje topi në kosh nga afër."},
+      {title:"Ritëm i ngadaltë", how:"Dëgjo ritëm dhe trokit lehtë 10 herë."},
+    ]
+  };
+
+  const days = ["E Hënë","E Martë","E Mërkurë","E Enjte","E Premte","E Shtunë","E Diel"];
+  const picks = emphasis.flatMap(k => (bank[k]||[]).map(x=>({...x, tag:k})));
+
+  const plan = days.map((name, di)=>{
+    const tasks = [];
+    // 3 tasks/day
+    for(let i=0;i<3;i++){
+      const item = picks[(di*3+i) % picks.length] || {title:"Aktivitet i qetë", how:"Lexim i shkurtër dhe pushim.", tag:"—"};
+      tasks.push({
+        title: `${item.title} (${item.tag})`,
+        how: item.how
+      });
+    }
+    return { name, tasks };
+  });
+
+  return plan;
+}
+
+function routineKeyForUser(){
+  const u = currentUser();
+  return u ? `${LS_ROUTINE}_${u.username}` : `${LS_ROUTINE}_guest`;
+}
+function loadRoutine(){
+  try{
+    const raw = localStorage.getItem(routineKeyForUser());
+    return raw ? JSON.parse(raw) : null;
+  }catch(e){ return null; }
+}
+function saveRoutine(obj){
+  localStorage.setItem(routineKeyForUser(), JSON.stringify(obj));
+}
+
+function maybeUpdateStreak(plan, checks){
+  const u = currentUser();
+  if(!u) return;
+
+  // if any day fully checked today, increment streak (once per day)
+  const today = new Date().toISOString().slice(0,10);
+
+  // Determine if at least one "day block" is fully checked
+  const anyFullDay = plan.some((day, di)=>{
+    return day.tasks.every((_, ti)=>checks[`d${di}_t${ti}`]===true);
+  });
+
+  if(!anyFullDay) return;
+
+  const uu = ensureUserProgress(u);
+  uu.progress.routines = uu.progress.routines || { streak:0, lastDay:null };
+
+  // If lastDay is today, do nothing
+  if(uu.progress.routines.lastDay === today) return;
+
+  // If lastDay is yesterday, streak++
+  const last = uu.progress.routines.lastDay;
+  if(last){
+    const lastDate = new Date(last+"T00:00:00");
+    const yest = new Date(Date.now() - 86400000);
+    const yestKey = yest.toISOString().slice(0,10);
+    if(last === yestKey){
+      uu.progress.routines.streak = (uu.progress.routines.streak||0) + 1;
+    }else{
+      // reset to 1
+      uu.progress.routines.streak = 1;
+    }
+  }else{
+    uu.progress.routines.streak = 1;
+  }
+  uu.progress.routines.lastDay = today;
+  updateUser(uu);
+}
+
+/* =======================
+   SAVE AS IMAGE
+======================= */
+async function saveElementAsImage(el){
+  if(typeof html2canvas !== "function"){
+    alert("Nuk u gjet html2canvas. Sigurohu që ke internet ose hiqe opsionin e ruajtjes.");
+    return;
+  }
+  const canvas = await html2canvas(el, { scale: 2, backgroundColor: null });
+  const a = document.createElement("a");
+  a.download = `GENCARE_${Date.now()}.png`;
+  a.href = canvas.toDataURL("image/png");
+  a.click();
+}
+
+/* =======================
+   UTILS
+======================= */
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+/* =======================
+   INIT
+======================= */
+render();
+</script>
+</body>
+</html>
