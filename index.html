@@ -5,26 +5,42 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>GENCARE • GENE4LIFE</title>
 
-  <!-- “Save to gallery” (screenshot si imazh) -->
+  <!-- Save as image -->
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
   <style>
     :root{
-      --tabacco:#A89982;
-      --stone:#AAA297;
-      --coffee:#5A493B;
-      --cream:#C8BDB1;
-      --chai:#968473;
-      --walnut:#60544D;
+      /* ======= GENCARE “Green + Friends” Palette ======= */
+      --g0:#07160F;        /* deep forest */
+      --g1:#0B2A1A;        /* forest */
+      --g2:#11452A;        /* pine */
+      --g3:#1F6B3E;        /* leaf */
+      --g4:#3AAE6F;        /* mint */
+      --g5:#7AE6AE;        /* soft neon mint */
 
-      --text:#1f1a16;
-      --muted:#4d433b;
-      --card: rgba(255,255,255,.14);
-      --card2: rgba(255,255,255,.10);
+      --cream:#F3F6EE;
+      --sand:#E7E2D6;
+
+      --sky:#BFE9FF;       /* playful */
+      --sun:#FFD58A;       /* warm */
+      --berry:#FF9BC7;     /* candy */
+      --lav:#CBB9FF;       /* lavender */
+
+      --ink:#07110C;
+      --text: rgba(7,17,12,.92);
+      --muted: rgba(7,17,12,.66);
+
+      --card: rgba(255,255,255,.12);
+      --card2: rgba(255,255,255,.08);
       --stroke: rgba(255,255,255,.22);
-      --stroke2: rgba(0,0,0,.14);
-      --shadow: 0 18px 45px rgba(0,0,0,.22);
-      --radius: 22px;
+      --stroke2: rgba(0,0,0,.18);
+
+      --shadow: 0 18px 55px rgba(0,0,0,.30);
+      --shadowSoft: 0 14px 30px rgba(0,0,0,.18);
+      --radius: 24px;
+
+      --easeOut: cubic-bezier(.2,.9,.2,1);
+      --easeIn: cubic-bezier(.5,.0,.8,.2);
     }
 
     *{box-sizing:border-box}
@@ -33,26 +49,62 @@
       margin:0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
       color:var(--text);
-      background: radial-gradient(1200px 900px at 20% 10%, rgba(200,189,177,.78), rgba(170,162,151,.45) 45%, rgba(96,84,77,.22) 100%),
-                  linear-gradient(135deg, rgba(150,132,115,.25), rgba(90,73,59,.16));
       overflow-x:hidden;
-    }
 
-    /* Grain i lehtë */
-    body:before{
-      content:"";
-      position:fixed; inset:0;
-      pointer-events:none;
-      opacity:.18;
-      mix-blend-mode:soft-light;
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23n)' opacity='.18'/%3E%3C/svg%3E");
+      /* Animated layered background (greens + playful accents) */
+      background:
+        radial-gradient(1100px 800px at 20% 10%, rgba(122,230,174,.42), transparent 55%),
+        radial-gradient(900px 700px at 90% 20%, rgba(191,233,255,.26), transparent 55%),
+        radial-gradient(900px 700px at 25% 85%, rgba(255,213,138,.20), transparent 55%),
+        radial-gradient(900px 700px at 85% 88%, rgba(255,155,199,.18), transparent 55%),
+        linear-gradient(135deg, rgba(7,22,15,1), rgba(11,42,26,1));
+      animation: bgShift 14s var(--easeOut) infinite alternate;
+    }
+    @keyframes bgShift{
+      0%{ filter: saturate(1.06) brightness(.98); }
+      100%{ filter: saturate(1.18) brightness(1.02); }
     }
 
     a{color:inherit; text-decoration:none}
     button{font:inherit; cursor:pointer}
     .hidden{display:none !important}
+    .tiny{font-size:12px}
+    .small{font-size:13px}
+    .muted{color:var(--muted)}
+    h1,h2,h3{margin:0}
 
-    /* Layout */
+    /* ======= Doodle layer: child-drawn stars + squiggles (animated) ======= */
+    body:before{
+      content:"";
+      position:fixed; inset:-10%;
+      pointer-events:none;
+      opacity:.55;
+      mix-blend-mode: screen;
+
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='520' height='520' viewBox='0 0 520 520'%3E%3Cg fill='none' stroke-linecap='round'%3E%3Cg stroke='%23BFE9FF' stroke-width='3' opacity='.32'%3E%3Cpath d='M52 96c24-18 48-18 72 0'/%3E%3Cpath d='M68 122c26-18 52-18 78 0'/%3E%3Cpath d='M340 410c26-18 52-18 78 0'/%3E%3Cpath d='M356 436c26-18 52-18 78 0'/%3E%3C/g%3E%3Cg stroke='%237AE6AE' stroke-width='3' opacity='.22'%3E%3Cpath d='M420 92c-18 18-18 42 0 60'/%3E%3Cpath d='M446 98c-18 18-18 42 0 60'/%3E%3Cpath d='M120 320c-18 18-18 42 0 60'/%3E%3Cpath d='M146 326c-18 18-18 42 0 60'/%3E%3C/g%3E%3Cg stroke='%23FFD58A' stroke-width='4' opacity='.18'%3E%3Cpath d='M210 80c18 14 42 14 60 0'/%3E%3Cpath d='M220 104c18 14 42 14 60 0'/%3E%3C/g%3E%3C/g%3E%3Cg opacity='.52'%3E%3Cg fill='none' stroke='%23FFFFFF' stroke-width='3' opacity='.22'%3E%3Cpath d='M92 220l10 18 20 4-14 14 3 20-18-10-18 10 3-20-14-14 20-4z'/%3E%3Cpath d='M452 290l10 18 20 4-14 14 3 20-18-10-18 10 3-20-14-14 20-4z'/%3E%3Cpath d='M262 452l10 18 20 4-14 14 3 20-18-10-18 10 3-20-14-14 20-4z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      background-size: 520px 520px;
+      background-repeat: repeat;
+      transform: rotate(-3deg);
+      animation: doodleDrift 18s var(--easeOut) infinite alternate;
+      filter: blur(.2px);
+    }
+    @keyframes doodleDrift{
+      0%{ transform: translate(-2%, -1%) rotate(-3deg); }
+      100%{ transform: translate(2%, 1%) rotate(2deg); }
+    }
+
+    /* Grain (soft) */
+    body:after{
+      content:"";
+      position:fixed; inset:0;
+      pointer-events:none;
+      opacity:.16;
+      mix-blend-mode: soft-light;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E");
+    }
+
+    /* ======= App shell ======= */
     .app{
       min-height:100%;
       display:flex;
@@ -61,66 +113,98 @@
       padding:18px;
     }
     .shell{
-      width:min(1100px, 100%);
-      border-radius: 28px;
-      background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.08));
-      border:1px solid rgba(255,255,255,.20);
+      width:min(1120px, 100%);
+      border-radius: 30px;
+      background:
+        radial-gradient(1200px 600px at 20% 0%, rgba(122,230,174,.16), transparent 60%),
+        radial-gradient(900px 520px at 100% 30%, rgba(191,233,255,.10), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06));
+      border:1px solid rgba(255,255,255,.18);
       box-shadow: var(--shadow);
       overflow:hidden;
       position:relative;
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(12px);
     }
 
-    /* Top bar */
+    /* ======= Topbar (more playful) ======= */
     .topbar{
       display:flex; align-items:center; justify-content:space-between;
       padding:14px 16px;
-      border-bottom:1px solid rgba(255,255,255,.18);
-      background: linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.06));
+      border-bottom:1px solid rgba(255,255,255,.14);
+      background:
+        radial-gradient(900px 140px at 25% 0%, rgba(122,230,174,.14), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
     }
     .brand-mini{
       display:flex; gap:10px; align-items:center;
-      font-weight:800;
-      letter-spacing:.12em;
+      font-weight:900;
+      letter-spacing:.10em;
       text-transform:uppercase;
       font-size:12px;
-      opacity:.92;
+      color: rgba(255,255,255,.88);
     }
-    .dot{
-      width:10px;height:10px;border-radius:99px;
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.85), rgba(255,255,255,.18));
-      border:1px solid rgba(0,0,0,.12);
-      box-shadow: 0 8px 18px rgba(0,0,0,.12);
+    .badge{
+      width:36px; height:36px; border-radius:14px;
+      display:grid; place-items:center;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,.25), transparent 45%),
+        linear-gradient(135deg, rgba(58,174,111,.92), rgba(17,69,42,.92));
+      border:1px solid rgba(255,255,255,.20);
+      box-shadow: 0 14px 28px rgba(0,0,0,.22);
+      position:relative;
+      overflow:hidden;
     }
+    .badge:before{
+      content:"";
+      position:absolute; inset:-20%;
+      background:
+        radial-gradient(circle at 30% 10%, rgba(255,255,255,.18), transparent 55%),
+        radial-gradient(circle at 70% 90%, rgba(255,255,255,.10), transparent 60%);
+      transform: rotate(12deg);
+    }
+    .badge span{ position:relative; font-size:18px; }
+    .brand-mini .mutedMini{opacity:.72; font-weight:800}
+
     .right-actions{display:flex; gap:10px; align-items:center}
 
+    /* ======= Buttons ======= */
     .pill{
       padding:10px 12px;
       border-radius:999px;
-      border:1px solid rgba(255,255,255,.22);
-      background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.08));
-      box-shadow: 0 10px 24px rgba(0,0,0,.12);
+      border:1px solid rgba(255,255,255,.20);
+      background:
+        radial-gradient(900px 70px at 20% 15%, rgba(255,255,255,.18), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06));
+      box-shadow: 0 12px 26px rgba(0,0,0,.18);
       backdrop-filter: blur(12px);
-      color:rgba(31,26,22,.9);
-      font-weight:650;
+      color: rgba(255,255,255,.88);
+      font-weight:800;
       font-size:13px;
+      transition: transform .14s var(--easeOut), filter .14s var(--easeOut);
     }
-    .pill.secondary{opacity:.86}
-    .pill:active{transform: translateY(1px)}
-    .pill:hover{filter: brightness(1.03)}
-    .pill:focus{outline:2px solid rgba(255,255,255,.35); outline-offset:2px}
+    .pill.secondary{
+      background:
+        radial-gradient(900px 70px at 20% 15%, rgba(255,255,255,.12), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      opacity:.92;
+    }
+    .pill:hover{filter: brightness(1.06)}
+    .pill:active{transform: translateY(2px) scale(.99)}
+    .pill:focus{outline:2px solid rgba(122,230,174,.55); outline-offset:2px}
 
     .content{
       min-height: calc(100vh - 90px);
       padding:18px;
     }
 
-    /* Frutiger-aero glass buttons/cards */
+    /* ======= Cards ======= */
     .glass{
-      background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.08));
-      border:1px solid rgba(255,255,255,.22);
-      box-shadow: 0 18px 40px rgba(0,0,0,.14);
-      backdrop-filter: blur(12px);
+      background:
+        radial-gradient(900px 220px at 20% 10%, rgba(255,255,255,.14), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+      border:1px solid rgba(255,255,255,.16);
+      box-shadow: var(--shadowSoft);
+      backdrop-filter: blur(14px);
       border-radius: var(--radius);
       position:relative;
       overflow:hidden;
@@ -128,60 +212,62 @@
     .glass:before{
       content:"";
       position:absolute; inset:-2px;
-      background: radial-gradient(800px 220px at 20% 10%, rgba(255,255,255,.35), transparent 55%),
-                  radial-gradient(700px 220px at 80% 0%, rgba(255,255,255,.22), transparent 60%);
+      background:
+        radial-gradient(800px 260px at 22% 0%, rgba(122,230,174,.10), transparent 60%),
+        radial-gradient(700px 240px at 90% 0%, rgba(191,233,255,.08), transparent 60%);
       pointer-events:none;
     }
     .glass > *{position:relative}
 
-    .grid2{display:grid; grid-template-columns: 1.1fr .9fr; gap:16px}
-    @media (max-width: 900px){ .grid2{grid-template-columns:1fr} }
-
-    h1,h2,h3{margin:0}
-    .muted{color:rgba(31,26,22,.66)}
-    .small{font-size:13px}
-    .tiny{font-size:12px}
-
     .card-pad{padding:18px}
     .stack{display:flex; flex-direction:column; gap:12px}
     .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+    .grid2{display:grid; grid-template-columns: 1.1fr .9fr; gap:16px}
+    @media (max-width: 900px){ .grid2{grid-template-columns:1fr} }
 
     .section-title{
-      font-weight:850;
+      font-weight:950;
       letter-spacing:.02em;
       font-size:18px;
-      color:rgba(31,26,22,.92);
+      color: rgba(255,255,255,.92);
+      text-shadow: 0 10px 28px rgba(0,0,0,.22);
     }
 
-    /* Inputs */
+    /* ======= Inputs ======= */
     .field{display:flex; flex-direction:column; gap:6px}
-    label{font-size:12px; opacity:.78; font-weight:700}
+    label{font-size:12px; opacity:.82; font-weight:850; color: rgba(255,255,255,.80)}
     input, select, textarea{
       width:100%;
       padding:11px 12px;
-      border-radius: 14px;
-      border:1px solid rgba(255,255,255,.25);
-      background: rgba(255,255,255,.10);
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.08);
       outline:none;
-      color:rgba(31,26,22,.92);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.22);
-      backdrop-filter: blur(10px);
+      color: rgba(255,255,255,.92);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.12);
+      backdrop-filter: blur(12px);
     }
     textarea{min-height:88px; resize:vertical}
+    input::placeholder, textarea::placeholder{color: rgba(255,255,255,.55)}
 
     .note{
       padding:12px 14px;
-      border-radius: 16px;
-      background: rgba(255,255,255,.10);
-      border:1px solid rgba(255,255,255,.18);
-      color:rgba(31,26,22,.78);
+      border-radius: 18px;
+      background: rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.14);
+      color: rgba(255,255,255,.86);
     }
 
-    /* Page transitions */
-    .fade-in{animation: fade .22s ease-out}
-    @keyframes fade{from{opacity:.0; transform: translateY(6px)} to{opacity:1; transform:none}}
+    .divider{height:1px; background: rgba(255,255,255,.14); margin: 8px 0}
 
-    /* ============ LANDING (FAQJA 1) ============ */
+    /* ======= Page transitions (smoother) ======= */
+    .fade-in{animation: fade .28s var(--easeOut)}
+    @keyframes fade{
+      from{opacity:0; transform: translateY(10px) scale(.995); filter: blur(1px)}
+      to{opacity:1; transform:none; filter: blur(0)}
+    }
+
+    /* ======= Landing ======= */
     .landing{
       min-height: 78vh;
       display:flex;
@@ -190,102 +276,126 @@
       padding:26px 16px;
       position:relative;
       overflow:hidden;
+      border-radius: 24px;
 
-      /* background i errët por jo shumë */
       background:
-        radial-gradient(1200px 800px at 25% 20%, rgba(150,132,115,.40), rgba(96,84,77,.32) 50%, rgba(90,73,59,.24) 100%),
-        linear-gradient(140deg, rgba(96,84,77,.35), rgba(170,162,151,.10));
+        radial-gradient(900px 600px at 25% 20%, rgba(122,230,174,.22), transparent 55%),
+        radial-gradient(700px 500px at 80% 75%, rgba(255,213,138,.10), transparent 60%),
+        linear-gradient(140deg, rgba(11,42,26,.90), rgba(7,22,15,.95));
+      border:1px solid rgba(255,255,255,.10);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
     }
 
-    /* background levizës */
     .landing:before{
       content:"";
       position:absolute; inset:-50%;
       background:
-        radial-gradient(900px 600px at 30% 20%, rgba(200,189,177,.16), transparent 55%),
-        radial-gradient(700px 500px at 80% 70%, rgba(168,153,130,.14), transparent 60%),
-        radial-gradient(650px 450px at 15% 85%, rgba(170,162,151,.12), transparent 60%),
+        radial-gradient(900px 600px at 30% 20%, rgba(191,233,255,.12), transparent 55%),
+        radial-gradient(700px 500px at 80% 70%, rgba(122,230,174,.14), transparent 60%),
+        radial-gradient(650px 450px at 15% 85%, rgba(255,155,199,.10), transparent 60%),
         linear-gradient(120deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      filter: blur(0px);
-      animation: drift 14s ease-in-out infinite;
+      animation: drift 12s var(--easeOut) infinite alternate;
       pointer-events:none;
+      filter: saturate(1.1);
     }
     @keyframes drift{
       0%{transform: translate(-3%, -2%) rotate(0deg)}
-      50%{transform: translate(3%, 2%) rotate(1.4deg)}
-      100%{transform: translate(-3%, -2%) rotate(0deg)}
+      100%{transform: translate(3%, 2%) rotate(1.6deg)}
     }
 
-    .helix-layer{
-      position:absolute; inset:0;
-      pointer-events:none;
-      opacity:.92;
-    }
-    .helix{
-      position:absolute;
-      width:min(520px, 85vw);
-      height:auto;
-      filter: drop-shadow(0 22px 40px rgba(0,0,0,.20));
+    .landing-stickers{
+      position:absolute; inset:0; pointer-events:none;
       opacity:.85;
-      animation: spin 18s linear infinite;
-      transform-origin:center;
     }
-    .helix.h1{left:-8%; top:8%; animation-duration:22s; opacity:.62}
-    .helix.h2{right:-10%; bottom:-8%; animation-duration:26s; opacity:.55}
-    .helix.h3{left:55%; top:18%; width:min(420px, 70vw); animation-duration:30s; opacity:.36; filter: blur(1px) drop-shadow(0 22px 40px rgba(0,0,0,.16))}
-    @keyframes spin{to{transform: rotate(360deg)}}
+    .sticker{
+      position:absolute;
+      width:180px; height:180px;
+      border-radius: 40px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,.16), transparent 55%),
+        linear-gradient(135deg, rgba(58,174,111,.35), rgba(191,233,255,.20));
+      border:1px dashed rgba(255,255,255,.18);
+      box-shadow: 0 18px 40px rgba(0,0,0,.25);
+      transform: rotate(-10deg);
+      animation: floaty 6.2s var(--easeOut) infinite alternate;
+      filter: blur(.2px);
+    }
+    .sticker.s1{left:-40px; top:30px; transform: rotate(-14deg); animation-duration:7.4s}
+    .sticker.s2{right:-50px; bottom:-30px; transform: rotate(12deg); animation-duration:8.2s}
+    .sticker.s3{right:18%; top:-60px; width:140px; height:140px; transform: rotate(8deg); opacity:.55; animation-duration:9.2s}
+    @keyframes floaty{
+      from{transform: translateY(-6px) rotate(var(--r, -10deg))}
+      to{transform: translateY(8px) rotate(calc(var(--r, -10deg) + 2deg))}
+    }
 
     .landing-center{
       position:relative;
       text-align:center;
       padding:26px 18px;
-      border-radius: 30px;
-      background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.06));
-      border:1px solid rgba(255,255,255,.20);
-      box-shadow: 0 26px 70px rgba(0,0,0,.22);
-      backdrop-filter: blur(14px);
-      max-width: 860px;
+      border-radius: 32px;
+      background:
+        radial-gradient(900px 220px at 30% 0%, rgba(122,230,174,.18), transparent 65%),
+        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow: 0 30px 80px rgba(0,0,0,.35);
+      backdrop-filter: blur(16px);
+      max-width: 880px;
     }
 
-    /* GENCARE clickable (as button) */
     .gencare-link{
       display:inline-block;
       font-weight: 950;
-      letter-spacing: .10em;
+      letter-spacing: .12em;
       text-transform: uppercase;
       font-size: clamp(44px, 9vw, 96px);
       line-height: 1.02;
-      padding: 6px 10px;
-      border-radius: 20px;
+      padding: 10px 14px;
+      border-radius: 22px;
       cursor:pointer;
       user-select:none;
 
-      color: rgba(255,255,255,.92);
+      color: rgba(255,255,255,.94);
       text-shadow:
         0 1px 0 rgba(0,0,0,.22),
         0 18px 60px rgba(0,0,0,.22);
 
       background:
-        radial-gradient(900px 120px at 30% 15%, rgba(255,255,255,.26), transparent 55%),
-        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.03));
-      border: 1px solid rgba(255,255,255,.24);
+        radial-gradient(900px 120px at 30% 15%, rgba(255,255,255,.18), transparent 55%),
+        radial-gradient(900px 240px at 80% 0%, rgba(122,230,174,.18), transparent 55%),
+        linear-gradient(135deg, rgba(58,174,111,.55), rgba(17,69,42,.35));
+      border: 1px solid rgba(255,255,255,.18);
       box-shadow:
-        0 24px 64px rgba(0,0,0,.22),
-        inset 0 1px 0 rgba(255,255,255,.22);
-      transition: transform .12s ease, filter .12s ease;
+        0 26px 74px rgba(0,0,0,.30),
+        inset 0 1px 0 rgba(255,255,255,.18);
+      transition: transform .14s var(--easeOut), filter .14s var(--easeOut);
+      position:relative;
+      overflow:hidden;
     }
-    .gencare-link:hover{filter: brightness(1.05)}
+    .gencare-link:before{
+      content:"";
+      position:absolute; inset:-40%;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(255,255,255,.18), transparent 55%),
+        radial-gradient(circle at 80% 70%, rgba(191,233,255,.10), transparent 60%);
+      animation: shimmer 3.8s var(--easeOut) infinite alternate;
+      pointer-events:none;
+    }
+    @keyframes shimmer{
+      from{transform: translate(-2%, -2%) rotate(0deg)}
+      to{transform: translate(2%, 2%) rotate(4deg)}
+    }
+    .gencare-link:hover{filter: brightness(1.07)}
     .gencare-link:active{transform: translateY(2px) scale(.995)}
 
     .landing-slogan{
       margin-top:10px;
       font-size: clamp(14px, 2.2vw, 18px);
-      color: rgba(255,255,255,.82);
-      font-weight: 650;
+      color: rgba(255,255,255,.86);
+      font-weight: 750;
       letter-spacing:.02em;
     }
 
-    /* ============ HOME (FAQJA 2 & MENU) ============ */
+    /* ======= Home ======= */
     .home-scroll{
       max-height: 72vh;
       overflow:auto;
@@ -293,49 +403,68 @@
     }
     .home-scroll::-webkit-scrollbar{width:10px}
     .home-scroll::-webkit-scrollbar-thumb{
-      background: rgba(0,0,0,.12);
+      background: rgba(255,255,255,.12);
       border-radius:999px;
-      border:2px solid rgba(255,255,255,.18);
+      border:2px solid rgba(0,0,0,.18);
     }
 
     .hero{
       padding:20px;
-      border-radius: 26px;
-      background: radial-gradient(900px 360px at 30% 10%, rgba(200,189,177,.38), rgba(170,162,151,.14) 55%, rgba(96,84,77,.10) 100%),
-                  linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.06));
-      border: 1px solid rgba(255,255,255,.20);
-      box-shadow: 0 18px 45px rgba(0,0,0,.14);
+      border-radius: 28px;
+      background:
+        radial-gradient(900px 360px at 30% 10%, rgba(122,230,174,.18), transparent 55%),
+        radial-gradient(900px 360px at 85% 0%, rgba(191,233,255,.10), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow: var(--shadowSoft);
+      position:relative;
+      overflow:hidden;
     }
-
+    .hero:after{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(500px 120px at 15% 0%, rgba(255,255,255,.10), transparent 60%),
+        radial-gradient(500px 140px at 90% 20%, rgba(255,255,255,.06), transparent 60%);
+      pointer-events:none;
+    }
     .hero h1{
       font-size: clamp(28px, 4.8vw, 54px);
       font-weight: 950;
-      letter-spacing: .10em;
+      letter-spacing: .12em;
       text-transform: uppercase;
       margin-bottom: 8px;
+      color: rgba(255,255,255,.92);
+      text-shadow: 0 16px 40px rgba(0,0,0,.28);
     }
-
     .hero p{
       margin:8px 0 0;
-      color: rgba(31,26,22,.78);
-      font-weight:650;
-      line-height: 1.55;
+      color: rgba(255,255,255,.82);
+      font-weight:700;
+      line-height: 1.6;
     }
-
     .color-break{
       height:18px;
       border-radius: 999px;
       background: linear-gradient(90deg,
-        rgba(168,153,130,.75),
-        rgba(170,162,151,.70),
-        rgba(200,189,177,.72),
-        rgba(150,132,115,.70),
-        rgba(96,84,77,.68),
-        rgba(90,73,59,.62)
+        rgba(58,174,111,.80),
+        rgba(122,230,174,.72),
+        rgba(191,233,255,.55),
+        rgba(255,213,138,.55),
+        rgba(255,155,199,.45)
       );
-      border:1px solid rgba(255,255,255,.18);
-      box-shadow: 0 12px 26px rgba(0,0,0,.10);
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow: 0 12px 26px rgba(0,0,0,.18);
       margin:14px 0;
+      position:relative;
+      overflow:hidden;
+    }
+    .color-break:before{
+      content:"";
+      position:absolute; inset:-40%;
+      background: radial-gradient(circle at 20% 20%, rgba(255,255,255,.16), transparent 55%);
+      animation: drift 8s var(--easeOut) infinite alternate;
+      pointer-events:none;
     }
 
     .menu-grid{
@@ -349,30 +478,34 @@
 
     .bigbtn{
       padding:16px 16px;
-      border-radius: 22px;
-      border: 1px solid rgba(255,255,255,.22);
-      background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.08));
-      box-shadow: 0 18px 44px rgba(0,0,0,.14);
-      backdrop-filter: blur(12px);
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,.16);
+      background:
+        radial-gradient(900px 120px at 20% 0%, rgba(122,230,174,.12), transparent 60%),
+        radial-gradient(900px 120px at 90% 0%, rgba(191,233,255,.08), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+      box-shadow: var(--shadowSoft);
+      backdrop-filter: blur(14px);
       text-align:left;
       position:relative;
       overflow:hidden;
-      transition: transform .12s ease, filter .12s ease;
+      transition: transform .14s var(--easeOut), filter .14s var(--easeOut);
+      color: rgba(255,255,255,.90);
     }
     .bigbtn:before{
       content:"";
       position:absolute; inset:-2px;
       background:
-        radial-gradient(800px 180px at 18% 10%, rgba(255,255,255,.30), transparent 55%),
-        radial-gradient(900px 240px at 90% 0%, rgba(255,255,255,.18), transparent 60%);
+        radial-gradient(760px 180px at 18% 10%, rgba(255,255,255,.10), transparent 55%),
+        radial-gradient(900px 240px at 90% 0%, rgba(255,255,255,.06), transparent 60%);
       pointer-events:none;
     }
-    .bigbtn:hover{filter: brightness(1.03)}
-    .bigbtn:active{transform: translateY(2px)}
-    .bigbtn .t{position:relative; font-weight:900; letter-spacing:.02em; font-size:16px}
-    .bigbtn .d{position:relative; margin-top:6px; color:rgba(31,26,22,.68); font-weight:650; font-size:13px; line-height:1.35}
+    .bigbtn:hover{filter: brightness(1.06)}
+    .bigbtn:active{transform: translateY(2px) scale(.995)}
+    .bigbtn .t{position:relative; font-weight:950; letter-spacing:.02em; font-size:16px}
+    .bigbtn .d{position:relative; margin-top:6px; color:rgba(255,255,255,.76); font-weight:750; font-size:13px; line-height:1.35}
 
-    /* ============ INFORMOHU (DNA + markers) ============ */
+    /* ======= Informohu (DNA stage) ======= */
     .dna-stage{
       display:grid;
       grid-template-columns: 1.1fr .9fr;
@@ -389,11 +522,12 @@
     }
     .dna-bg{
       position:absolute; inset:0;
-      background: radial-gradient(900px 500px at 20% 10%, rgba(200,189,177,.26), transparent 55%),
-                  radial-gradient(700px 500px at 80% 70%, rgba(168,153,130,.20), transparent 60%),
-                  linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
-      animation: drift 14s ease-in-out infinite;
-      opacity:.9;
+      background:
+        radial-gradient(900px 500px at 20% 10%, rgba(122,230,174,.14), transparent 55%),
+        radial-gradient(700px 500px at 80% 70%, rgba(191,233,255,.10), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      animation: drift 12s var(--easeOut) infinite alternate;
+      opacity:.95;
     }
 
     .helix-svg{
@@ -401,36 +535,39 @@
       left:50%; top:50%;
       width:min(440px, 78vw);
       transform: translate(-50%,-50%);
-      opacity:.95;
-      filter: drop-shadow(0 18px 35px rgba(0,0,0,.16));
+      opacity:.98;
+      filter: drop-shadow(0 18px 35px rgba(0,0,0,.22));
     }
 
     .marker{
       position:absolute;
-      width:46px; height:46px;
-      border-radius: 14px;
-      border:1px solid rgba(255,255,255,.22);
-      background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.06));
-      box-shadow: 0 18px 36px rgba(0,0,0,.16);
+      width:48px; height:48px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.16);
+      background:
+        radial-gradient(circle at 30% 20%, rgba(255,255,255,.12), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+      box-shadow: 0 18px 36px rgba(0,0,0,.22);
       display:flex; align-items:center; justify-content:center;
       font-weight: 950;
       cursor:pointer;
-      transition: transform .12s ease, filter .12s ease;
+      transition: transform .14s var(--easeOut), filter .14s var(--easeOut);
       user-select:none;
     }
-    .marker:hover{filter: brightness(1.05)}
-    .marker:active{transform: translateY(2px)}
+    .marker:hover{filter: brightness(1.07)}
+    .marker:active{transform: translateY(2px) scale(.995)}
     .marker span{
       display:inline-block;
-      width:28px; height:28px;
+      width:30px; height:30px;
       border-radius: 999px;
       display:flex; align-items:center; justify-content:center;
       color: rgba(255,255,255,.92);
-      text-shadow: 0 1px 0 rgba(0,0,0,.22);
+      text-shadow: 0 1px 0 rgba(0,0,0,.24);
       box-shadow: inset 0 1px 0 rgba(255,255,255,.18);
+      border: 1px dashed rgba(255,255,255,.20);
     }
 
-    /* ============ GAMES ============ */
+    /* ======= Games ======= */
     .game-grid{
       display:grid;
       grid-template-columns: repeat(3, 1fr);
@@ -441,39 +578,44 @@
 
     .starrow{display:flex; gap:10px; flex-wrap:wrap}
     .star{
-      width:54px; height:54px;
-      border-radius: 18px;
-      border:1px solid rgba(255,255,255,.22);
-      background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.06));
-      box-shadow: 0 18px 34px rgba(0,0,0,.14);
+      width:56px; height:56px;
+      border-radius: 20px;
+      border:1px solid rgba(255,255,255,.16);
+      background:
+        radial-gradient(circle at 35% 25%, rgba(255,255,255,.14), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+      box-shadow: 0 18px 34px rgba(0,0,0,.22);
       display:flex; align-items:center; justify-content:center;
       font-size:22px;
       cursor:pointer;
       user-select:none;
-      transition: transform .12s ease, filter .12s ease;
+      transition: transform .14s var(--easeOut), filter .14s var(--easeOut);
+      color: rgba(255,255,255,.92);
     }
-    .star:hover{filter: brightness(1.04)}
-    .star:active{transform: translateY(2px)}
+    .star:hover{filter: brightness(1.06)}
+    .star:active{transform: translateY(2px) scale(.995)}
+
     .progressbar{
       height:12px;
       border-radius:999px;
-      border:1px solid rgba(255,255,255,.18);
-      background: rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
       overflow:hidden;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.12);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.10);
     }
     .progressbar > div{
       height:100%;
       width:0%;
-      background: linear-gradient(90deg, rgba(168,153,130,.85), rgba(200,189,177,.75), rgba(96,84,77,.70));
-      border-right:1px solid rgba(255,255,255,.20);
-      transition: width .25s ease;
+      background: linear-gradient(90deg,
+        rgba(58,174,111,.90),
+        rgba(122,230,174,.80),
+        rgba(191,233,255,.55)
+      );
+      border-right:1px solid rgba(255,255,255,.14);
+      transition: width .25s var(--easeOut);
     }
 
-    .game-board{
-      padding:16px;
-      min-height: 320px;
-    }
+    .game-board{ padding:16px; min-height: 320px; }
     .game-hud{
       display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;
       margin-bottom:10px;
@@ -481,40 +623,40 @@
     .hud-chip{
       padding:8px 10px;
       border-radius:999px;
-      border:1px solid rgba(255,255,255,.20);
-      background: rgba(255,255,255,.10);
-      font-weight:800;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.07);
+      font-weight:900;
       font-size:12px;
-      color: rgba(31,26,22,.78);
+      color: rgba(255,255,255,.88);
     }
 
-    /* Pause/Resume icons (as requested: Pause=triangle, Resume=||) */
+    /* Pause/Resume icons (Pause=triangle, Resume=||) */
     .iconbtn{
       width:46px; height:46px;
       border-radius: 18px;
-      border:1px solid rgba(255,255,255,.22);
-      background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.06));
-      box-shadow: 0 16px 34px rgba(0,0,0,.14);
+      border:1px solid rgba(255,255,255,.16);
+      background:
+        radial-gradient(circle at 35% 25%, rgba(255,255,255,.14), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+      box-shadow: 0 16px 34px rgba(0,0,0,.22);
       display:flex; align-items:center; justify-content:center;
       cursor:pointer;
       user-select:none;
-      transition: transform .12s ease, filter .12s ease;
+      transition: transform .14s var(--easeOut), filter .14s var(--easeOut);
     }
-    .iconbtn:hover{filter: brightness(1.05)}
-    .iconbtn:active{transform: translateY(2px)}
+    .iconbtn:hover{filter: brightness(1.07)}
+    .iconbtn:active{transform: translateY(2px) scale(.995)}
     .tri{
       width:0;height:0;
       border-top:10px solid transparent;
       border-bottom:10px solid transparent;
-      border-left:16px solid rgba(31,26,22,.80);
+      border-left:16px solid rgba(255,255,255,.86);
       margin-left:3px;
     }
-    .bars{
-      width:16px; height:20px; display:flex; justify-content:space-between;
-    }
+    .bars{ width:16px; height:20px; display:flex; justify-content:space-between; }
     .bars i{
       display:block; width:5px; height:20px; border-radius:4px;
-      background: rgba(31,26,22,.78);
+      background: rgba(255,255,255,.82);
     }
 
     .tiles{
@@ -529,93 +671,115 @@
     .tile{
       padding:14px;
       border-radius: 18px;
-      border:1px solid rgba(255,255,255,.20);
-      background: rgba(255,255,255,.10);
-      box-shadow: 0 14px 30px rgba(0,0,0,.10);
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.07);
+      box-shadow: 0 14px 30px rgba(0,0,0,.18);
       min-height: 70px;
       display:flex; align-items:center; justify-content:center;
       text-align:center;
-      font-weight:900;
+      font-weight:950;
       cursor:pointer;
       user-select:none;
-      transition: transform .12s ease, filter .12s ease;
+      transition: transform .14s var(--easeOut), filter .14s var(--easeOut);
+      color: rgba(255,255,255,.92);
     }
-    .tile:hover{filter: brightness(1.04)}
-    .tile:active{transform: translateY(2px)}
-    .tile.good{outline: 2px solid rgba(110,160,110,.35)}
-    .tile.bad{outline: 2px solid rgba(190,110,110,.35)}
+    .tile:hover{filter: brightness(1.06)}
+    .tile:active{transform: translateY(2px) scale(.995)}
+    .tile.good{outline: 2px solid rgba(122,230,174,.55)}
+    .tile.bad{outline: 2px solid rgba(255,155,199,.55)}
 
-    .center{display:flex; align-items:center; justify-content:center}
-    .divider{height:1px; background: rgba(255,255,255,.18); margin: 8px 0}
-
-    /* Questionnaire */
+    /* Questionnaire blocks */
     .q-item{
       padding:14px;
-      border-radius: 18px;
-      border:1px solid rgba(255,255,255,.18);
-      background: rgba(255,255,255,.10);
-      box-shadow: 0 16px 34px rgba(0,0,0,.10);
+      border-radius: 20px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.07);
+      box-shadow: 0 16px 34px rgba(0,0,0,.18);
     }
-    .q-title{font-weight:900; margin-bottom:10px}
+    .q-title{font-weight:950; margin-bottom:10px; color: rgba(255,255,255,.92)}
     .radio-row{display:flex; gap:10px; flex-wrap:wrap}
     .radio{
       display:flex; align-items:center; gap:8px;
       padding:10px 12px;
       border-radius:999px;
-      border:1px solid rgba(255,255,255,.18);
-      background: rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
       cursor:pointer;
       user-select:none;
-      font-weight:800;
+      font-weight:900;
       font-size:13px;
-      color: rgba(31,26,22,.76);
+      color: rgba(255,255,255,.80);
+      transition: transform .12s var(--easeOut), filter .12s var(--easeOut);
     }
+    .radio:hover{filter: brightness(1.06)}
     .radio input{width:auto}
     .radio.active{
-      background: rgba(255,255,255,.16);
-      border-color: rgba(255,255,255,.26);
-      color: rgba(31,26,22,.92);
+      background:
+        radial-gradient(700px 70px at 20% 0%, rgba(122,230,174,.20), transparent 60%),
+        rgba(255,255,255,.10);
+      border-color: rgba(122,230,174,.45);
+      color: rgba(255,255,255,.92);
     }
 
-    /* Routine list */
+    /* Routine tasks */
     .task{
       display:flex;
       justify-content:space-between;
       gap:12px;
       padding:12px 12px;
-      border-radius: 16px;
-      border:1px solid rgba(255,255,255,.18);
-      background: rgba(255,255,255,.10);
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.07);
       align-items:center;
     }
-    .task b{font-size:13px}
+    .task b{font-size:13px; color: rgba(255,255,255,.92)}
     .check{
-      width:22px;height:22px;
-      border-radius:7px;
-      border:1px solid rgba(255,255,255,.22);
-      background: rgba(255,255,255,.10);
+      width:24px;height:24px;
+      border-radius:8px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
       display:flex; align-items:center; justify-content:center;
       cursor:pointer;
       user-select:none;
-      font-weight:900;
+      font-weight:950;
+      color: rgba(255,255,255,.92);
     }
     .check.on{
-      background: rgba(255,255,255,.22);
-      border-color: rgba(255,255,255,.28);
+      background: rgba(122,230,174,.24);
+      border-color: rgba(122,230,174,.55);
     }
+
+    /* Keep landing helix layer (still used, but now matches greens) */
+    .helix-layer{
+      position:absolute; inset:0;
+      pointer-events:none;
+      opacity:.92;
+    }
+    .helix{
+      position:absolute;
+      width:min(520px, 85vw);
+      height:auto;
+      filter: drop-shadow(0 22px 40px rgba(0,0,0,.28));
+      opacity:.85;
+      animation: spin 18s linear infinite;
+      transform-origin:center;
+    }
+    .helix.h1{left:-8%; top:8%; animation-duration:22s; opacity:.55}
+    .helix.h2{right:-10%; bottom:-8%; animation-duration:26s; opacity:.48}
+    .helix.h3{left:55%; top:18%; width:min(420px, 70vw); animation-duration:30s; opacity:.28; filter: blur(1px) drop-shadow(0 22px 40px rgba(0,0,0,.22))}
+    @keyframes spin{to{transform: rotate(360deg)}}
   </style>
 </head>
 
 <body>
   <div class="app">
     <div class="shell" id="shell">
-
       <div class="topbar">
-        <div class="brand-mini">
-          <span class="dot"></span>
+        <div class="brand-mini" aria-label="GENCARE • GENE4LIFE">
+          <div class="badge"><span>🧩</span></div>
           <span>GENCARE</span>
-          <span style="opacity:.65">•</span>
-          <span class="muted">GENE4LIFE</span>
+          <span style="opacity:.55">•</span>
+          <span class="mutedMini">GENE4LIFE</span>
         </div>
         <div class="right-actions">
           <button class="pill secondary" id="btnBack" title="Kthehu" style="display:none">← Kthehu</button>
@@ -636,7 +800,7 @@ const LS_SESSION = "gencare_session_v1";
 const LS_ROUTINE = "gencare_routine_v1";
 
 const state = {
-  route: "landing",   // landing | home | manual | profile | informohu | infoTopic | games | gameLevels | gamePlay | change | routine | result
+  route: "landing",
   routeStack: [],
   infoTopicIndex: 0,
   selectedGameId: null,
@@ -654,69 +818,41 @@ const GAMES = [
 ];
 
 const INFO_TOPICS = [
-  {
-    key:"komunikimi",
-    title:"Komunikimi & Gjuha",
-    bullets:[
-      "Shenjat e para mund të shfaqen gradualisht: vonesë në fjalë, pak gjeste, ose vështirësi në përdorimin e fjalëve për kërkesa.",
-      "Mund të vërehet përsëritje fjalësh/frasash (ekolali) ose përdorim i kufizuar i gjuhës funksionale.",
-      "Ndihmon: rutinë e qetë, fjali të shkurtra, zgjedhje me 2 opsione, vizualë (figura)."
-    ]
-  },
-  {
-    key:"social",
-    title:"Ndërveprimi Social & Kontakti me Sy",
-    bullets:[
-      "Mund të ketë kontakt me sy të kufizuar, vështirësi në ndjekjen e lojës së përbashkët, ose mungesë interesi për bashkëmoshatarët.",
-      "Reagimi ndaj emrit mund të jetë i dobët, ose preferon lojë të vetmuar për kohë të gjatë.",
-      "Ndihmon: lojëra me radhë, aktivitete të shkurtra bashkë, lavdërim i qartë dhe i butë."
-    ]
-  },
-  {
-    key:"perqendrim",
-    title:"Të Nxënit & Përqendrimi",
-    bullets:[
-      "Vështirësi në fokus, kalim i shpejtë nga një aktivitet tek tjetri, ose vëmendje shumë e lartë vetëm për një interes specifik.",
-      "Mund të ketë sfida në ndjekjen e udhëzimeve me shumë hapa.",
-      "Ndihmon: udhëzime 1–2 hapa, pushime të shkurtra, strukturë vizuale e ditës."
-    ]
-  },
-  {
-    key:"emocione",
-    title:"Emocionet",
-    bullets:[
-      "Vështirësi në shprehjen/kuptimin e emocioneve; shpërthime kur nuk kuptohet nevoja ose kur ka ndryshime të papritura.",
-      "Rritje ankthi në ambiente të zhurmshme ose gjatë tranzicioneve.",
-      "Ndihmon: paralajmërime të buta për ndryshime, “karte emocioni”, frymëmarrje e udhëzuar."
-    ]
-  },
-  {
-    key:"sensori",
-    title:"Ndjeshmëria Sensorjale",
-    bullets:[
-      "Reagime të forta ndaj dritës, zhurmës, prekjes, erërave ose teksturave të caktuara.",
-      "Mund të kërkojë stimulim (lëkundje, rrotullim) ose të shmangë disa ndjesi.",
-      "Ndihmon: “kënd qetësimi”, kufje, lodra sensoriale të buta, zgjedhje të kontrolluara."
-    ]
-  },
-  {
-    key:"koordinim",
-    title:"Lëvizja & Koordinimi",
-    bullets:[
-      "Mund të ketë vështirësi me motorikën e imët (laps, gërshërë) ose koordinimin në lojëra fizike.",
-      "Sjellje përsëritëse (p.sh. lëkundje) mund të shërbejë si vetërregullim.",
-      "Ndihmon: ushtrime të shkurtra motorike, aktivitete me ritëm të ngadaltë, progres gradual."
-    ]
-  }
+  { key:"komunikimi", title:"Komunikimi & Gjuha", bullets:[
+    "Shenjat e para mund të shfaqen gradualisht: vonesë në fjalë, pak gjeste, ose vështirësi në përdorimin e fjalëve për kërkesa.",
+    "Mund të vërehet përsëritje fjalësh/frasash (ekolali) ose përdorim i kufizuar i gjuhës funksionale.",
+    "Ndihmon: rutinë e qetë, fjali të shkurtra, zgjedhje me 2 opsione, vizualë (figura)."
+  ]},
+  { key:"social", title:"Ndërveprimi Social & Kontakti me Sy", bullets:[
+    "Mund të ketë kontakt me sy të kufizuar, vështirësi në ndjekjen e lojës së përbashkët, ose mungesë interesi për bashkëmoshatarët.",
+    "Reagimi ndaj emrit mund të jetë i dobët, ose preferon lojë të vetmuar për kohë të gjatë.",
+    "Ndihmon: lojëra me radhë, aktivitete të shkurtra bashkë, lavdërim i qartë dhe i butë."
+  ]},
+  { key:"perqendrim", title:"Të Nxënit & Përqendrimi", bullets:[
+    "Vështirësi në fokus, kalim i shpejtë nga një aktivitet tek tjetri, ose vëmendje shumë e lartë vetëm për një interes specifik.",
+    "Mund të ketë sfida në ndjekjen e udhëzimeve me shumë hapa.",
+    "Ndihmon: udhëzime 1–2 hapa, pushime të shkurtra, strukturë vizuale e ditës."
+  ]},
+  { key:"emocione", title:"Emocionet", bullets:[
+    "Vështirësi në shprehjen/kuptimin e emocioneve; shpërthime kur nuk kuptohet nevoja ose kur ka ndryshime të papritura.",
+    "Rritje ankthi në ambiente të zhurmshme ose gjatë tranzicioneve.",
+    "Ndihmon: paralajmërime të buta për ndryshime, “karte emocioni”, frymëmarrje e udhëzuar."
+  ]},
+  { key:"sensori", title:"Ndjeshmëria Sensorjale", bullets:[
+    "Reagime të forta ndaj dritës, zhurmës, prekjes, erërave ose teksturave të caktuara.",
+    "Mund të kërkojë stimulim (lëkundje, rrotullim) ose të shmangë disa ndjesi.",
+    "Ndihmon: “kënd qetësimi”, kufje, lodra sensoriale të buta, zgjedhje të kontrolluara."
+  ]},
+  { key:"koordinim", title:"Lëvizja & Koordinimi", bullets:[
+    "Mund të ketë vështirësi me motorikën e imët (laps, gërshërë) ose koordinimin në lojëra fizike.",
+    "Sjellje përsëritëse (p.sh. lëkundje) mund të shërbejë si vetërregullim.",
+    "Ndihmon: ushtrime të shkurtra motorike, aktivitete me ritëm të ngadaltë, progres gradual."
+  ]},
 ];
 
-function getUsers(){
-  try{ return JSON.parse(localStorage.getItem(LS_USERS) || "[]"); }catch(e){ return []; }
-}
+function getUsers(){ try{ return JSON.parse(localStorage.getItem(LS_USERS) || "[]"); }catch(e){ return []; } }
 function setUsers(users){ localStorage.setItem(LS_USERS, JSON.stringify(users)); }
-function getSession(){
-  try{ return JSON.parse(localStorage.getItem(LS_SESSION) || "null"); }catch(e){ return null; }
-}
+function getSession(){ try{ return JSON.parse(localStorage.getItem(LS_SESSION) || "null"); }catch(e){ return null; } }
 function setSession(s){ localStorage.setItem(LS_SESSION, JSON.stringify(s)); }
 function clearSession(){ localStorage.removeItem(LS_SESSION); }
 function currentUser(){
@@ -727,10 +863,7 @@ function currentUser(){
 function updateUser(patch){
   const users = getUsers();
   const idx = users.findIndex(u => u.username === patch.username);
-  if(idx>=0){
-    users[idx] = { ...users[idx], ...patch };
-    setUsers(users);
-  }
+  if(idx>=0){ users[idx] = { ...users[idx], ...patch }; setUsers(users); }
 }
 
 /* =======================
@@ -744,15 +877,12 @@ btnBack.addEventListener("click", () => popRoute());
 btnHome.addEventListener("click", () => go("home"));
 
 function go(route, params={}){
-  // stop any running game timers
   stopGameRuntime();
-
   state.routeStack.push({ route: state.route, snapshot: snapshotState() });
   state.route = route;
   Object.assign(state, params);
   render();
 }
-
 function popRoute(){
   stopGameRuntime();
   const prev = state.routeStack.pop();
@@ -761,13 +891,8 @@ function popRoute(){
   restoreSnapshot(prev.snapshot);
   render();
 }
-
 function snapshotState(){
-  return {
-    infoTopicIndex: state.infoTopicIndex,
-    selectedGameId: state.selectedGameId,
-    selectedLevel: state.selectedLevel,
-  };
+  return { infoTopicIndex: state.infoTopicIndex, selectedGameId: state.selectedGameId, selectedLevel: state.selectedLevel };
 }
 function restoreSnapshot(s){
   if(!s) return;
@@ -775,7 +900,6 @@ function restoreSnapshot(s){
   state.selectedGameId = s.selectedGameId;
   state.selectedLevel = s.selectedLevel;
 }
-
 function setNavButtons(){
   const showBack = state.route !== "landing" && state.route !== "home";
   const showHome = state.route !== "landing";
@@ -787,19 +911,12 @@ function setNavButtons(){
    HELPERS
 ======================= */
 function esc(s){ return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m])); }
-
 function niceDate(d = new Date()){
   return d.toLocaleDateString("sq-AL", { weekday:"short", year:"numeric", month:"short", day:"2-digit" });
 }
-
 function ensureUserProgress(u){
-  return {
-    ...u,
-    progress: u.progress || { games:{}, routines:{ streak:0, lastDay:null } },
-    createdAt: u.createdAt || Date.now()
-  };
+  return { ...u, progress: u.progress || { games:{}, routines:{ streak:0, lastDay:null } }, createdAt: u.createdAt || Date.now() };
 }
-
 function computeOverallProgress(u){
   u = ensureUserProgress(u);
   let total=0, done=0;
@@ -837,29 +954,33 @@ function render(){
 }
 
 /* =======================
-   SVG HELIX (reuse)
+   SVG HELIX (now green-themed)
 ======================= */
 function helixSVG(opacity=1){
+  const root = getComputedStyle(document.documentElement);
+  const gA = root.getPropertyValue('--g4').trim();
+  const gB = root.getPropertyValue('--g2').trim();
+  const gC = root.getPropertyValue('--sky').trim();
+  const gD = root.getPropertyValue('--sun').trim();
+
   return `
   <svg viewBox="0 0 220 520" class="helix-svg" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <defs>
       <linearGradient id="g1" x1="0" x2="1">
-        <stop offset="0" stop-color="${getComputedStyle(document.documentElement).getPropertyValue('--tabacco').trim()}" stop-opacity="${opacity}"/>
-        <stop offset="1" stop-color="${getComputedStyle(document.documentElement).getPropertyValue('--cream').trim()}" stop-opacity="${opacity}"/>
+        <stop offset="0" stop-color="${gA}" stop-opacity="${opacity}"/>
+        <stop offset="1" stop-color="${gC}" stop-opacity="${opacity}"/>
       </linearGradient>
       <linearGradient id="g2" x1="0" x2="1">
-        <stop offset="0" stop-color="${getComputedStyle(document.documentElement).getPropertyValue('--walnut').trim()}" stop-opacity="${opacity}"/>
-        <stop offset="1" stop-color="${getComputedStyle(document.documentElement).getPropertyValue('--chai').trim()}" stop-opacity="${opacity}"/>
+        <stop offset="0" stop-color="${gB}" stop-opacity="${opacity}"/>
+        <stop offset="1" stop-color="${gD}" stop-opacity="${opacity}"/>
       </linearGradient>
     </defs>
 
-    <!-- Strands -->
     <path d="M70,10 C160,60 160,120 70,170 C-20,220 -20,300 70,350 C160,400 160,460 70,510"
           fill="none" stroke="url(#g1)" stroke-width="10" stroke-linecap="round" opacity=".95"/>
     <path d="M150,10 C60,60 60,120 150,170 C240,220 240,300 150,350 C60,400 60,460 150,510"
           fill="none" stroke="url(#g2)" stroke-width="10" stroke-linecap="round" opacity=".9"/>
 
-    <!-- Rungs -->
     ${Array.from({length:10}).map((_,i)=>{
       const y = 40 + i*48;
       const flip = i%2===0;
@@ -867,8 +988,7 @@ function helixSVG(opacity=1){
                     stroke="rgba(255,255,255,.22)" stroke-width="6" stroke-linecap="round"/>`;
     }).join("")}
 
-    <!-- soft highlights -->
-    <circle cx="74" cy="40" r="4" fill="rgba(255,255,255,.25)"/>
+    <circle cx="74" cy="40" r="4" fill="rgba(255,255,255,.24)"/>
     <circle cx="146" cy="92" r="4" fill="rgba(255,255,255,.22)"/>
     <circle cx="78" cy="244" r="4" fill="rgba(255,255,255,.20)"/>
     <circle cx="148" cy="410" r="4" fill="rgba(255,255,255,.18)"/>
@@ -879,12 +999,17 @@ function helixSVG(opacity=1){
    LANDING
 ======================= */
 function renderLanding(){
-  // Landing pa topbar buttons
   btnHome.style.display = "none";
   btnBack.style.display = "none";
 
   view.innerHTML = `
     <section class="landing">
+      <div class="landing-stickers">
+        <div class="sticker s1" style="--r:-14deg"></div>
+        <div class="sticker s2" style="--r:12deg"></div>
+        <div class="sticker s3" style="--r:8deg"></div>
+      </div>
+
       <div class="helix-layer">
         <div class="helix h1">${helixSVG(.95)}</div>
         <div class="helix h2">${helixSVG(.85)}</div>
@@ -896,23 +1021,24 @@ function renderLanding(){
           GENCARE
         </div>
         <div class="landing-slogan">Ndryshimet na bëjnë unike.</div>
+        <div class="note small" style="margin-top:14px; text-align:left">
+          <b>Qëllimi:</b> informim + stimulim në mënyrë të qetë dhe miqësore për fëmijët.
+          <span class="muted" style="display:block; margin-top:6px; color:rgba(255,255,255,.72)">
+            Ky website nuk zëvendëson vlerësimin profesional.
+          </span>
+        </div>
       </div>
     </section>
   `;
 
   const enter = document.getElementById("enterGencare");
-  const open = () => {
-    // shko te faqja e dytë (home scrollable)
-    state.routeStack = []; // start clean
-    state.route = "home";
-    render();
-  };
+  const open = () => { state.routeStack = []; state.route = "home"; render(); };
   enter.addEventListener("click", open);
   enter.addEventListener("keydown", (e)=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); open(); } });
 }
 
 /* =======================
-   HOME (faqja 2)
+   HOME
 ======================= */
 function renderHome(){
   const u = currentUser();
@@ -940,11 +1066,11 @@ function renderHome(){
       <div style="height:12px"></div>
 
       <div class="menu-grid">
-        ${menuBtn("Manuali i përdorimit","Si të përdoret website-i (burime të besueshme).","manual")}
+        ${menuBtn("Manuali i përdorimit","Si të përdoret website-i (burime & orientim).","manual")}
         ${menuBtn("Profili i fëmijës","Krijo profil (username unik) dhe shiko progresin.","profile")}
         ${menuBtn("Informohu","Kliko në ADN dhe lexo informacionin për çdo temë.","informohu")}
         ${menuBtn("Lojrat","6 lojëra me 5 nivele – me pauzë & resume.","games")}
-        ${menuBtn("Fillo Ndryshimin","Pyetësor diagnostifikues (12 pyetje).","change")}
+        ${menuBtn("Fillo Ndryshimin","Pyetësor orientues (12 pyetje).","change")}
         ${menuBtn("Rutina Ime","Pyetësor (20) + plan javor me checklist.","routine")}
       </div>
 
@@ -1004,7 +1130,7 @@ function renderManual(){
 
       <div class="note">
         <b>Burimet</b><br>
-        Përmbajtja është e formuluar në stil edukativ dhe orientues, duke u bazuar në parime të përgjithshme të praktikave të njohura (psikoedukim, struktura, vizualë, rutinë).
+        Përmbajtja është e formuluar në stil edukativ dhe orientues (psikoedukim, strukturë, vizualë, rutinë).
         Për vendime klinike, konsultohuni me profesionistë.
       </div>
 
@@ -1017,6 +1143,7 @@ function renderManual(){
 
 /* =======================
    PROFILE (Sign up / Login + Progress)
+   (Core logic unchanged)
 ======================= */
 function renderProfile(){
   const u = currentUser();
@@ -1064,7 +1191,7 @@ function renderProfile(){
 
         <div class="glass card-pad stack">
           <div class="section-title">Pse profil?</div>
-          <div class="muted small">
+          <div class="muted small" style="color:rgba(255,255,255,.78)">
             Profili mban shënim:
             <ul>
               <li>Progresin në lojëra (nivel/yll)</li>
@@ -1089,7 +1216,6 @@ function renderProfile(){
       const users = getUsers();
       const username = String(data.username||"").trim().toLowerCase();
 
-      // validations
       if(username.length < 3){
         msg.style.display="block"; msg.textContent="Username duhet të ketë të paktën 3 karaktere."; return;
       }
@@ -1105,7 +1231,7 @@ function renderProfile(){
 
       const user = ensureUserProgress({
         username,
-        password: pw, // demo/local – jo server
+        password: pw,
         parentName: data.parentName.trim(),
         childName: data.childName.trim(),
         childAge: Number(data.childAge),
@@ -1120,7 +1246,6 @@ function renderProfile(){
       setUsers(users);
       setSession({ username });
 
-      // ruaj mesazh + refresh i faqes (si kërkesa)
       msg.style.display="block";
       msg.textContent="Të dhënat tuaja u ruajtën. Duke rifreskuar…";
       setTimeout(()=>{ renderProfile(); }, 650);
@@ -1129,9 +1254,8 @@ function renderProfile(){
     return;
   }
 
-  // Logged in view (progress)
   const fixed = ensureUserProgress(u);
-  updateUser(fixed); // ensure fields exist
+  updateUser(fixed);
   const overall = computeOverallProgress(fixed);
 
   const streak = fixed.progress?.routines?.streak || 0;
@@ -1164,16 +1288,16 @@ function renderProfile(){
 
           <div class="note">
             <b>Streak i rutinës:</b> <b>${streak}</b> ditë rresht<br>
-            <span class="tiny muted">Dita e fundit e plotësuar: ${esc(lastDay || "—")}</span>
+            <span class="tiny muted" style="color:rgba(255,255,255,.70)">Dita e fundit e plotësuar: ${esc(lastDay || "—")}</span>
           </div>
 
           <div>
             <div class="row" style="justify-content:space-between">
-              <b>Progresi i lojërave</b>
+              <b style="color:rgba(255,255,255,.92)">Progresi i lojërave</b>
               <span class="muted small">${overall.done}/${overall.total}</span>
             </div>
             <div class="progressbar"><div style="width:${overall.pct}%"></div></div>
-            <div class="tiny muted" style="margin-top:6px">Përfunduar: <b>${overall.pct}%</b></div>
+            <div class="tiny muted" style="margin-top:6px; color:rgba(255,255,255,.70)">Përfunduar: <b>${overall.pct}%</b></div>
           </div>
         </div>
 
@@ -1187,7 +1311,7 @@ function renderProfile(){
               return `
                 <div class="task">
                   <div>
-                    <b>${esc(g.title)}</b><div class="tiny muted">${doneLvls}/5 nivele</div>
+                    <b>${esc(g.title)}</b><div class="tiny muted" style="color:rgba(255,255,255,.70)">${doneLvls}/5 nivele</div>
                   </div>
                   <span class="pill secondary">${doneLvls===5 ? "✅" : "⭐"}</span>
                 </div>
@@ -1258,7 +1382,6 @@ function renderInformohu(){
         ${helixSVG(.95)}
 
         ${INFO_TOPICS.map((t, i)=>{
-          // positions along helix
           const pos = [
             {x: "62%", y:"18%"},
             {x: "48%", y:"30%"},
@@ -1268,8 +1391,15 @@ function renderInformohu(){
             {x: "50%", y:"83%"},
           ][i];
 
-          const colors = ["--walnut","--tabacco","--coffee","--chai","--stone","--walnut"];
-          const c = getComputedStyle(document.documentElement).getPropertyValue(colors[i]).trim();
+          const c = [
+            "rgba(58,174,111,.95)",
+            "rgba(122,230,174,.90)",
+            "rgba(191,233,255,.80)",
+            "rgba(255,213,138,.80)",
+            "rgba(255,155,199,.75)",
+            "rgba(203,185,255,.75)"
+          ][i];
+
           return `
             <div class="marker" data-topic="${i}" style="left:${pos.x}; top:${pos.y}">
               <span style="background:${c}">!</span>
@@ -1282,13 +1412,13 @@ function renderInformohu(){
         <div>
           <div class="section-title">Informohu</div>
           <div class="muted small">
-            Kliko shenjën <b>!</b> në ADN për të hapur temën përkatëse. Pastaj mund të vazhdosh me shigjetë tek tema tjetër.
+            Kliko shenjën <b>!</b> në ADN për të hapur temën përkatëse. Pastaj vazhdo me shigjeta te tema tjetër.
           </div>
         </div>
 
         <div class="note">
           <b>Temat:</b>
-          <ul class="small" style="margin:8px 0 0; color:rgba(31,26,22,.74)">
+          <ul class="small" style="margin:8px 0 0; color:rgba(255,255,255,.78); line-height:1.55">
             ${INFO_TOPICS.map(t=>`<li>${esc(t.title)}</li>`).join("")}
           </ul>
         </div>
@@ -1331,7 +1461,7 @@ function renderInfoTopic(){
 
       <div class="note">
         <b>Informacion i përgjithshëm</b>
-        <ul class="small" style="margin:8px 0 0; color:rgba(31,26,22,.76); line-height:1.55">
+        <ul class="small" style="margin:8px 0 0; color:rgba(255,255,255,.82); line-height:1.6">
           ${t.bullets.map(b=>`<li>${esc(b)}</li>`).join("")}
         </ul>
       </div>
@@ -1376,7 +1506,7 @@ function renderGamesMenu(){
       </div>
 
       <div class="note tiny">
-        <b>Pauz/Resume:</b> Në lojë do shohësh <b>pauzë</b> (▶) dhe <b>resume</b> (||) sipas ikonave standarde të kërkuara.
+        <b>Pauz/Resume:</b> Në lojë do shohësh <b>pauzë</b> (▶) dhe <b>resume</b> (||) sipas ikonave standarde.
       </div>
 
       <div class="row">
@@ -1434,15 +1564,11 @@ function renderGameLevels(){
 }
 
 /* =======================
-   GAME ENGINE (simple, functional)
-   - 6 games, each level changes difficulty
-   - Pause/Resume as requested (Pause=▶, Resume=||)
+   GAME PLAY (core unchanged)
 ======================= */
 function renderGamePlay(){
   const g = GAMES.find(x=>x.id===state.selectedGameId) || GAMES[0];
   const lvl = state.selectedLevel || 1;
-
-  // if no profile, we still allow play but won't save progress
   const u = currentUser();
 
   view.innerHTML = `
@@ -1465,12 +1591,8 @@ function renderGamePlay(){
           <span class="hud-chip" id="hudGoal">Qëllimi: —</span>
           <span class="hud-chip" id="hudScore">Progres: 0%</span>
           <div class="row" style="gap:10px">
-            <div class="iconbtn" id="pauseBtn" title="Pauzë (▶)">
-              <div class="tri"></div>
-            </div>
-            <div class="iconbtn" id="resumeBtn" title="Vazhdo (||)" style="display:none">
-              <div class="bars"><i></i><i></i></div>
-            </div>
+            <div class="iconbtn" id="pauseBtn" title="Pauzë (▶)"><div class="tri"></div></div>
+            <div class="iconbtn" id="resumeBtn" title="Vazhdo (||)" style="display:none"><div class="bars"><i></i><i></i></div></div>
           </div>
         </div>
 
@@ -1512,9 +1634,7 @@ function renderGamePlay(){
 
   pauseBtn.addEventListener("click", ()=> runtime.setPaused(true));
   resumeBtn.addEventListener("click", ()=> runtime.setPaused(false));
-  endBtn.addEventListener("click", ()=>{
-    finishGame(false);
-  });
+  endBtn.addEventListener("click", ()=>{ finishGame(false); });
 
   function setGoal(s){ hudGoal.textContent = "Qëllimi: " + s; }
   function setPct(p){ hudScore.textContent = "Progres: " + p + "%"; }
@@ -1524,7 +1644,6 @@ function renderGamePlay(){
     state.gameRuntime = null;
 
     if(completed){
-      // save progress
       const u2 = currentUser();
       if(u2){
         const uu = ensureUserProgress(u2);
@@ -1549,7 +1668,6 @@ function renderGamePlay(){
     }
   }
 
-  // Choose game by id
   if(g.id === "komunikimi") return game_Communication(lvl, gameArea, setGoal, setPct, runtime, finishGame);
   if(g.id === "social") return game_Social(lvl, gameArea, setGoal, setPct, runtime, finishGame);
   if(g.id === "perqendrim") return game_Focus(lvl, gameArea, setGoal, setPct, runtime, finishGame);
@@ -1558,7 +1676,7 @@ function renderGamePlay(){
   if(g.id === "koordinim") return game_Coordination(lvl, gameArea, setGoal, setPct, runtime, finishGame);
 }
 
-/* ==== GAME 1: Communication (match word → picture text) ==== */
+/* ==== GAME 1: Communication ==== */
 function game_Communication(lvl, root, setGoal, setPct, rt, finish){
   const pool = [
     {w:"Ujë", p:"🫗"},
@@ -1612,7 +1730,7 @@ function game_Communication(lvl, root, setGoal, setPct, rt, finish){
   }
 }
 
-/* ==== GAME 2: Social (choose best response in simple scenarios) ==== */
+/* ==== GAME 2: Social ==== */
 function game_Social(lvl, root, setGoal, setPct, rt, finish){
   const scenarios = [
     {q:"Një shok thotë: “A luajmë bashkë?”", a:["Po, hajde të luajmë.","Ik.","Nuk e dëgjoj."], ok:0},
@@ -1642,12 +1760,8 @@ function game_Social(lvl, root, setGoal, setPct, rt, finish){
       t.addEventListener("click", ()=>{
         if(rt.isPaused()) return;
         const chosen = Number(t.getAttribute("data-i"));
-        if(chosen === s.ok){
-          t.classList.add("good");
-          score++;
-        }else{
-          t.classList.add("bad");
-        }
+        if(chosen === s.ok){ t.classList.add("good"); score++; }
+        else{ t.classList.add("bad"); }
         setTimeout(()=>{
           idx++;
           setPct(Math.round((idx/rounds)*100));
@@ -1660,7 +1774,7 @@ function game_Social(lvl, root, setGoal, setPct, rt, finish){
   draw();
 }
 
-/* ==== GAME 3: Focus (memory sequence) ==== */
+/* ==== GAME 3: Focus ==== */
 function game_Focus(lvl, root, setGoal, setPct, rt, finish){
   const size = Math.min(12, 6+lvl*2);
   const seqLen = Math.min(8, 3+lvl);
@@ -1676,9 +1790,7 @@ function game_Focus(lvl, root, setGoal, setPct, rt, finish){
   function newRound(){
     seq = [];
     input = [];
-    for(let i=0;i<seqLen;i++){
-      seq.push(nums[Math.floor(Math.random()*nums.length)]);
-    }
+    for(let i=0;i<seqLen;i++) seq.push(nums[Math.floor(Math.random()*nums.length)]);
     showing = true;
     render(true);
     showSequence();
@@ -1688,11 +1800,7 @@ function game_Focus(lvl, root, setGoal, setPct, rt, finish){
     let i=0;
     const highlight = () => {
       if(rt.isPaused()) { rt.timeout = setTimeout(highlight, 200); return; }
-      if(i>=seq.length){
-        showing=false;
-        render(false);
-        return;
-      }
+      if(i>=seq.length){ showing=false; render(false); return; }
       const n = seq[i];
       const el = root.querySelector(`[data-n="${n}"]`);
       if(el){
@@ -1734,9 +1842,7 @@ function game_Focus(lvl, root, setGoal, setPct, rt, finish){
         }
 
         setPct(Math.round((input.length/seqLen)*100));
-        if(input.length >= seqLen){
-          setTimeout(()=>finish(true), 320);
-        }
+        if(input.length >= seqLen) setTimeout(()=>finish(true), 320);
       });
     });
   }
@@ -1744,7 +1850,7 @@ function game_Focus(lvl, root, setGoal, setPct, rt, finish){
   newRound();
 }
 
-/* ==== GAME 4: Emotions (match face to word) ==== */
+/* ==== GAME 4: Emotions ==== */
 function game_Emotions(lvl, root, setGoal, setPct, rt, finish){
   const faces = [
     {w:"I gëzuar", f:"😊"},
@@ -1791,7 +1897,7 @@ function game_Emotions(lvl, root, setGoal, setPct, rt, finish){
   round();
 }
 
-/* ==== GAME 5: Sensory (choose calmer option - gentle) ==== */
+/* ==== GAME 5: Sensory ==== */
 function game_Sensory(lvl, root, setGoal, setPct, rt, finish){
   const pairs = [
     {q:"Zhurmë e lartë apo zë i butë?", a:["Zë i butë","Zhurmë e lartë"], ok:0},
@@ -1832,7 +1938,7 @@ function game_Sensory(lvl, root, setGoal, setPct, rt, finish){
   draw();
 }
 
-/* ==== GAME 6: Coordination (tap appearing target calmly) ==== */
+/* ==== GAME 6: Coordination ==== */
 function game_Coordination(lvl, root, setGoal, setPct, rt, finish){
   const needed = Math.max(8, 6 + lvl*4);
   let hit = 0;
@@ -1841,7 +1947,7 @@ function game_Coordination(lvl, root, setGoal, setPct, rt, finish){
 
   root.innerHTML = `
     <div class="note small">Prek shenjën kur shfaqet. Merr kohën tënde.</div>
-    <div id="arena" class="glass" style="height:320px; border-radius:22px; position:relative; overflow:hidden; margin-top:10px; background: rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18)"></div>
+    <div id="arena" class="glass" style="height:320px; border-radius:22px; position:relative; overflow:hidden; margin-top:10px; background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14)"></div>
   `;
   const arena = document.getElementById("arena");
 
@@ -1851,13 +1957,13 @@ function game_Coordination(lvl, root, setGoal, setPct, rt, finish){
     arena.innerHTML = "";
     const b = document.createElement("div");
     b.className = "marker";
-    b.style.width = "58px";
-    b.style.height = "58px";
+    b.style.width = "60px";
+    b.style.height = "60px";
     b.style.borderRadius = "18px";
     b.style.left = (10 + Math.random()*80) + "%";
     b.style.top = (10 + Math.random()*70) + "%";
 
-    const c = ["var(--tabacco)","var(--chai)","var(--walnut)","var(--stone)","var(--coffee)"][Math.floor(Math.random()*5)];
+    const c = ["rgba(58,174,111,.95)","rgba(122,230,174,.90)","rgba(191,233,255,.75)","rgba(255,213,138,.75)","rgba(255,155,199,.70)"][Math.floor(Math.random()*5)];
     b.innerHTML = `<span style="background:${c}; width:34px; height:34px">●</span>`;
     arena.appendChild(b);
 
@@ -1870,7 +1976,6 @@ function game_Coordination(lvl, root, setGoal, setPct, rt, finish){
       rt.timeout = setTimeout(spawn, Math.max(300, 900 - lvl*120));
     });
 
-    // auto-move on timeout (gentle)
     rt.timeout = setTimeout(spawn, Math.max(700, 1400 - lvl*120));
   }
 
@@ -1947,11 +2052,10 @@ function renderChange(){
     const msg = interpretPct(pct);
     text.innerHTML = `
       <div><b>Probabilitet orientues:</b> <span style="font-size:22px">${pct}%</span></div>
-      <div class="small muted" style="margin-top:6px">${esc(msg)}</div>
-      <div class="tiny muted" style="margin-top:10px">Këshillë: Nëse keni shqetësime, konsultohuni me specialist.</div>
+      <div class="small muted" style="margin-top:6px; color:rgba(255,255,255,.78)">${esc(msg)}</div>
+      <div class="tiny muted" style="margin-top:10px; color:rgba(255,255,255,.70)">Këshillë: Nëse keni shqetësime, konsultohuni me specialist.</div>
     `;
 
-    // save to profile
     const u = currentUser();
     if(u){
       const uu = ensureUserProgress(u);
@@ -1975,7 +2079,7 @@ function renderChange(){
 }
 
 /* =======================
-   Rutina Ime (20 Q + weekly plan + streak)
+   Rutina Ime (20 Q + Plan)
 ======================= */
 function renderRoutine(){
   const questions = [
@@ -2053,17 +2157,12 @@ function renderRoutine(){
     const score = scoreScale(form, questions.length, "r");
     const pct = Math.round((score.maxScore? (score.sum/score.maxScore)*100 : 0));
 
-    // Based on profile + pct, choose emphasis
     const emphasis = getEmphasisFromAnswers(score.answers, pct);
-
-    // Build weekly plan (7 days, 3 tasks/day)
     const plan = buildWeeklyPlan(emphasis);
 
-    // Store plan in localStorage per-user
     const key = routineKeyForUser();
     localStorage.setItem(key, JSON.stringify({ createdAt: Date.now(), emphasis, plan, checks:{} }));
 
-    // Save result to profile too
     const uu = currentUser();
     if(uu){
       const u2 = ensureUserProgress(uu);
@@ -2084,11 +2183,8 @@ function renderRoutine(){
     await saveElementAsImage(document.getElementById("routineCard"));
   });
 
-  // If existing plan exists, show it (nice UX)
   const existing = loadRoutine();
-  if(existing){
-    showPlan(existing.plan, existing.emphasis, true);
-  }
+  if(existing) showPlan(existing.plan, existing.emphasis, true);
 
   function showPlan(plan, emphasis, existing=false){
     form.classList.add("hidden");
@@ -2096,7 +2192,9 @@ function renderRoutine(){
 
     planNote.innerHTML = `
       <b>Fokus:</b> ${esc(emphasis.join(", "))}<br>
-      <span class="muted">Plani është ${existing ? "i ruajtur nga më parë" : "gjeneruar tani"} dhe mund të kontrollohet me checklist.</span>
+      <span class="muted" style="color:rgba(255,255,255,.70)">
+        Plani është ${existing ? "i ruajtur nga më parë" : "gjeneruar tani"} dhe mund të kontrollohet me checklist.
+      </span>
     `;
 
     const store = loadRoutine() || { checks:{} };
@@ -2109,7 +2207,7 @@ function renderRoutine(){
       return `
         <div class="glass card-pad stack">
           <div class="row" style="justify-content:space-between">
-            <b>${esc(day.name)}</b>
+            <b style="color:rgba(255,255,255,.92)">${esc(day.name)}</b>
             <span class="pill secondary">${allChecked ? "✅ Dita e plotë" : "☑️ Checklist"}</span>
           </div>
           ${day.tasks.map((t, ti)=>{
@@ -2119,7 +2217,7 @@ function renderRoutine(){
               <div class="task">
                 <div>
                   <b>${esc(t.title)}</b>
-                  <div class="tiny muted">${esc(t.how)}</div>
+                  <div class="tiny muted" style="color:rgba(255,255,255,.70)">${esc(t.how)}</div>
                 </div>
                 <div class="check ${on ? "on":""}" data-check="${k}">${on ? "✓" : ""}</div>
               </div>
@@ -2141,13 +2239,12 @@ function renderRoutine(){
       });
     });
 
-    // initial streak update too
     maybeUpdateStreak(plan, checks);
   }
 }
 
 /* =======================
-   RESULT placeholder (not used much)
+   RESULT placeholder
 ======================= */
 function renderResult(){
   view.innerHTML = `<div class="glass card-pad">Rezultat.</div>`;
@@ -2204,12 +2301,11 @@ function interpretPct(pct){
 }
 
 /* =======================
-   ROUTINE PLAN LOGIC
+   ROUTINE PLAN LOGIC (core unchanged)
 ======================= */
 function getEmphasisFromAnswers(answers, pct){
-  // answers are 1..3; take top buckets
   const buckets = {
-    "Komunikimi": [10], // question index approximate mapping
+    "Komunikimi": [10],
     "Socializimi": [4,11,17],
     "Përqendrimi": [14,5],
     "Sensorjale": [1,2],
@@ -2269,71 +2365,46 @@ function buildWeeklyPlan(emphasis){
   const days = ["E Hënë","E Martë","E Mërkurë","E Enjte","E Premte","E Shtunë","E Diel"];
   const picks = emphasis.flatMap(k => (bank[k]||[]).map(x=>({...x, tag:k})));
 
-  const plan = days.map((name, di)=>{
+  return days.map((name, di)=>{
     const tasks = [];
-    // 3 tasks/day
     for(let i=0;i<3;i++){
       const item = picks[(di*3+i) % picks.length] || {title:"Aktivitet i qetë", how:"Lexim i shkurtër dhe pushim.", tag:"—"};
-      tasks.push({
-        title: `${item.title} (${item.tag})`,
-        how: item.how
-      });
+      tasks.push({ title: `${item.title} (${item.tag})`, how: item.how });
     }
     return { name, tasks };
   });
-
-  return plan;
 }
 
 function routineKeyForUser(){
   const u = currentUser();
   return u ? `${LS_ROUTINE}_${u.username}` : `${LS_ROUTINE}_guest`;
 }
-function loadRoutine(){
-  try{
-    const raw = localStorage.getItem(routineKeyForUser());
-    return raw ? JSON.parse(raw) : null;
-  }catch(e){ return null; }
-}
-function saveRoutine(obj){
-  localStorage.setItem(routineKeyForUser(), JSON.stringify(obj));
-}
+function loadRoutine(){ try{ const raw = localStorage.getItem(routineKeyForUser()); return raw ? JSON.parse(raw) : null; }catch(e){ return null; } }
+function saveRoutine(obj){ localStorage.setItem(routineKeyForUser(), JSON.stringify(obj)); }
 
 function maybeUpdateStreak(plan, checks){
   const u = currentUser();
   if(!u) return;
 
-  // if any day fully checked today, increment streak (once per day)
   const today = new Date().toISOString().slice(0,10);
 
-  // Determine if at least one "day block" is fully checked
-  const anyFullDay = plan.some((day, di)=>{
-    return day.tasks.every((_, ti)=>checks[`d${di}_t${ti}`]===true);
-  });
-
+  const anyFullDay = plan.some((day, di)=> day.tasks.every((_, ti)=>checks[`d${di}_t${ti}`]===true));
   if(!anyFullDay) return;
 
   const uu = ensureUserProgress(u);
   uu.progress.routines = uu.progress.routines || { streak:0, lastDay:null };
 
-  // If lastDay is today, do nothing
   if(uu.progress.routines.lastDay === today) return;
 
-  // If lastDay is yesterday, streak++
   const last = uu.progress.routines.lastDay;
   if(last){
-    const lastDate = new Date(last+"T00:00:00");
-    const yest = new Date(Date.now() - 86400000);
-    const yestKey = yest.toISOString().slice(0,10);
-    if(last === yestKey){
-      uu.progress.routines.streak = (uu.progress.routines.streak||0) + 1;
-    }else{
-      // reset to 1
-      uu.progress.routines.streak = 1;
-    }
+    const yest = new Date(Date.now() - 86400000).toISOString().slice(0,10);
+    if(last === yest) uu.progress.routines.streak = (uu.progress.routines.streak||0) + 1;
+    else uu.progress.routines.streak = 1;
   }else{
     uu.progress.routines.streak = 1;
   }
+
   uu.progress.routines.lastDay = today;
   updateUser(uu);
 }
