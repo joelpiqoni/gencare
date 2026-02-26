@@ -5,205 +5,203 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>GENCARE • GENE4LIFE</title>
 
-  <!-- Save as image -->
+  <!-- Save to gallery -->
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+  <!-- Cute font (optional, falls back safely) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      /* ======= GENCARE “Green + Friends” Palette ======= */
-      --g0:#07160F;        /* deep forest */
-      --g1:#0B2A1A;        /* forest */
-      --g2:#11452A;        /* pine */
-      --g3:#1F6B3E;        /* leaf */
-      --g4:#3AAE6F;        /* mint */
-      --g5:#7AE6AE;        /* soft neon mint */
+      /* MAIN: GREEN PALETTE (shades) */
+      --g-950:#0a1f16;
+      --g-900:#0e2b1e;
+      --g-850:#123224;
+      --g-800:#143a28;
+      --g-700:#1b4d35;
+      --g-600:#236b47;
+      --g-500:#2f8a5e;
+      --g-400:#43a874;
+      --g-300:#67c08f;
+      --g-200:#9fe3c1;
+      --g-150:#c9f2dd;
+      --g-100:#eafff4;
 
-      --cream:#F3F6EE;
-      --sand:#E7E2D6;
+      /* ACCENTS (soft + kid-friendly, used sparingly) */
+      --sun:#ffd36a;
+      --sky:#7fd7ff;
+      --berry:#ff78b7;
+      --tanger:#ff9a6a;
+      --violet:#b49bff;
 
-      --sky:#BFE9FF;       /* playful */
-      --sun:#FFD58A;       /* warm */
-      --berry:#FF9BC7;     /* candy */
-      --lav:#CBB9FF;       /* lavender */
-
-      --ink:#07110C;
-      --text: rgba(7,17,12,.92);
-      --muted: rgba(7,17,12,.66);
-
-      --card: rgba(255,255,255,.12);
-      --card2: rgba(255,255,255,.08);
-      --stroke: rgba(255,255,255,.22);
-      --stroke2: rgba(0,0,0,.18);
-
-      --shadow: 0 18px 55px rgba(0,0,0,.30);
-      --shadowSoft: 0 14px 30px rgba(0,0,0,.18);
+      /* UI */
+      --ink:#0c1712;
+      --ink2:rgba(12,23,18,.72);
+      --card:rgba(255,255,255,.75);
+      --card2:rgba(255,255,255,.58);
+      --stroke:rgba(255,255,255,.55);
+      --shadow: 0 18px 55px rgba(0,0,0,.18);
+      --shadow2: 0 10px 28px rgba(0,0,0,.14);
       --radius: 24px;
-
-      --easeOut: cubic-bezier(.2,.9,.2,1);
-      --easeIn: cubic-bezier(.5,.0,.8,.2);
+      --radius2: 18px;
     }
 
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
-      color:var(--text);
+      font-family:"Nunito", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color:var(--ink);
       overflow-x:hidden;
 
-      /* Animated layered background (greens + playful accents) */
+      /* Base background */
       background:
-        radial-gradient(1100px 800px at 20% 10%, rgba(122,230,174,.42), transparent 55%),
-        radial-gradient(900px 700px at 90% 20%, rgba(191,233,255,.26), transparent 55%),
-        radial-gradient(900px 700px at 25% 85%, rgba(255,213,138,.20), transparent 55%),
-        radial-gradient(900px 700px at 85% 88%, rgba(255,155,199,.18), transparent 55%),
-        linear-gradient(135deg, rgba(7,22,15,1), rgba(11,42,26,1));
-      animation: bgShift 14s var(--easeOut) infinite alternate;
-    }
-    @keyframes bgShift{
-      0%{ filter: saturate(1.06) brightness(.98); }
-      100%{ filter: saturate(1.18) brightness(1.02); }
+        radial-gradient(1200px 800px at 15% 10%, rgba(67,192,143,.30), rgba(10,31,22,.0) 60%),
+        radial-gradient(900px 700px at 85% 25%, rgba(127,215,255,.20), rgba(10,31,22,.0) 62%),
+        radial-gradient(1100px 900px at 60% 90%, rgba(255,120,183,.10), rgba(10,31,22,.0) 60%),
+        linear-gradient(160deg, var(--g-950), var(--g-900) 35%, var(--g-850) 70%, var(--g-900));
     }
 
-    a{color:inherit; text-decoration:none}
+    a{color:inherit;text-decoration:none}
     button{font:inherit; cursor:pointer}
     .hidden{display:none !important}
-    .tiny{font-size:12px}
-    .small{font-size:13px}
-    .muted{color:var(--muted)}
-    h1,h2,h3{margin:0}
 
-    /* ======= Doodle layer: child-drawn stars + squiggles (animated) ======= */
-    body:before{
-      content:"";
-      position:fixed; inset:-10%;
-      pointer-events:none;
-      opacity:.55;
-      mix-blend-mode: screen;
-
-      background-image:
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='520' height='520' viewBox='0 0 520 520'%3E%3Cg fill='none' stroke-linecap='round'%3E%3Cg stroke='%23BFE9FF' stroke-width='3' opacity='.32'%3E%3Cpath d='M52 96c24-18 48-18 72 0'/%3E%3Cpath d='M68 122c26-18 52-18 78 0'/%3E%3Cpath d='M340 410c26-18 52-18 78 0'/%3E%3Cpath d='M356 436c26-18 52-18 78 0'/%3E%3C/g%3E%3Cg stroke='%237AE6AE' stroke-width='3' opacity='.22'%3E%3Cpath d='M420 92c-18 18-18 42 0 60'/%3E%3Cpath d='M446 98c-18 18-18 42 0 60'/%3E%3Cpath d='M120 320c-18 18-18 42 0 60'/%3E%3Cpath d='M146 326c-18 18-18 42 0 60'/%3E%3C/g%3E%3Cg stroke='%23FFD58A' stroke-width='4' opacity='.18'%3E%3Cpath d='M210 80c18 14 42 14 60 0'/%3E%3Cpath d='M220 104c18 14 42 14 60 0'/%3E%3C/g%3E%3C/g%3E%3Cg opacity='.52'%3E%3Cg fill='none' stroke='%23FFFFFF' stroke-width='3' opacity='.22'%3E%3Cpath d='M92 220l10 18 20 4-14 14 3 20-18-10-18 10 3-20-14-14 20-4z'/%3E%3Cpath d='M452 290l10 18 20 4-14 14 3 20-18-10-18 10 3-20-14-14 20-4z'/%3E%3Cpath d='M262 452l10 18 20 4-14 14 3 20-18-10-18 10 3-20-14-14 20-4z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-      background-size: 520px 520px;
-      background-repeat: repeat;
-      transform: rotate(-3deg);
-      animation: doodleDrift 18s var(--easeOut) infinite alternate;
-      filter: blur(.2px);
-    }
-    @keyframes doodleDrift{
-      0%{ transform: translate(-2%, -1%) rotate(-3deg); }
-      100%{ transform: translate(2%, 1%) rotate(2deg); }
-    }
-
-    /* Grain (soft) */
-    body:after{
-      content:"";
+    /* =========================================================
+       ANIMATED CHILD DOODLES BACKGROUND (stars + hearts + clouds)
+       ========================================================= */
+    .bg{
       position:fixed; inset:0;
       pointer-events:none;
-      opacity:.16;
-      mix-blend-mode: soft-light;
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E");
+      overflow:hidden;
+      z-index:0;
+    }
+    .bg:before{
+      content:"";
+      position:absolute; inset:-20%;
+      opacity:.26;
+      filter: saturate(1.1);
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='560' height='560' viewBox='0 0 560 560'%3E%3Cg fill='none' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M64 92l8 18 20 4-15 14 4 20-17-9-18 9 4-20-15-14 20-4z' stroke='%23C9F2DD' stroke-width='6' opacity='.55'/%3E%3Cpath d='M210 110c14-8 22 8 10 16-11 7-10 18 2 22 14 5 4 26-12 14-10-7-20-6-26 2-10 13-27-2-15-16 7-8 5-18-7-22-16-6-2-28 13-14 8 7 18 6 35-2z' stroke='%2367C08F' stroke-width='6' opacity='.5'/%3E%3Cpath d='M420 88c10-10 24 4 14 14-8 8-6 18 6 20 16 3 7 26-9 18-10-5-20 0-22 10-4 16-27 9-18-8 6-10 2-20-9-24-15-5-2-28 12-16 8 7 18 4 26-4z' stroke='%237FD7FF' stroke-width='6' opacity='.45'/%3E%3Cpath d='M104 320c26-22 44 6 26 26-16 18 0 34 20 28 28-10 34 28 6 34-18 4-28 18-20 34 12 24-24 40-34 16-8-18-26-22-40-8-22 22-48-10-24-28 16-10 16-28 0-38-26-16-8-54 18-34 14 10 32 6 48-10z' stroke='%23FFD36A' stroke-width='6' opacity='.35'/%3E%3Cpath d='M388 338c18-16 30 6 16 20-12 12-2 26 14 22 22-6 24 24 2 26-14 2-20 14-14 26 10 18-18 30-24 12-6-12-18-14-28-4-16 16-34-8-18-20 10-7 10-18 0-24-18-10-6-38 12-24 10 8 22 4 40-6z' stroke='%23FF78B7' stroke-width='6' opacity='.30'/%3E%3Cpath d='M112 490c18-20 44 2 28 20-10 10-8 22 8 24 22 4 14 32-8 24-12-4-24 4-22 16 4 24-30 28-26 4 2-12-8-22-20-20-24 4-30-30-6-26 12 2 20-8 18-20z' stroke='%23B49BFF' stroke-width='6' opacity='.30'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: 560px 560px;
+      animation: doodleDrift 22s linear infinite;
+      transform: rotate(-6deg);
+    }
+    @keyframes doodleDrift{
+      0%{transform: translate3d(-2%, -2%, 0) rotate(-6deg)}
+      50%{transform: translate3d(2%, 1%, 0) rotate(-5deg)}
+      100%{transform: translate3d(-2%, -2%, 0) rotate(-6deg)}
     }
 
-    /* ======= App shell ======= */
+    .sticker{
+      position:absolute;
+      width: 220px; height: 220px;
+      border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%;
+      background:
+        radial-gradient(circle at 35% 30%, rgba(255,255,255,.50), rgba(255,255,255,0) 55%),
+        radial-gradient(circle at 70% 70%, rgba(127,215,255,.18), rgba(255,255,255,0) 55%),
+        linear-gradient(160deg, rgba(67,192,143,.20), rgba(255,120,183,.10));
+      filter: blur(.2px);
+      opacity:.55;
+      animation: floaty 9s ease-in-out infinite;
+      box-shadow: 0 18px 60px rgba(0,0,0,.18);
+    }
+    .st1{left:-60px; top:10vh; animation-duration:10.5s}
+    .st2{right:-90px; top:32vh; width:260px; height:260px; opacity:.45; animation-duration:12.2s}
+    .st3{left:10vw; bottom:-110px; width:300px; height:300px; opacity:.35; animation-duration:13.4s}
+    @keyframes floaty{
+      0%,100%{transform: translateY(0) rotate(-3deg)}
+      50%{transform: translateY(-18px) rotate(3deg)}
+    }
+
+    .twinkle{
+      position:absolute;
+      width:10px; height:10px; border-radius:999px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(255,255,255,.0) 70%);
+      box-shadow: 0 0 22px rgba(255,255,255,.35);
+      opacity:.55;
+      animation: tw 2.8s ease-in-out infinite;
+    }
+    @keyframes tw{0%,100%{transform: scale(.7); opacity:.35} 50%{transform: scale(1.2); opacity:.75}}
+
+    /* =========================================================
+       APP SHELL
+       ========================================================= */
     .app{
       min-height:100%;
       display:flex;
       align-items:center;
       justify-content:center;
       padding:18px;
+      position:relative;
+      z-index:1;
     }
+
     .shell{
-      width:min(1120px, 100%);
+      width:min(1140px, 100%);
       border-radius: 30px;
       background:
-        radial-gradient(1200px 600px at 20% 0%, rgba(122,230,174,.16), transparent 60%),
-        radial-gradient(900px 520px at 100% 30%, rgba(191,233,255,.10), transparent 60%),
-        linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06));
-      border:1px solid rgba(255,255,255,.18);
+        radial-gradient(1200px 700px at 20% 10%, rgba(255,255,255,.40), rgba(255,255,255,.14) 50%, rgba(255,255,255,.06)),
+        linear-gradient(180deg, rgba(255,255,255,.15), rgba(255,255,255,.06));
+      border:1px solid rgba(255,255,255,.30);
       box-shadow: var(--shadow);
       overflow:hidden;
       position:relative;
       backdrop-filter: blur(12px);
     }
 
-    /* ======= Topbar (more playful) ======= */
     .topbar{
       display:flex; align-items:center; justify-content:space-between;
       padding:14px 16px;
-      border-bottom:1px solid rgba(255,255,255,.14);
+      border-bottom:1px solid rgba(255,255,255,.26);
       background:
-        radial-gradient(900px 140px at 25% 0%, rgba(122,230,174,.14), transparent 60%),
-        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
+        radial-gradient(900px 240px at 20% 10%, rgba(67,192,143,.22), rgba(255,255,255,0) 65%),
+        linear-gradient(180deg, rgba(255,255,255,.20), rgba(255,255,255,.08));
     }
-    .brand-mini{
-      display:flex; gap:10px; align-items:center;
+
+    .brand{
+      display:flex; align-items:center; gap:12px;
       font-weight:900;
-      letter-spacing:.10em;
+      letter-spacing:.06em;
       text-transform:uppercase;
       font-size:12px;
-      color: rgba(255,255,255,.88);
+      color: rgba(12,23,18,.88);
+      user-select:none;
     }
-    .badge{
-      width:36px; height:36px; border-radius:14px;
-      display:grid; place-items:center;
-      background:
-        radial-gradient(circle at 30% 30%, rgba(255,255,255,.25), transparent 45%),
-        linear-gradient(135deg, rgba(58,174,111,.92), rgba(17,69,42,.92));
-      border:1px solid rgba(255,255,255,.20);
-      box-shadow: 0 14px 28px rgba(0,0,0,.22);
-      position:relative;
-      overflow:hidden;
-    }
-    .badge:before{
-      content:"";
-      position:absolute; inset:-20%;
-      background:
-        radial-gradient(circle at 30% 10%, rgba(255,255,255,.18), transparent 55%),
-        radial-gradient(circle at 70% 90%, rgba(255,255,255,.10), transparent 60%);
-      transform: rotate(12deg);
-    }
-    .badge span{ position:relative; font-size:18px; }
-    .brand-mini .mutedMini{opacity:.72; font-weight:800}
-
+    .logoMark{ width:34px; height:34px; flex:0 0 auto; filter: drop-shadow(0 10px 18px rgba(0,0,0,.12)); }
+    .brand .sub{ font-weight:900; opacity:.68; letter-spacing:.14em; margin-left:6px; }
     .right-actions{display:flex; gap:10px; align-items:center}
 
-    /* ======= Buttons ======= */
     .pill{
       padding:10px 12px;
       border-radius:999px;
-      border:1px solid rgba(255,255,255,.20);
+      border:1px solid rgba(255,255,255,.40);
       background:
-        radial-gradient(900px 70px at 20% 15%, rgba(255,255,255,.18), transparent 55%),
-        linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06));
-      box-shadow: 0 12px 26px rgba(0,0,0,.18);
-      backdrop-filter: blur(12px);
-      color: rgba(255,255,255,.88);
-      font-weight:800;
+        radial-gradient(220px 60px at 30% 10%, rgba(255,255,255,.60), rgba(255,255,255,.10)),
+        linear-gradient(180deg, rgba(255,255,255,.20), rgba(255,255,255,.08));
+      box-shadow: 0 12px 24px rgba(0,0,0,.12);
+      color: rgba(12,23,18,.86);
+      font-weight:900;
       font-size:13px;
-      transition: transform .14s var(--easeOut), filter .14s var(--easeOut);
+      transition: transform .12s ease, filter .12s ease;
     }
-    .pill.secondary{
-      background:
-        radial-gradient(900px 70px at 20% 15%, rgba(255,255,255,.12), transparent 55%),
-        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
-      opacity:.92;
-    }
+    .pill.secondary{opacity:.86}
     .pill:hover{filter: brightness(1.06)}
     .pill:active{transform: translateY(2px) scale(.99)}
-    .pill:focus{outline:2px solid rgba(122,230,174,.55); outline-offset:2px}
+    .pill:focus{outline:3px solid rgba(103,192,143,.35); outline-offset:2px}
 
-    .content{
-      min-height: calc(100vh - 90px);
-      padding:18px;
-    }
+    .content{ min-height: calc(100vh - 90px); padding:18px; }
 
-    /* ======= Cards ======= */
+    /* =========================================================
+       KID-GLASS CARDS + BUTTONS
+       ========================================================= */
     .glass{
       background:
-        radial-gradient(900px 220px at 20% 10%, rgba(255,255,255,.14), transparent 55%),
-        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
-      border:1px solid rgba(255,255,255,.16);
-      box-shadow: var(--shadowSoft);
+        radial-gradient(800px 220px at 20% 10%, rgba(255,255,255,.65), rgba(255,255,255,.18) 55%, rgba(255,255,255,.12)),
+        linear-gradient(180deg, rgba(255,255,255,.38), rgba(255,255,255,.18));
+      border:1px solid rgba(255,255,255,.45);
+      box-shadow: var(--shadow2);
       backdrop-filter: blur(14px);
       border-radius: var(--radius);
       position:relative;
@@ -213,61 +211,95 @@
       content:"";
       position:absolute; inset:-2px;
       background:
-        radial-gradient(800px 260px at 22% 0%, rgba(122,230,174,.10), transparent 60%),
-        radial-gradient(700px 240px at 90% 0%, rgba(191,233,255,.08), transparent 60%);
+        radial-gradient(900px 260px at 15% 0%, rgba(103,192,143,.25), transparent 60%),
+        radial-gradient(900px 260px at 85% 0%, rgba(127,215,255,.18), transparent 60%),
+        radial-gradient(700px 260px at 70% 120%, rgba(255,120,183,.10), transparent 65%);
       pointer-events:none;
+      opacity:.9;
     }
     .glass > *{position:relative}
 
     .card-pad{padding:18px}
     .stack{display:flex; flex-direction:column; gap:12px}
     .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
-    .grid2{display:grid; grid-template-columns: 1.1fr .9fr; gap:16px}
+    .grid2{display:grid; grid-template-columns: 1.05fr .95fr; gap:16px}
     @media (max-width: 900px){ .grid2{grid-template-columns:1fr} }
+
+    h1,h2,h3{margin:0}
+    .muted{color:var(--ink2)}
+    .small{font-size:13px}
+    .tiny{font-size:12px}
 
     .section-title{
       font-weight:950;
-      letter-spacing:.02em;
+      letter-spacing:.01em;
       font-size:18px;
-      color: rgba(255,255,255,.92);
-      text-shadow: 0 10px 28px rgba(0,0,0,.22);
+      color: rgba(12,23,18,.92);
     }
 
-    /* ======= Inputs ======= */
     .field{display:flex; flex-direction:column; gap:6px}
-    label{font-size:12px; opacity:.82; font-weight:850; color: rgba(255,255,255,.80)}
+    label{font-size:12px; opacity:.84; font-weight:900}
     input, select, textarea{
       width:100%;
-      padding:11px 12px;
+      padding:12px 12px;
       border-radius: 16px;
-      border:1px solid rgba(255,255,255,.18);
-      background: rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.55);
+      background: rgba(255,255,255,.52);
       outline:none;
-      color: rgba(255,255,255,.92);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.12);
-      backdrop-filter: blur(12px);
+      color: rgba(12,23,18,.90);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.60);
+      transition: transform .10s ease, box-shadow .10s ease, border-color .10s ease;
+    }
+    input:focus, textarea:focus, select:focus{
+      border-color: rgba(103,192,143,.65);
+      box-shadow: 0 0 0 4px rgba(103,192,143,.18), inset 0 1px 0 rgba(255,255,255,.65);
     }
     textarea{min-height:88px; resize:vertical}
-    input::placeholder, textarea::placeholder{color: rgba(255,255,255,.55)}
 
     .note{
       padding:12px 14px;
       border-radius: 18px;
-      background: rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.14);
-      color: rgba(255,255,255,.86);
+      background:
+        radial-gradient(260px 80px at 20% 0%, rgba(255,211,106,.26), rgba(255,255,255,0) 65%),
+        linear-gradient(180deg, rgba(255,255,255,.55), rgba(255,255,255,.40));
+      border:1px dashed rgba(67,192,143,.55);
+      color: rgba(12,23,18,.80);
+      box-shadow: 0 12px 26px rgba(0,0,0,.10);
     }
 
-    .divider{height:1px; background: rgba(255,255,255,.14); margin: 8px 0}
+    .view-anim{animation: in .26s cubic-bezier(.2,.8,.2,1)}
+    @keyframes in{from{opacity:0; transform: translateY(10px) scale(.99)} to{opacity:1; transform:none}}
 
-    /* ======= Page transitions (smoother) ======= */
-    .fade-in{animation: fade .28s var(--easeOut)}
-    @keyframes fade{
-      from{opacity:0; transform: translateY(10px) scale(.995); filter: blur(1px)}
-      to{opacity:1; transform:none; filter: blur(0)}
+    .bigbtn{
+      padding:16px 16px;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.50);
+      background:
+        radial-gradient(500px 150px at 20% 10%, rgba(255,255,255,.70), rgba(255,255,255,.18) 55%, rgba(255,255,255,.12)),
+        linear-gradient(180deg, rgba(255,255,255,.35), rgba(255,255,255,.16));
+      box-shadow: 0 16px 40px rgba(0,0,0,.14);
+      text-align:left;
+      position:relative;
+      overflow:hidden;
+      transition: transform .12s ease, filter .12s ease;
     }
+    .bigbtn:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(700px 200px at 18% 10%, rgba(103,192,143,.25), transparent 60%),
+        radial-gradient(700px 200px at 85% 0%, rgba(127,215,255,.16), transparent 60%);
+      pointer-events:none;
+      opacity:.9;
+    }
+    .bigbtn:hover{filter: brightness(1.05)}
+    .bigbtn:active{transform: translateY(2px) scale(.995)}
+    .bigbtn .t{position:relative; font-weight:950; letter-spacing:.01em; font-size:16px}
+    .bigbtn .d{position:relative; margin-top:6px; color:rgba(12,23,18,.72); font-weight:800; font-size:13px; line-height:1.35}
 
-    /* ======= Landing ======= */
+    /* =========================================================
+       LANDING
+       ========================================================= */
     .landing{
       min-height: 78vh;
       display:flex;
@@ -276,185 +308,148 @@
       padding:26px 16px;
       position:relative;
       overflow:hidden;
-      border-radius: 24px;
+      border-radius: 26px;
 
       background:
-        radial-gradient(900px 600px at 25% 20%, rgba(122,230,174,.22), transparent 55%),
-        radial-gradient(700px 500px at 80% 75%, rgba(255,213,138,.10), transparent 60%),
-        linear-gradient(140deg, rgba(11,42,26,.90), rgba(7,22,15,.95));
-      border:1px solid rgba(255,255,255,.10);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+        radial-gradient(1100px 700px at 20% 20%, rgba(103,192,143,.36), rgba(10,31,22,0) 60%),
+        radial-gradient(900px 650px at 85% 30%, rgba(127,215,255,.18), rgba(10,31,22,0) 62%),
+        linear-gradient(160deg, rgba(14,43,30,.92), rgba(18,50,36,.80));
+      border:1px solid rgba(255,255,255,.20);
+      box-shadow: 0 22px 70px rgba(0,0,0,.22);
     }
 
     .landing:before{
       content:"";
-      position:absolute; inset:-50%;
-      background:
-        radial-gradient(900px 600px at 30% 20%, rgba(191,233,255,.12), transparent 55%),
-        radial-gradient(700px 500px at 80% 70%, rgba(122,230,174,.14), transparent 60%),
-        radial-gradient(650px 450px at 15% 85%, rgba(255,155,199,.10), transparent 60%),
-        linear-gradient(120deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      animation: drift 12s var(--easeOut) infinite alternate;
+      position:absolute; inset:-30%;
+      opacity:.18;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='520' height='520' viewBox='0 0 520 520'%3E%3Cg fill='none' stroke-linecap='round' stroke-linejoin='round' stroke-width='6'%3E%3Cpath d='M70 120l10 22 24 5-18 16 5 24-21-11-22 11 5-24-18-16 24-5z' stroke='%23E9FFF4' opacity='.55'/%3E%3Cpath d='M340 140c20-16 40 10 20 26-16 12-10 30 8 30 26 0 20 36-6 32-18-2-30 12-24 28 10 26-28 36-34 12-4-18-24-22-38-8-22 20-46-12-24-26 14-10 14-28 0-38-22-14-2-48 20-30 12 10 26 8 58-2z' stroke='%2367C08F' opacity='.45'/%3E%3Cpath d='M170 320c10-10 22 2 14 12-6 8-2 16 8 16 14 0 10 20-4 18-10-2-16 6-12 16 6 14-16 20-18 6-2-10-12-12-20-4-12 10-24-8-12-14 8-6 8-14 0-18-14-8-2-28 10-18 8 6 14 4 26-2z' stroke='%237FD7FF' opacity='.45'/%3E%3Cpath d='M412 334c10-10 22 2 14 12-6 8-2 16 8 16 14 0 10 20-4 18-10-2-16 6-12 16 6 14-16 20-18 6-2-10-12-12-20-4-12 10-24-8-12-14 8-6 8-14 0-18-14-8-2-28 10-18 8 6 14 4 26-2z' stroke='%23FFD36A' opacity='.35'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: 520px 520px;
+      animation: landDrift 16s ease-in-out infinite;
       pointer-events:none;
-      filter: saturate(1.1);
     }
-    @keyframes drift{
-      0%{transform: translate(-3%, -2%) rotate(0deg)}
-      100%{transform: translate(3%, 2%) rotate(1.6deg)}
-    }
-
-    .landing-stickers{
-      position:absolute; inset:0; pointer-events:none;
-      opacity:.85;
-    }
-    .sticker{
-      position:absolute;
-      width:180px; height:180px;
-      border-radius: 40px;
-      background:
-        radial-gradient(circle at 30% 30%, rgba(255,255,255,.16), transparent 55%),
-        linear-gradient(135deg, rgba(58,174,111,.35), rgba(191,233,255,.20));
-      border:1px dashed rgba(255,255,255,.18);
-      box-shadow: 0 18px 40px rgba(0,0,0,.25);
-      transform: rotate(-10deg);
-      animation: floaty 6.2s var(--easeOut) infinite alternate;
-      filter: blur(.2px);
-    }
-    .sticker.s1{left:-40px; top:30px; transform: rotate(-14deg); animation-duration:7.4s}
-    .sticker.s2{right:-50px; bottom:-30px; transform: rotate(12deg); animation-duration:8.2s}
-    .sticker.s3{right:18%; top:-60px; width:140px; height:140px; transform: rotate(8deg); opacity:.55; animation-duration:9.2s}
-    @keyframes floaty{
-      from{transform: translateY(-6px) rotate(var(--r, -10deg))}
-      to{transform: translateY(8px) rotate(calc(var(--r, -10deg) + 2deg))}
-    }
+    @keyframes landDrift{0%{transform: translate(-2%,-2%)} 50%{transform: translate(2%,1%)} 100%{transform: translate(-2%,-2%)}}
 
     .landing-center{
       position:relative;
       text-align:center;
       padding:26px 18px;
-      border-radius: 32px;
+      border-radius: 30px;
       background:
-        radial-gradient(900px 220px at 30% 0%, rgba(122,230,174,.18), transparent 65%),
-        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
-      border:1px solid rgba(255,255,255,.14);
-      box-shadow: 0 30px 80px rgba(0,0,0,.35);
-      backdrop-filter: blur(16px);
+        radial-gradient(800px 220px at 20% 0%, rgba(255,255,255,.32), rgba(255,255,255,.10) 60%),
+        linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.06));
+      border:1px solid rgba(255,255,255,.22);
+      box-shadow: 0 26px 70px rgba(0,0,0,.22);
+      backdrop-filter: blur(14px);
       max-width: 880px;
     }
 
     .gencare-link{
       display:inline-block;
-      font-weight: 950;
-      letter-spacing: .12em;
+      font-weight: 1000;
+      letter-spacing: .10em;
       text-transform: uppercase;
-      font-size: clamp(44px, 9vw, 96px);
+      font-size: clamp(44px, 9vw, 92px);
       line-height: 1.02;
       padding: 10px 14px;
-      border-radius: 22px;
+      border-radius: 24px;
       cursor:pointer;
       user-select:none;
 
-      color: rgba(255,255,255,.94);
+      color: rgba(255,255,255,.95);
       text-shadow:
-        0 1px 0 rgba(0,0,0,.22),
-        0 18px 60px rgba(0,0,0,.22);
+        0 2px 0 rgba(0,0,0,.24),
+        0 20px 60px rgba(0,0,0,.22);
 
       background:
-        radial-gradient(900px 120px at 30% 15%, rgba(255,255,255,.18), transparent 55%),
-        radial-gradient(900px 240px at 80% 0%, rgba(122,230,174,.18), transparent 55%),
-        linear-gradient(135deg, rgba(58,174,111,.55), rgba(17,69,42,.35));
-      border: 1px solid rgba(255,255,255,.18);
+        radial-gradient(900px 160px at 30% 15%, rgba(255,255,255,.28), transparent 55%),
+        radial-gradient(700px 180px at 70% 70%, rgba(103,192,143,.22), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.04));
+      border: 1px solid rgba(255,255,255,.24);
       box-shadow:
-        0 26px 74px rgba(0,0,0,.30),
-        inset 0 1px 0 rgba(255,255,255,.18);
-      transition: transform .14s var(--easeOut), filter .14s var(--easeOut);
-      position:relative;
-      overflow:hidden;
+        0 24px 64px rgba(0,0,0,.22),
+        inset 0 1px 0 rgba(255,255,255,.22);
+      transition: transform .12s ease, filter .12s ease;
+      animation: pulseCute 2.4s ease-in-out infinite;
     }
-    .gencare-link:before{
-      content:"";
-      position:absolute; inset:-40%;
-      background:
-        radial-gradient(circle at 30% 20%, rgba(255,255,255,.18), transparent 55%),
-        radial-gradient(circle at 80% 70%, rgba(191,233,255,.10), transparent 60%);
-      animation: shimmer 3.8s var(--easeOut) infinite alternate;
-      pointer-events:none;
-    }
-    @keyframes shimmer{
-      from{transform: translate(-2%, -2%) rotate(0deg)}
-      to{transform: translate(2%, 2%) rotate(4deg)}
-    }
-    .gencare-link:hover{filter: brightness(1.07)}
-    .gencare-link:active{transform: translateY(2px) scale(.995)}
+    @keyframes pulseCute{ 0%,100%{transform: translateY(0)} 50%{transform: translateY(-2px)} }
+    .gencare-link:hover{filter: brightness(1.06)}
+    .gencare-link:active{transform: translateY(2px) scale(.995); animation:none}
 
     .landing-slogan{
       margin-top:10px;
       font-size: clamp(14px, 2.2vw, 18px);
-      color: rgba(255,255,255,.86);
-      font-weight: 750;
-      letter-spacing:.02em;
+      color: rgba(255,255,255,.88);
+      font-weight: 800;
+      letter-spacing:.01em;
     }
 
-    /* ======= Home ======= */
-    .home-scroll{
-      max-height: 72vh;
-      overflow:auto;
-      padding-right:6px;
-    }
+    /* =========================================================
+       HOME + MENU
+       ========================================================= */
+    .home-scroll{max-height: 72vh; overflow:auto; padding-right:6px}
     .home-scroll::-webkit-scrollbar{width:10px}
     .home-scroll::-webkit-scrollbar-thumb{
-      background: rgba(255,255,255,.12);
+      background: rgba(255,255,255,.26);
       border-radius:999px;
-      border:2px solid rgba(0,0,0,.18);
+      border:2px solid rgba(255,255,255,.18);
     }
 
     .hero{
       padding:20px;
       border-radius: 28px;
       background:
-        radial-gradient(900px 360px at 30% 10%, rgba(122,230,174,.18), transparent 55%),
-        radial-gradient(900px 360px at 85% 0%, rgba(191,233,255,.10), transparent 55%),
-        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
-      border: 1px solid rgba(255,255,255,.14);
-      box-shadow: var(--shadowSoft);
+        radial-gradient(900px 360px at 30% 10%, rgba(103,192,143,.26), rgba(255,255,255,.18) 55%, rgba(255,255,255,.10)),
+        radial-gradient(650px 260px at 85% 0%, rgba(127,215,255,.18), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.25), rgba(255,255,255,.12));
+      border: 1px solid rgba(255,255,255,.35);
+      box-shadow: 0 18px 45px rgba(0,0,0,.12);
       position:relative;
       overflow:hidden;
     }
     .hero:after{
       content:"";
-      position:absolute; inset:-2px;
-      background:
-        radial-gradient(500px 120px at 15% 0%, rgba(255,255,255,.10), transparent 60%),
-        radial-gradient(500px 140px at 90% 20%, rgba(255,255,255,.06), transparent 60%);
+      position:absolute; inset:-30%;
+      opacity:.15;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='520' height='220' viewBox='0 0 520 220'%3E%3Cg fill='none' stroke='%23E9FFF4' stroke-width='6' stroke-linecap='round'%3E%3Cpath d='M60 70c10-16 30-18 42-6 12 12 10 30-6 40-10 6-14 18-8 28' opacity='.7'/%3E%3Cpath d='M168 50l10 22 24 5-18 16 5 24-21-11-22 11 5-24-18-16 24-5z' opacity='.55'/%3E%3Cpath d='M360 60c16-12 30 2 20 18-8 12-2 26 12 28' opacity='.55'/%3E%3Cpath d='M432 70l8 18 20 4-15 14 4 20-17-9-18 9 4-20-15-14 20-4z' opacity='.45'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: 520px 220px;
+      animation: heroDoodle 18s ease-in-out infinite;
       pointer-events:none;
+      transform: rotate(-2deg);
     }
+    @keyframes heroDoodle{
+      0%{transform: translate(-1%,-1%) rotate(-2deg)}
+      50%{transform: translate(1%,1%) rotate(-1deg)}
+      100%{transform: translate(-1%,-1%) rotate(-2deg)}
+    }
+
     .hero h1{
       font-size: clamp(28px, 4.8vw, 54px);
-      font-weight: 950;
-      letter-spacing: .12em;
+      font-weight: 1000;
+      letter-spacing: .10em;
       text-transform: uppercase;
       margin-bottom: 8px;
-      color: rgba(255,255,255,.92);
-      text-shadow: 0 16px 40px rgba(0,0,0,.28);
     }
     .hero p{
       margin:8px 0 0;
-      color: rgba(255,255,255,.82);
-      font-weight:700;
-      line-height: 1.6;
+      color: rgba(12,23,18,.82);
+      font-weight:800;
+      line-height: 1.55;
     }
+
     .color-break{
       height:18px;
       border-radius: 999px;
       background: linear-gradient(90deg,
-        rgba(58,174,111,.80),
-        rgba(122,230,174,.72),
-        rgba(191,233,255,.55),
-        rgba(255,213,138,.55),
-        rgba(255,155,199,.45)
+        rgba(103,192,143,.85),
+        rgba(159,227,193,.78),
+        rgba(127,215,255,.60),
+        rgba(255,211,106,.60),
+        rgba(255,120,183,.45)
       );
-      border:1px solid rgba(255,255,255,.14);
-      box-shadow: 0 12px 26px rgba(0,0,0,.18);
+      border:1px solid rgba(255,255,255,.30);
+      box-shadow: 0 12px 26px rgba(0,0,0,.10);
       margin:14px 0;
       position:relative;
       overflow:hidden;
@@ -462,10 +457,11 @@
     .color-break:before{
       content:"";
       position:absolute; inset:-40%;
-      background: radial-gradient(circle at 20% 20%, rgba(255,255,255,.16), transparent 55%);
-      animation: drift 8s var(--easeOut) infinite alternate;
-      pointer-events:none;
+      background: radial-gradient(240px 120px at 30% 40%, rgba(255,255,255,.35), transparent 60%);
+      animation: sheen 5s ease-in-out infinite;
+      opacity:.7;
     }
+    @keyframes sheen{0%,100%{transform: translateX(-8%)} 50%{transform: translateX(8%)}}
 
     .menu-grid{
       display:grid;
@@ -476,39 +472,12 @@
     @media (max-width: 980px){ .menu-grid{grid-template-columns: repeat(2,1fr)} }
     @media (max-width: 600px){ .menu-grid{grid-template-columns: 1fr} }
 
-    .bigbtn{
-      padding:16px 16px;
-      border-radius: 24px;
-      border: 1px solid rgba(255,255,255,.16);
-      background:
-        radial-gradient(900px 120px at 20% 0%, rgba(122,230,174,.12), transparent 60%),
-        radial-gradient(900px 120px at 90% 0%, rgba(191,233,255,.08), transparent 60%),
-        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
-      box-shadow: var(--shadowSoft);
-      backdrop-filter: blur(14px);
-      text-align:left;
-      position:relative;
-      overflow:hidden;
-      transition: transform .14s var(--easeOut), filter .14s var(--easeOut);
-      color: rgba(255,255,255,.90);
-    }
-    .bigbtn:before{
-      content:"";
-      position:absolute; inset:-2px;
-      background:
-        radial-gradient(760px 180px at 18% 10%, rgba(255,255,255,.10), transparent 55%),
-        radial-gradient(900px 240px at 90% 0%, rgba(255,255,255,.06), transparent 60%);
-      pointer-events:none;
-    }
-    .bigbtn:hover{filter: brightness(1.06)}
-    .bigbtn:active{transform: translateY(2px) scale(.995)}
-    .bigbtn .t{position:relative; font-weight:950; letter-spacing:.02em; font-size:16px}
-    .bigbtn .d{position:relative; margin-top:6px; color:rgba(255,255,255,.76); font-weight:750; font-size:13px; line-height:1.35}
-
-    /* ======= Informohu (DNA stage) ======= */
+    /* =========================================================
+       INFORMOHU
+       ========================================================= */
     .dna-stage{
       display:grid;
-      grid-template-columns: 1.1fr .9fr;
+      grid-template-columns: 1.05fr .95fr;
       gap:16px;
       align-items:stretch;
     }
@@ -517,17 +486,22 @@
     .dna-box{
       padding:18px;
       position:relative;
-      min-height: 420px;
+      min-height: 430px;
       overflow:hidden;
     }
     .dna-bg{
       position:absolute; inset:0;
       background:
-        radial-gradient(900px 500px at 20% 10%, rgba(122,230,174,.14), transparent 55%),
-        radial-gradient(700px 500px at 80% 70%, rgba(191,233,255,.10), transparent 60%),
-        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
-      animation: drift 12s var(--easeOut) infinite alternate;
+        radial-gradient(900px 520px at 20% 10%, rgba(103,192,143,.22), transparent 58%),
+        radial-gradient(700px 520px at 80% 70%, rgba(127,215,255,.16), transparent 62%),
+        linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.10));
+      animation: drift 16s ease-in-out infinite;
       opacity:.95;
+    }
+    @keyframes drift{
+      0%{transform: translate(-2%, -1%)}
+      50%{transform: translate(2%, 1%)}
+      100%{transform: translate(-2%, -1%)}
     }
 
     .helix-svg{
@@ -536,38 +510,40 @@
       width:min(440px, 78vw);
       transform: translate(-50%,-50%);
       opacity:.98;
-      filter: drop-shadow(0 18px 35px rgba(0,0,0,.22));
+      filter: drop-shadow(0 18px 35px rgba(0,0,0,.14));
     }
 
     .marker{
       position:absolute;
-      width:48px; height:48px;
-      border-radius: 16px;
-      border:1px solid rgba(255,255,255,.16);
+      width:52px; height:52px;
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.45);
       background:
-        radial-gradient(circle at 30% 20%, rgba(255,255,255,.12), transparent 55%),
-        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
-      box-shadow: 0 18px 36px rgba(0,0,0,.22);
+        radial-gradient(120px 60px at 30% 10%, rgba(255,255,255,.75), rgba(255,255,255,.18)),
+        linear-gradient(180deg, rgba(255,255,255,.30), rgba(255,255,255,.14));
+      box-shadow: 0 18px 36px rgba(0,0,0,.16);
       display:flex; align-items:center; justify-content:center;
-      font-weight: 950;
+      font-weight: 1000;
       cursor:pointer;
-      transition: transform .14s var(--easeOut), filter .14s var(--easeOut);
+      transition: transform .12s ease, filter .12s ease;
       user-select:none;
     }
-    .marker:hover{filter: brightness(1.07)}
-    .marker:active{transform: translateY(2px) scale(.995)}
+    .marker:hover{filter: brightness(1.06)}
+    .marker:active{transform: translateY(2px) scale(.99)}
     .marker span{
       display:inline-block;
-      width:30px; height:30px;
+      width:32px; height:32px;
       border-radius: 999px;
       display:flex; align-items:center; justify-content:center;
-      color: rgba(255,255,255,.92);
-      text-shadow: 0 1px 0 rgba(0,0,0,.24);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.18);
-      border: 1px dashed rgba(255,255,255,.20);
+      color: rgba(255,255,255,.95);
+      text-shadow: 0 1px 0 rgba(0,0,0,.20);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.25);
+      font-size:18px;
     }
 
-    /* ======= Games ======= */
+    /* =========================================================
+       GAMES
+       ========================================================= */
     .game-grid{
       display:grid;
       grid-template-columns: repeat(3, 1fr);
@@ -580,42 +556,37 @@
     .star{
       width:56px; height:56px;
       border-radius: 20px;
-      border:1px solid rgba(255,255,255,.16);
+      border:1px solid rgba(255,255,255,.45);
       background:
-        radial-gradient(circle at 35% 25%, rgba(255,255,255,.14), transparent 55%),
-        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
-      box-shadow: 0 18px 34px rgba(0,0,0,.22);
+        radial-gradient(160px 70px at 30% 10%, rgba(255,255,255,.75), rgba(255,255,255,.18)),
+        linear-gradient(180deg, rgba(255,255,255,.30), rgba(255,255,255,.12));
+      box-shadow: 0 18px 34px rgba(0,0,0,.14);
       display:flex; align-items:center; justify-content:center;
       font-size:22px;
       cursor:pointer;
       user-select:none;
-      transition: transform .14s var(--easeOut), filter .14s var(--easeOut);
-      color: rgba(255,255,255,.92);
+      transition: transform .12s ease, filter .12s ease;
     }
     .star:hover{filter: brightness(1.06)}
-    .star:active{transform: translateY(2px) scale(.995)}
+    .star:active{transform: translateY(2px) scale(.99)}
 
     .progressbar{
       height:12px;
       border-radius:999px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.35);
+      background: rgba(255,255,255,.22);
       overflow:hidden;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.10);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.35);
     }
     .progressbar > div{
       height:100%;
       width:0%;
-      background: linear-gradient(90deg,
-        rgba(58,174,111,.90),
-        rgba(122,230,174,.80),
-        rgba(191,233,255,.55)
-      );
-      border-right:1px solid rgba(255,255,255,.14);
-      transition: width .25s var(--easeOut);
+      background: linear-gradient(90deg, rgba(103,192,143,.95), rgba(159,227,193,.85), rgba(127,215,255,.55));
+      border-right:1px solid rgba(255,255,255,.30);
+      transition: width .25s ease;
     }
 
-    .game-board{ padding:16px; min-height: 320px; }
+    .game-board{padding:16px; min-height: 320px}
     .game-hud{
       display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;
       margin-bottom:10px;
@@ -623,40 +594,41 @@
     .hud-chip{
       padding:8px 10px;
       border-radius:999px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.07);
-      font-weight:900;
+      border:1px solid rgba(255,255,255,.40);
+      background: rgba(255,255,255,.40);
+      font-weight:950;
       font-size:12px;
-      color: rgba(255,255,255,.88);
+      color: rgba(12,23,18,.78);
+      box-shadow: 0 10px 18px rgba(0,0,0,.10);
     }
 
     /* Pause/Resume icons (Pause=triangle, Resume=||) */
     .iconbtn{
-      width:46px; height:46px;
+      width:48px; height:48px;
       border-radius: 18px;
-      border:1px solid rgba(255,255,255,.16);
+      border:1px solid rgba(255,255,255,.45);
       background:
-        radial-gradient(circle at 35% 25%, rgba(255,255,255,.14), transparent 55%),
-        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
-      box-shadow: 0 16px 34px rgba(0,0,0,.22);
+        radial-gradient(160px 70px at 30% 10%, rgba(255,255,255,.75), rgba(255,255,255,.18)),
+        linear-gradient(180deg, rgba(255,255,255,.30), rgba(255,255,255,.12));
+      box-shadow: 0 16px 34px rgba(0,0,0,.14);
       display:flex; align-items:center; justify-content:center;
       cursor:pointer;
       user-select:none;
-      transition: transform .14s var(--easeOut), filter .14s var(--easeOut);
+      transition: transform .12s ease, filter .12s ease;
     }
-    .iconbtn:hover{filter: brightness(1.07)}
-    .iconbtn:active{transform: translateY(2px) scale(.995)}
+    .iconbtn:hover{filter: brightness(1.06)}
+    .iconbtn:active{transform: translateY(2px) scale(.99)}
     .tri{
       width:0;height:0;
-      border-top:10px solid transparent;
-      border-bottom:10px solid transparent;
-      border-left:16px solid rgba(255,255,255,.86);
+      border-top:11px solid transparent;
+      border-bottom:11px solid transparent;
+      border-left:18px solid rgba(12,23,18,.82);
       margin-left:3px;
     }
-    .bars{ width:16px; height:20px; display:flex; justify-content:space-between; }
+    .bars{width:16px; height:22px; display:flex; justify-content:space-between}
     .bars i{
-      display:block; width:5px; height:20px; border-radius:4px;
-      background: rgba(255,255,255,.82);
+      display:block; width:5px; height:22px; border-radius:4px;
+      background: rgba(12,23,18,.78);
     }
 
     .tiles{
@@ -671,116 +643,169 @@
     .tile{
       padding:14px;
       border-radius: 18px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.07);
-      box-shadow: 0 14px 30px rgba(0,0,0,.18);
+      border:1px solid rgba(255,255,255,.40);
+      background: rgba(255,255,255,.40);
+      box-shadow: 0 14px 30px rgba(0,0,0,.10);
       min-height: 70px;
       display:flex; align-items:center; justify-content:center;
       text-align:center;
       font-weight:950;
       cursor:pointer;
       user-select:none;
-      transition: transform .14s var(--easeOut), filter .14s var(--easeOut);
-      color: rgba(255,255,255,.92);
+      transition: transform .12s ease, filter .12s ease;
+      position:relative;
+      overflow:hidden;
     }
+    .tile:before{
+      content:"";
+      position:absolute; inset:-30%;
+      background: radial-gradient(240px 120px at 30% 40%, rgba(255,255,255,.45), transparent 60%);
+      opacity:.65;
+      pointer-events:none;
+      animation: tileSheen 6s ease-in-out infinite;
+    }
+    @keyframes tileSheen{0%,100%{transform: translateX(-6%)} 50%{transform: translateX(6%)}}
     .tile:hover{filter: brightness(1.06)}
-    .tile:active{transform: translateY(2px) scale(.995)}
-    .tile.good{outline: 2px solid rgba(122,230,174,.55)}
-    .tile.bad{outline: 2px solid rgba(255,155,199,.55)}
+    .tile:active{transform: translateY(2px) scale(.99)}
+    .tile.good{outline: 3px solid rgba(67,192,143,.45)}
+    .tile.bad{outline: 3px solid rgba(255,120,183,.35)}
 
-    /* Questionnaire blocks */
+    .divider{height:1px; background: rgba(255,255,255,.35); margin: 8px 0}
+
     .q-item{
       padding:14px;
       border-radius: 20px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.07);
-      box-shadow: 0 16px 34px rgba(0,0,0,.18);
+      border:1px solid rgba(255,255,255,.40);
+      background: rgba(255,255,255,.40);
+      box-shadow: 0 16px 34px rgba(0,0,0,.10);
+      position:relative;
+      overflow:hidden;
     }
-    .q-title{font-weight:950; margin-bottom:10px; color: rgba(255,255,255,.92)}
+    .q-item:before{
+      content:"";
+      position:absolute; inset:-40%;
+      background:
+        radial-gradient(300px 160px at 20% 10%, rgba(103,192,143,.18), transparent 60%),
+        radial-gradient(260px 160px at 80% 0%, rgba(127,215,255,.16), transparent 60%);
+      opacity:.95;
+      pointer-events:none;
+    }
+    .q-item > *{position:relative}
+    .q-title{font-weight:1000; margin-bottom:10px}
     .radio-row{display:flex; gap:10px; flex-wrap:wrap}
     .radio{
       display:flex; align-items:center; gap:8px;
       padding:10px 12px;
       border-radius:999px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.45);
+      background: rgba(255,255,255,.32);
       cursor:pointer;
       user-select:none;
-      font-weight:900;
+      font-weight:950;
       font-size:13px;
-      color: rgba(255,255,255,.80);
-      transition: transform .12s var(--easeOut), filter .12s var(--easeOut);
+      color: rgba(12,23,18,.74);
+      transition: transform .12s ease, filter .12s ease;
     }
     .radio:hover{filter: brightness(1.06)}
+    .radio:active{transform: translateY(2px) scale(.99)}
     .radio input{width:auto}
     .radio.active{
-      background:
-        radial-gradient(700px 70px at 20% 0%, rgba(122,230,174,.20), transparent 60%),
-        rgba(255,255,255,.10);
-      border-color: rgba(122,230,174,.45);
-      color: rgba(255,255,255,.92);
+      background: rgba(103,192,143,.22);
+      border-color: rgba(67,192,143,.55);
+      color: rgba(12,23,18,.92);
     }
 
-    /* Routine tasks */
     .task{
       display:flex;
       justify-content:space-between;
       gap:12px;
       padding:12px 12px;
       border-radius: 18px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.07);
+      border:1px solid rgba(255,255,255,.40);
+      background: rgba(255,255,255,.40);
       align-items:center;
+      box-shadow: 0 12px 26px rgba(0,0,0,.10);
     }
-    .task b{font-size:13px; color: rgba(255,255,255,.92)}
+    .task b{font-size:13px}
     .check{
       width:24px;height:24px;
-      border-radius:8px;
-      border:1px solid rgba(255,255,255,.16);
-      background: rgba(255,255,255,.06);
+      border-radius:9px;
+      border:1px solid rgba(255,255,255,.50);
+      background: rgba(255,255,255,.42);
       display:flex; align-items:center; justify-content:center;
       cursor:pointer;
       user-select:none;
-      font-weight:950;
-      color: rgba(255,255,255,.92);
+      font-weight:1000;
+      box-shadow: 0 10px 18px rgba(0,0,0,.10);
+      transition: transform .12s ease, filter .12s ease;
     }
+    .check:hover{filter: brightness(1.06)}
+    .check:active{transform: translateY(2px) scale(.99)}
     .check.on{
-      background: rgba(122,230,174,.24);
-      border-color: rgba(122,230,174,.55);
+      background: rgba(103,192,143,.28);
+      border-color: rgba(67,192,143,.55);
     }
 
-    /* Keep landing helix layer (still used, but now matches greens) */
-    .helix-layer{
-      position:absolute; inset:0;
-      pointer-events:none;
-      opacity:.92;
+    /* BrainAge (12 games) small extra */
+    .stepper{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
     }
-    .helix{
-      position:absolute;
-      width:min(520px, 85vw);
-      height:auto;
-      filter: drop-shadow(0 22px 40px rgba(0,0,0,.28));
-      opacity:.85;
-      animation: spin 18s linear infinite;
-      transform-origin:center;
+    .stepDot{
+      width:32px; height:32px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.45);
+      background: rgba(255,255,255,.38);
+      box-shadow: 0 12px 22px rgba(0,0,0,.10);
+      display:flex; align-items:center; justify-content:center;
+      font-weight:1000;
+      font-size:12px;
+      color: rgba(12,23,18,.80);
+      user-select:none;
     }
-    .helix.h1{left:-8%; top:8%; animation-duration:22s; opacity:.55}
-    .helix.h2{right:-10%; bottom:-8%; animation-duration:26s; opacity:.48}
-    .helix.h3{left:55%; top:18%; width:min(420px, 70vw); animation-duration:30s; opacity:.28; filter: blur(1px) drop-shadow(0 22px 40px rgba(0,0,0,.22))}
-    @keyframes spin{to{transform: rotate(360deg)}}
+    .stepDot.on{
+      outline: 3px solid rgba(67,192,143,.38);
+      background: rgba(103,192,143,.18);
+      color: rgba(12,23,18,.92);
+    }
   </style>
 </head>
 
 <body>
+  <div class="bg" aria-hidden="true">
+    <div class="sticker st1"></div>
+    <div class="sticker st2"></div>
+    <div class="sticker st3"></div>
+
+    <div class="twinkle" style="left:10vw; top:12vh; animation-delay:.2s"></div>
+    <div class="twinkle" style="left:22vw; top:22vh; animation-delay:1.1s"></div>
+    <div class="twinkle" style="left:75vw; top:14vh; animation-delay:.6s"></div>
+    <div class="twinkle" style="left:86vw; top:36vh; animation-delay:1.6s"></div>
+    <div class="twinkle" style="left:62vw; top:78vh; animation-delay:.9s"></div>
+  </div>
+
   <div class="app">
     <div class="shell" id="shell">
       <div class="topbar">
-        <div class="brand-mini" aria-label="GENCARE • GENE4LIFE">
-          <div class="badge"><span>🧩</span></div>
+        <div class="brand" aria-label="GENCARE GENE4LIFE">
+          <svg class="logoMark" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="GENCARE logo">
+            <defs>
+              <linearGradient id="lg" x1="0" x2="1">
+                <stop offset="0" stop-color="#67c08f"/>
+                <stop offset="1" stop-color="#2f8a5e"/>
+              </linearGradient>
+            </defs>
+            <circle cx="32" cy="34" r="14" fill="url(#lg)" opacity=".95"/>
+            <path d="M39 30c0-2 2-4 4-4s4 2 4 4-2 4-4 4c-1 0-2-.4-3-1v3h-6v-6h3c1-.7 2-1 2-1z"
+                  fill="rgba(255,255,255,.95)" opacity=".9"/>
+            <path d="M24 10c10 8 16 14 16 22s-6 14-16 22" fill="none" stroke="rgba(255,255,255,.9)" stroke-width="3.8" stroke-linecap="round"/>
+            <path d="M40 10c-10 8-16 14-16 22s6 14 16 22" fill="none" stroke="rgba(255,255,255,.75)" stroke-width="3.8" stroke-linecap="round"/>
+            <path d="M26 18h12M26 26h12M26 34h12M26 42h12M26 50h12" stroke="rgba(255,255,255,.65)" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+
           <span>GENCARE</span>
-          <span style="opacity:.55">•</span>
-          <span class="mutedMini">GENE4LIFE</span>
+          <span class="sub">• GENE4LIFE</span>
         </div>
+
         <div class="right-actions">
           <button class="pill secondary" id="btnBack" title="Kthehu" style="display:none">← Kthehu</button>
           <button class="pill" id="btnHome" title="Faqja Kryesore" style="display:none">🏠 Kryesore</button>
@@ -798,6 +823,7 @@
 const LS_USERS = "gencare_users_v1";
 const LS_SESSION = "gencare_session_v1";
 const LS_ROUTINE = "gencare_routine_v1";
+const LS_BRAINAGE = "gencare_brainage_v1";
 
 const state = {
   route: "landing",
@@ -806,6 +832,10 @@ const state = {
   selectedGameId: null,
   selectedLevel: 1,
   gameRuntime: null,
+
+  // brain age
+  brainAgeStep: 0,
+  brainAgeScores: [],
 };
 
 const GAMES = [
@@ -818,41 +848,72 @@ const GAMES = [
 ];
 
 const INFO_TOPICS = [
-  { key:"komunikimi", title:"Komunikimi & Gjuha", bullets:[
-    "Shenjat e para mund të shfaqen gradualisht: vonesë në fjalë, pak gjeste, ose vështirësi në përdorimin e fjalëve për kërkesa.",
-    "Mund të vërehet përsëritje fjalësh/frasash (ekolali) ose përdorim i kufizuar i gjuhës funksionale.",
-    "Ndihmon: rutinë e qetë, fjali të shkurtra, zgjedhje me 2 opsione, vizualë (figura)."
-  ]},
-  { key:"social", title:"Ndërveprimi Social & Kontakti me Sy", bullets:[
-    "Mund të ketë kontakt me sy të kufizuar, vështirësi në ndjekjen e lojës së përbashkët, ose mungesë interesi për bashkëmoshatarët.",
-    "Reagimi ndaj emrit mund të jetë i dobët, ose preferon lojë të vetmuar për kohë të gjatë.",
-    "Ndihmon: lojëra me radhë, aktivitete të shkurtra bashkë, lavdërim i qartë dhe i butë."
-  ]},
-  { key:"perqendrim", title:"Të Nxënit & Përqendrimi", bullets:[
-    "Vështirësi në fokus, kalim i shpejtë nga një aktivitet tek tjetri, ose vëmendje shumë e lartë vetëm për një interes specifik.",
-    "Mund të ketë sfida në ndjekjen e udhëzimeve me shumë hapa.",
-    "Ndihmon: udhëzime 1–2 hapa, pushime të shkurtra, strukturë vizuale e ditës."
-  ]},
-  { key:"emocione", title:"Emocionet", bullets:[
-    "Vështirësi në shprehjen/kuptimin e emocioneve; shpërthime kur nuk kuptohet nevoja ose kur ka ndryshime të papritura.",
-    "Rritje ankthi në ambiente të zhurmshme ose gjatë tranzicioneve.",
-    "Ndihmon: paralajmërime të buta për ndryshime, “karte emocioni”, frymëmarrje e udhëzuar."
-  ]},
-  { key:"sensori", title:"Ndjeshmëria Sensorjale", bullets:[
-    "Reagime të forta ndaj dritës, zhurmës, prekjes, erërave ose teksturave të caktuara.",
-    "Mund të kërkojë stimulim (lëkundje, rrotullim) ose të shmangë disa ndjesi.",
-    "Ndihmon: “kënd qetësimi”, kufje, lodra sensoriale të buta, zgjedhje të kontrolluara."
-  ]},
-  { key:"koordinim", title:"Lëvizja & Koordinimi", bullets:[
-    "Mund të ketë vështirësi me motorikën e imët (laps, gërshërë) ose koordinimin në lojëra fizike.",
-    "Sjellje përsëritëse (p.sh. lëkundje) mund të shërbejë si vetërregullim.",
-    "Ndihmon: ushtrime të shkurtra motorike, aktivitete me ritëm të ngadaltë, progres gradual."
-  ]},
+  {
+    key:"komunikimi",
+    title:"Komunikimi & Gjuha",
+    bullets:[
+      "Shenjat e para mund të shfaqen gradualisht: vonesë në fjalë, pak gjeste, ose vështirësi në përdorimin e fjalëve për kërkesa.",
+      "Mund të vërehet përsëritje fjalësh/frasash (ekolali) ose përdorim i kufizuar i gjuhës funksionale.",
+      "Ndihmon: rutinë e qetë, fjali të shkurtra, zgjedhje me 2 opsione, vizualë (figura)."
+    ]
+  },
+  {
+    key:"social",
+    title:"Ndërveprimi Social & Kontakti me Sy",
+    bullets:[
+      "Mund të ketë kontakt me sy të kufizuar, vështirësi në ndjekjen e lojës së përbashkët, ose mungesë interesi për bashkëmoshatarët.",
+      "Reagimi ndaj emrit mund të jetë i dobët, ose preferon lojë të vetmuar për kohë të gjatë.",
+      "Ndihmon: lojëra me radhë, aktivitete të shkurtra bashkë, lavdërim i qartë dhe i butë."
+    ]
+  },
+  {
+    key:"perqendrim",
+    title:"Të Nxënit & Përqendrimi",
+    bullets:[
+      "Vështirësi në fokus, kalim i shpejtë nga një aktivitet tek tjetri, ose vëmendje shumë e lartë vetëm për një interes specifik.",
+      "Mund të ketë sfida në ndjekjen e udhëzimeve me shumë hapa.",
+      "Ndihmon: udhëzime 1–2 hapa, pushime të shkurtra, strukturë vizuale e ditës."
+    ]
+  },
+  {
+    key:"emocione",
+    title:"Emocionet",
+    bullets:[
+      "Vështirësi në shprehjen/kuptimin e emocioneve; shpërthime kur nuk kuptohet nevoja ose kur ka ndryshime të papritura.",
+      "Rritje ankthi në ambiente të zhurmshme ose gjatë tranzicioneve.",
+      "Ndihmon: paralajmërime të buta për ndryshime, “karte emocioni”, frymëmarrje e udhëzuar."
+    ]
+  },
+  {
+    key:"sensori",
+    title:"Ndjeshmëria Sensorjale",
+    bullets:[
+      "Reagime të forta ndaj dritës, zhurmës, prekjes, erërave ose teksturave të caktuara.",
+      "Mund të kërkojë stimulim (lëkundje, rrotullim) ose të shmangë disa ndjesi.",
+      "Ndihmon: “kënd qetësimi”, kufje, lodra sensoriale të buta, zgjedhje të kontrolluara."
+    ]
+  },
+  {
+    key:"koordinim",
+    title:"Lëvizja & Koordinimi",
+    bullets:[
+      "Mund të ketë vështirësi me motorikën e imët (laps, gërshërë) ose koordinimin në lojëra fizike.",
+      "Sjellje përsëritëse (p.sh. lëkundje) mund të shërbejë si vetërregullim.",
+      "Ndihmon: ushtrime të shkurtra motorike, aktivitete me ritëm të ngadaltë, progres gradual."
+    ]
+  }
 ];
 
-function getUsers(){ try{ return JSON.parse(localStorage.getItem(LS_USERS) || "[]"); }catch(e){ return []; } }
+/* =======================
+   STORAGE HELPERS
+======================= */
+function getUsers(){
+  try{ return JSON.parse(localStorage.getItem(LS_USERS) || "[]"); }catch(e){ return []; }
+}
 function setUsers(users){ localStorage.setItem(LS_USERS, JSON.stringify(users)); }
-function getSession(){ try{ return JSON.parse(localStorage.getItem(LS_SESSION) || "null"); }catch(e){ return null; } }
+function getSession(){
+  try{ return JSON.parse(localStorage.getItem(LS_SESSION) || "null"); }catch(e){ return null; }
+}
 function setSession(s){ localStorage.setItem(LS_SESSION, JSON.stringify(s)); }
 function clearSession(){ localStorage.removeItem(LS_SESSION); }
 function currentUser(){
@@ -863,7 +924,24 @@ function currentUser(){
 function updateUser(patch){
   const users = getUsers();
   const idx = users.findIndex(u => u.username === patch.username);
-  if(idx>=0){ users[idx] = { ...users[idx], ...patch }; setUsers(users); }
+  if(idx>=0){
+    users[idx] = { ...users[idx], ...patch };
+    setUsers(users);
+  }
+}
+
+function getBrainAgeStoreKey(){
+  const u = currentUser();
+  return u ? `${LS_BRAINAGE}_${u.username}` : `${LS_BRAINAGE}_guest`;
+}
+function loadBrainAge(){
+  try{
+    const raw = localStorage.getItem(getBrainAgeStoreKey());
+    return raw ? JSON.parse(raw) : null;
+  }catch(e){ return null; }
+}
+function saveBrainAge(obj){
+  localStorage.setItem(getBrainAgeStoreKey(), JSON.stringify(obj));
 }
 
 /* =======================
@@ -892,13 +970,21 @@ function popRoute(){
   render();
 }
 function snapshotState(){
-  return { infoTopicIndex: state.infoTopicIndex, selectedGameId: state.selectedGameId, selectedLevel: state.selectedLevel };
+  return {
+    infoTopicIndex: state.infoTopicIndex,
+    selectedGameId: state.selectedGameId,
+    selectedLevel: state.selectedLevel,
+    brainAgeStep: state.brainAgeStep,
+    brainAgeScores: state.brainAgeScores,
+  };
 }
 function restoreSnapshot(s){
   if(!s) return;
   state.infoTopicIndex = s.infoTopicIndex;
   state.selectedGameId = s.selectedGameId;
   state.selectedLevel = s.selectedLevel;
+  state.brainAgeStep = s.brainAgeStep || 0;
+  state.brainAgeScores = Array.isArray(s.brainAgeScores) ? s.brainAgeScores : [];
 }
 function setNavButtons(){
   const showBack = state.route !== "landing" && state.route !== "home";
@@ -915,7 +1001,11 @@ function niceDate(d = new Date()){
   return d.toLocaleDateString("sq-AL", { weekday:"short", year:"numeric", month:"short", day:"2-digit" });
 }
 function ensureUserProgress(u){
-  return { ...u, progress: u.progress || { games:{}, routines:{ streak:0, lastDay:null } }, createdAt: u.createdAt || Date.now() };
+  return {
+    ...u,
+    progress: u.progress || { games:{}, routines:{ streak:0, lastDay:null } },
+    createdAt: u.createdAt || Date.now()
+  };
 }
 function computeOverallProgress(u){
   u = ensureUserProgress(u);
@@ -935,7 +1025,7 @@ function computeOverallProgress(u){
 ======================= */
 function render(){
   setNavButtons();
-  view.className = "fade-in";
+  view.className = "view-anim";
 
   if(state.route === "landing") return renderLanding();
   if(state.route === "home") return renderHome();
@@ -948,50 +1038,45 @@ function render(){
   if(state.route === "gamePlay") return renderGamePlay();
   if(state.route === "change") return renderChange();
   if(state.route === "routine") return renderRoutine();
+  if(state.route === "brainAge") return renderBrainAge();
   if(state.route === "result") return renderResult();
 
   view.innerHTML = `<div class="glass card-pad"><b>Rrugë e panjohur:</b> ${esc(state.route)}</div>`;
 }
 
 /* =======================
-   SVG HELIX (now green-themed)
+   SVG HELIX
 ======================= */
 function helixSVG(opacity=1){
-  const root = getComputedStyle(document.documentElement);
-  const gA = root.getPropertyValue('--g4').trim();
-  const gB = root.getPropertyValue('--g2').trim();
-  const gC = root.getPropertyValue('--sky').trim();
-  const gD = root.getPropertyValue('--sun').trim();
-
   return `
   <svg viewBox="0 0 220 520" class="helix-svg" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <defs>
       <linearGradient id="g1" x1="0" x2="1">
-        <stop offset="0" stop-color="${gA}" stop-opacity="${opacity}"/>
-        <stop offset="1" stop-color="${gC}" stop-opacity="${opacity}"/>
+        <stop offset="0" stop-color="#67c08f" stop-opacity="${opacity}"/>
+        <stop offset="1" stop-color="#2f8a5e" stop-opacity="${opacity}"/>
       </linearGradient>
       <linearGradient id="g2" x1="0" x2="1">
-        <stop offset="0" stop-color="${gB}" stop-opacity="${opacity}"/>
-        <stop offset="1" stop-color="${gD}" stop-opacity="${opacity}"/>
+        <stop offset="0" stop-color="#9fe3c1" stop-opacity="${opacity}"/>
+        <stop offset="1" stop-color="#43a874" stop-opacity="${opacity}"/>
       </linearGradient>
     </defs>
 
     <path d="M70,10 C160,60 160,120 70,170 C-20,220 -20,300 70,350 C160,400 160,460 70,510"
-          fill="none" stroke="url(#g1)" stroke-width="10" stroke-linecap="round" opacity=".95"/>
+          fill="none" stroke="url(#g1)" stroke-width="10" stroke-linecap="round" opacity=".96"/>
     <path d="M150,10 C60,60 60,120 150,170 C240,220 240,300 150,350 C60,400 60,460 150,510"
-          fill="none" stroke="url(#g2)" stroke-width="10" stroke-linecap="round" opacity=".9"/>
+          fill="none" stroke="url(#g2)" stroke-width="10" stroke-linecap="round" opacity=".92"/>
 
     ${Array.from({length:10}).map((_,i)=>{
       const y = 40 + i*48;
       const flip = i%2===0;
       return `<line x1="${flip?78:142}" y1="${y}" x2="${flip?142:78}" y2="${y+12}"
-                    stroke="rgba(255,255,255,.22)" stroke-width="6" stroke-linecap="round"/>`;
+                    stroke="rgba(255,255,255,.55)" stroke-width="6" stroke-linecap="round"/>`;
     }).join("")}
 
-    <circle cx="74" cy="40" r="4" fill="rgba(255,255,255,.24)"/>
-    <circle cx="146" cy="92" r="4" fill="rgba(255,255,255,.22)"/>
-    <circle cx="78" cy="244" r="4" fill="rgba(255,255,255,.20)"/>
-    <circle cx="148" cy="410" r="4" fill="rgba(255,255,255,.18)"/>
+    <circle cx="74" cy="40" r="4" fill="rgba(255,255,255,.55)"/>
+    <circle cx="146" cy="92" r="4" fill="rgba(255,255,255,.50)"/>
+    <circle cx="78" cy="244" r="4" fill="rgba(255,255,255,.45)"/>
+    <circle cx="148" cy="410" r="4" fill="rgba(255,255,255,.40)"/>
   </svg>`;
 }
 
@@ -1004,35 +1089,37 @@ function renderLanding(){
 
   view.innerHTML = `
     <section class="landing">
-      <div class="landing-stickers">
-        <div class="sticker s1" style="--r:-14deg"></div>
-        <div class="sticker s2" style="--r:12deg"></div>
-        <div class="sticker s3" style="--r:8deg"></div>
-      </div>
-
-      <div class="helix-layer">
-        <div class="helix h1">${helixSVG(.95)}</div>
-        <div class="helix h2">${helixSVG(.85)}</div>
-        <div class="helix h3">${helixSVG(.60)}</div>
-      </div>
-
       <div class="landing-center">
+        <div style="display:flex; justify-content:center; gap:10px; align-items:center; margin-bottom:10px">
+          <span style="font-weight:1000; letter-spacing:.12em; color:rgba(255,255,255,.88); text-transform:uppercase; font-size:12px">
+            GENE4LIFE
+          </span>
+          <span style="opacity:.7; color:#fff">•</span>
+          <span style="font-weight:1000; letter-spacing:.12em; color:rgba(255,255,255,.88); text-transform:uppercase; font-size:12px">
+            Informim & Stimulim
+          </span>
+        </div>
+
         <div class="gencare-link" id="enterGencare" role="button" tabindex="0" aria-label="Hyr në GENCARE">
           GENCARE
         </div>
         <div class="landing-slogan">Ndryshimet na bëjnë unike.</div>
-        <div class="note small" style="margin-top:14px; text-align:left">
-          <b>Qëllimi:</b> informim + stimulim në mënyrë të qetë dhe miqësore për fëmijët.
-          <span class="muted" style="display:block; margin-top:6px; color:rgba(255,255,255,.72)">
-            Ky website nuk zëvendëson vlerësimin profesional.
-          </span>
+
+        <div style="height:14px"></div>
+        <div class="note" style="max-width:820px; margin:0 auto; background: rgba(255,255,255,.14); border-color: rgba(255,255,255,.28); color: rgba(255,255,255,.88)">
+          <b>Qëllimi i website-it:</b> informim + lojëra stimuluese + pyetësorë orientues + plan javor rutinash.
+          <span style="opacity:.9">Nuk zëvendëson vlerësimin profesional.</span>
         </div>
       </div>
     </section>
   `;
 
   const enter = document.getElementById("enterGencare");
-  const open = () => { state.routeStack = []; state.route = "home"; render(); };
+  const open = () => {
+    state.routeStack = [];
+    state.route = "home";
+    render();
+  };
   enter.addEventListener("click", open);
   enter.addEventListener("keydown", (e)=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); open(); } });
 }
@@ -1066,10 +1153,11 @@ function renderHome(){
       <div style="height:12px"></div>
 
       <div class="menu-grid">
-        ${menuBtn("Manuali i përdorimit","Si të përdoret website-i (burime & orientim).","manual")}
+        ${menuBtn("Manuali i përdorimit","Si të përdoret website-i (orientues, i qartë).","manual")}
         ${menuBtn("Profili i fëmijës","Krijo profil (username unik) dhe shiko progresin.","profile")}
         ${menuBtn("Informohu","Kliko në ADN dhe lexo informacionin për çdo temë.","informohu")}
         ${menuBtn("Lojrat","6 lojëra me 5 nivele – me pauzë & resume.","games")}
+        ${menuBtn("Mosha e trurit","12 mini-lojëra → vlerësim orientues i performancës (moshë-ekuivalente).","brainAge")}
         ${menuBtn("Fillo Ndryshimin","Pyetësor orientues (12 pyetje).","change")}
         ${menuBtn("Rutina Ime","Pyetësor (20) + plan javor me checklist.","routine")}
       </div>
@@ -1129,9 +1217,8 @@ function renderManual(){
       </div>
 
       <div class="note">
-        <b>Burimet</b><br>
-        Përmbajtja është e formuluar në stil edukativ dhe orientues (psikoedukim, strukturë, vizualë, rutinë).
-        Për vendime klinike, konsultohuni me profesionistë.
+        <b>“Mosha e trurit”</b><br>
+        Është një seri mini-lojëra që japin një <b>vlerësim loje</b> (moshë-ekuivalente e performancës). Nuk është diagnozë.
       </div>
 
       <div class="row">
@@ -1142,8 +1229,7 @@ function renderManual(){
 }
 
 /* =======================
-   PROFILE (Sign up / Login + Progress)
-   (Core logic unchanged)
+   PROFILE
 ======================= */
 function renderProfile(){
   const u = currentUser();
@@ -1191,12 +1277,13 @@ function renderProfile(){
 
         <div class="glass card-pad stack">
           <div class="section-title">Pse profil?</div>
-          <div class="muted small" style="color:rgba(255,255,255,.78)">
+          <div class="muted small">
             Profili mban shënim:
             <ul>
               <li>Progresin në lojëra (nivel/yll)</li>
               <li>Streak të rutinës (ditë rresht me aktivitete të kryera)</li>
               <li>Rezultatet orientuese të pyetësorëve</li>
+              <li>Rezultatin e “Mosha e trurit” (orientues)</li>
             </ul>
           </div>
           <div class="note">
@@ -1261,6 +1348,8 @@ function renderProfile(){
   const streak = fixed.progress?.routines?.streak || 0;
   const lastDay = fixed.progress?.routines?.lastDay;
 
+  const ba = fixed.lastResults?.brainAge;
+
   view.innerHTML = `
     <div class="glass card-pad stack">
       <div class="row" style="justify-content:space-between; align-items:flex-start">
@@ -1288,16 +1377,21 @@ function renderProfile(){
 
           <div class="note">
             <b>Streak i rutinës:</b> <b>${streak}</b> ditë rresht<br>
-            <span class="tiny muted" style="color:rgba(255,255,255,.70)">Dita e fundit e plotësuar: ${esc(lastDay || "—")}</span>
+            <span class="tiny muted">Dita e fundit e plotësuar: ${esc(lastDay || "—")}</span>
+          </div>
+
+          <div class="note">
+            <b>Mosha e trurit (orientuese):</b> ${ba ? `<b>${esc(ba.ageEq)} vjeç</b> (skor mesatar: ${esc(ba.avgScore)}%)` : "—"}<br>
+            <span class="tiny muted">Kjo është moshë-ekuivalente e performancës në lojëra, jo diagnozë.</span>
           </div>
 
           <div>
             <div class="row" style="justify-content:space-between">
-              <b style="color:rgba(255,255,255,.92)">Progresi i lojërave</b>
+              <b>Progresi i lojërave</b>
               <span class="muted small">${overall.done}/${overall.total}</span>
             </div>
             <div class="progressbar"><div style="width:${overall.pct}%"></div></div>
-            <div class="tiny muted" style="margin-top:6px; color:rgba(255,255,255,.70)">Përfunduar: <b>${overall.pct}%</b></div>
+            <div class="tiny muted" style="margin-top:6px">Përfunduar: <b>${overall.pct}%</b></div>
           </div>
         </div>
 
@@ -1311,7 +1405,7 @@ function renderProfile(){
               return `
                 <div class="task">
                   <div>
-                    <b>${esc(g.title)}</b><div class="tiny muted" style="color:rgba(255,255,255,.70)">${doneLvls}/5 nivele</div>
+                    <b>${esc(g.title)}</b><div class="tiny muted">${doneLvls}/5 nivele</div>
                   </div>
                   <span class="pill secondary">${doneLvls===5 ? "✅" : "⭐"}</span>
                 </div>
@@ -1335,7 +1429,7 @@ function renderProfile(){
 
 function renderLoginInline(){
   view.innerHTML = `
-    <div class="glass card-pad stack" style="max-width:620px; margin:0 auto">
+    <div class="glass card-pad stack" style="max-width:640px; margin:0 auto">
       <div>
         <div class="section-title">Log in</div>
         <div class="muted small">Fut username dhe password për të hapur profilin.</div>
@@ -1379,7 +1473,7 @@ function renderInformohu(){
     <div class="dna-stage">
       <div class="glass dna-box">
         <div class="dna-bg"></div>
-        ${helixSVG(.95)}
+        ${helixSVG(.98)}
 
         ${INFO_TOPICS.map((t, i)=>{
           const pos = [
@@ -1391,15 +1485,8 @@ function renderInformohu(){
             {x: "50%", y:"83%"},
           ][i];
 
-          const c = [
-            "rgba(58,174,111,.95)",
-            "rgba(122,230,174,.90)",
-            "rgba(191,233,255,.80)",
-            "rgba(255,213,138,.80)",
-            "rgba(255,155,199,.75)",
-            "rgba(203,185,255,.75)"
-          ][i];
-
+          const colors = ["#2f8a5e","#43a874","#67c08f","#7fd7ff","#ffd36a","#ff78b7"];
+          const c = colors[i % colors.length];
           return `
             <div class="marker" data-topic="${i}" style="left:${pos.x}; top:${pos.y}">
               <span style="background:${c}">!</span>
@@ -1412,13 +1499,13 @@ function renderInformohu(){
         <div>
           <div class="section-title">Informohu</div>
           <div class="muted small">
-            Kliko shenjën <b>!</b> në ADN për të hapur temën përkatëse. Pastaj vazhdo me shigjeta te tema tjetër.
+            Kliko shenjën <b>!</b> në ADN për të hapur temën përkatëse. Pastaj mund të vazhdosh me shigjetë tek tema tjetër.
           </div>
         </div>
 
         <div class="note">
           <b>Temat:</b>
-          <ul class="small" style="margin:8px 0 0; color:rgba(255,255,255,.78); line-height:1.55">
+          <ul class="small" style="margin:8px 0 0; color:rgba(12,23,18,.78)">
             ${INFO_TOPICS.map(t=>`<li>${esc(t.title)}</li>`).join("")}
           </ul>
         </div>
@@ -1461,7 +1548,7 @@ function renderInfoTopic(){
 
       <div class="note">
         <b>Informacion i përgjithshëm</b>
-        <ul class="small" style="margin:8px 0 0; color:rgba(255,255,255,.82); line-height:1.6">
+        <ul class="small" style="margin:8px 0 0; color:rgba(12,23,18,.78); line-height:1.55">
           ${t.bullets.map(b=>`<li>${esc(b)}</li>`).join("")}
         </ul>
       </div>
@@ -1506,7 +1593,7 @@ function renderGamesMenu(){
       </div>
 
       <div class="note tiny">
-        <b>Pauz/Resume:</b> Në lojë do shohësh <b>pauzë</b> (▶) dhe <b>resume</b> (||) sipas ikonave standarde.
+        <b>Pauz/Resume:</b> Në lojë do shohësh <b>pauzë</b> (▶) dhe <b>resume</b> (||) sipas ikonave të kërkuara.
       </div>
 
       <div class="row">
@@ -1564,7 +1651,7 @@ function renderGameLevels(){
 }
 
 /* =======================
-   GAME PLAY (core unchanged)
+   GAME PLAY
 ======================= */
 function renderGamePlay(){
   const g = GAMES.find(x=>x.id===state.selectedGameId) || GAMES[0];
@@ -1591,8 +1678,12 @@ function renderGamePlay(){
           <span class="hud-chip" id="hudGoal">Qëllimi: —</span>
           <span class="hud-chip" id="hudScore">Progres: 0%</span>
           <div class="row" style="gap:10px">
-            <div class="iconbtn" id="pauseBtn" title="Pauzë (▶)"><div class="tri"></div></div>
-            <div class="iconbtn" id="resumeBtn" title="Vazhdo (||)" style="display:none"><div class="bars"><i></i><i></i></div></div>
+            <div class="iconbtn" id="pauseBtn" title="Pauzë (▶)">
+              <div class="tri"></div>
+            </div>
+            <div class="iconbtn" id="resumeBtn" title="Vazhdo (||)" style="display:none">
+              <div class="bars"><i></i><i></i></div>
+            </div>
           </div>
         </div>
 
@@ -1676,29 +1767,30 @@ function renderGamePlay(){
   if(g.id === "koordinim") return game_Coordination(lvl, gameArea, setGoal, setPct, runtime, finishGame);
 }
 
-/* ==== GAME 1: Communication ==== */
+/* ==== GAME 1 (FIXED: unique targets per level) ==== */
 function game_Communication(lvl, root, setGoal, setPct, rt, finish){
   const pool = [
-    {w:"Ujë", p:"🫗"},
-    {w:"Bukë", p:"🍞"},
-    {w:"Libër", p:"📘"},
-    {w:"Top", p:"⚽"},
-    {w:"Gjumi", p:"🌙"},
-    {w:"Luaj", p:"🎲"},
-    {w:"Muzikë", p:"🎵"},
-    {w:"Vizat", p:"✏️"},
+    {w:"Ujë", p:"🫗"},{w:"Bukë", p:"🍞"},{w:"Libër", p:"📘"},{w:"Top", p:"⚽"},
+    {w:"Gjumi", p:"🌙"},{w:"Luaj", p:"🎲"},{w:"Muzikë", p:"🎵"},{w:"Vizat", p:"✏️"},
+    {w:"Mollë", p:"🍎"},{w:"Banane", p:"🍌"},{w:"Karrige", p:"🪑"},{w:"Shtëpi", p:"🏠"},
+    {w:"Zemër", p:"💚"},{w:"Diell", p:"☀️"},{w:"Lule", p:"🌼"},{w:"Qen", p:"🐶"},
   ];
-  const count = Math.min(3+lvl, 8);
-  const items = shuffle(pool).slice(0,count);
-  let target = items[Math.floor(Math.random()*items.length)];
+
+  const itemCount = Math.min(6 + lvl, pool.length);
+  const items = shuffle(pool).slice(0, itemCount);
+
+  let targetCycle = shuffle(items).slice();
+  let target = targetCycle.pop();
+
   let correct = 0;
-  const need = Math.max(4, 3+lvl);
+  const need = Math.max(4, 4 + lvl);
 
   setGoal(`Kliko ikonën që përputhet me fjalën: “${target.w}” (duhen ${need} saktë)`);
   setPct(0);
 
   function nextTarget(){
-    target = items[Math.floor(Math.random()*items.length)];
+    if(targetCycle.length === 0) targetCycle = shuffle(items).slice();
+    target = targetCycle.pop();
     setGoal(`Kliko ikonën që përputhet me fjalën: “${target.w}” (duhen ${need} saktë)`);
   }
 
@@ -1708,7 +1800,7 @@ function game_Communication(lvl, root, setGoal, setPct, rt, finish){
     root.innerHTML = `
       <div class="note small">Fjala: <b style="font-size:18px">${esc(target.w)}</b></div>
       <div class="tiles">
-        ${items.map(it=>`<div class="tile" data-w="${esc(it.w)}" style="font-size:26px">${esc(it.p)}</div>`).join("")}
+        ${items.map(it=>`<div class="tile" data-w="${esc(it.w)}" style="font-size:28px">${esc(it.p)}</div>`).join("")}
       </div>
     `;
     root.querySelectorAll(".tile").forEach(t=>{
@@ -1720,17 +1812,21 @@ function game_Communication(lvl, root, setGoal, setPct, rt, finish){
           correct++;
           setPct(Math.min(100, Math.round((correct/need)*100)));
           if(correct >= need) return finish(true);
-          setTimeout(()=>{ t.classList.remove("good"); nextTarget(); renderTiles(); }, 250);
+          setTimeout(()=>{
+            t.classList.remove("good");
+            nextTarget();
+            renderTiles();
+          }, 220);
         }else{
           t.classList.add("bad");
-          setTimeout(()=>t.classList.remove("bad"), 250);
+          setTimeout(()=>t.classList.remove("bad"), 220);
         }
       });
     });
   }
 }
 
-/* ==== GAME 2: Social ==== */
+/* ==== GAME 2 ==== */
 function game_Social(lvl, root, setGoal, setPct, rt, finish){
   const scenarios = [
     {q:"Një shok thotë: “A luajmë bashkë?”", a:["Po, hajde të luajmë.","Ik.","Nuk e dëgjoj."], ok:0},
@@ -1739,11 +1835,13 @@ function game_Social(lvl, root, setGoal, setPct, rt, finish){
     {q:"Nëse lodhem, mund të them:", a:["Kam nevojë për pushim.","Jam i keq.","S’di."], ok:0},
     {q:"Kur dua një lodër, mund të pyes:", a:["A mund ta marr, të lutem?","Ma jep tani!","E marr vetë."], ok:0},
     {q:"Kur mbaroj lojën, mund të them:", a:["Faleminderit.","Hë.","S’ka gjë."], ok:0},
+    {q:"Kur jam i mërzitur, mund të them:", a:["Më duhet pak qetësi.","Do bërtas!","Do iki."], ok:0},
+    {q:"Kur dikush bie, mund të them:", a:["A je mirë?","Nuk më intereson.","Qesh."], ok:0},
   ];
 
-  const rounds = Math.max(4, 3+lvl);
+  const rounds = Math.min(scenarios.length, Math.max(4, 3+lvl));
   let score = 0, idx = 0;
-  const deck = shuffle(scenarios).slice(0, Math.min(rounds, scenarios.length));
+  const deck = shuffle(scenarios).slice(0, rounds);
 
   setGoal(`Zgjidh përgjigjen më të sjellshme (duhen ${rounds} raunde).`);
   setPct(0);
@@ -1760,8 +1858,12 @@ function game_Social(lvl, root, setGoal, setPct, rt, finish){
       t.addEventListener("click", ()=>{
         if(rt.isPaused()) return;
         const chosen = Number(t.getAttribute("data-i"));
-        if(chosen === s.ok){ t.classList.add("good"); score++; }
-        else{ t.classList.add("bad"); }
+        if(chosen === s.ok){
+          t.classList.add("good");
+          score++;
+        }else{
+          t.classList.add("bad");
+        }
         setTimeout(()=>{
           idx++;
           setPct(Math.round((idx/rounds)*100));
@@ -1774,7 +1876,7 @@ function game_Social(lvl, root, setGoal, setPct, rt, finish){
   draw();
 }
 
-/* ==== GAME 3: Focus ==== */
+/* ==== GAME 3 (FIXED: sequence without repeating numbers inside the sequence) ==== */
 function game_Focus(lvl, root, setGoal, setPct, rt, finish){
   const size = Math.min(12, 6+lvl*2);
   const seqLen = Math.min(8, 3+lvl);
@@ -1788,9 +1890,9 @@ function game_Focus(lvl, root, setGoal, setPct, rt, finish){
   const nums = Array.from({length:size}, (_,i)=>i+1);
 
   function newRound(){
-    seq = [];
     input = [];
-    for(let i=0;i<seqLen;i++) seq.push(nums[Math.floor(Math.random()*nums.length)]);
+    // sample without replacement
+    seq = shuffle(nums).slice(0, seqLen);
     showing = true;
     render(true);
     showSequence();
@@ -1800,7 +1902,11 @@ function game_Focus(lvl, root, setGoal, setPct, rt, finish){
     let i=0;
     const highlight = () => {
       if(rt.isPaused()) { rt.timeout = setTimeout(highlight, 200); return; }
-      if(i>=seq.length){ showing=false; render(false); return; }
+      if(i>=seq.length){
+        showing=false;
+        render(false);
+        return;
+      }
       const n = seq[i];
       const el = root.querySelector(`[data-n="${n}"]`);
       if(el){
@@ -1842,7 +1948,9 @@ function game_Focus(lvl, root, setGoal, setPct, rt, finish){
         }
 
         setPct(Math.round((input.length/seqLen)*100));
-        if(input.length >= seqLen) setTimeout(()=>finish(true), 320);
+        if(input.length >= seqLen){
+          setTimeout(()=>finish(true), 320);
+        }
       });
     });
   }
@@ -1850,7 +1958,7 @@ function game_Focus(lvl, root, setGoal, setPct, rt, finish){
   newRound();
 }
 
-/* ==== GAME 4: Emotions ==== */
+/* ==== GAME 4 (FIXED: unique targets + expanded pool) ==== */
 function game_Emotions(lvl, root, setGoal, setPct, rt, finish){
   const faces = [
     {w:"I gëzuar", f:"😊"},
@@ -1859,24 +1967,32 @@ function game_Emotions(lvl, root, setGoal, setPct, rt, finish){
     {w:"I frikësuar", f:"😨"},
     {w:"I befasuar", f:"😮"},
     {w:"I qetë", f:"😌"},
+    {w:"I hutuar", f:"😕"},
+    {w:"I lodhur", f:"😴"},
+    {w:"I turpshëm", f:"😳"},
+    {w:"I sëmurë", f:"🤢"},
   ];
 
-  const rounds = Math.max(4, 3+lvl);
+  const rounds = Math.min(faces.length, Math.max(4, 3 + lvl));
   let done = 0;
+  let targetCycle = shuffle(faces).slice(0, rounds);
 
-  setGoal(`Zgjidh fytyrën që përputhet me emocioni (raunde: ${rounds}).`);
+  setGoal(`Zgjidh fytyrën që përputhet me emocionin (raunde: ${rounds}).`);
   setPct(0);
 
   function round(){
-    const target = faces[Math.floor(Math.random()*faces.length)];
-    const opts = shuffle([target, ...shuffle(faces.filter(x=>x!==target)).slice(0, Math.min(2+lvl, faces.length-1))]);
+    const target = targetCycle[done];
+    const optCount = Math.min(4, 2 + lvl);
+    const distractors = shuffle(faces.filter(x=>x.w !== target.w)).slice(0, Math.max(2, optCount - 1));
+    const opts = shuffle([target, ...distractors]);
 
     root.innerHTML = `
       <div class="note small">Emocioni: <b style="font-size:18px">${esc(target.w)}</b></div>
       <div class="tiles" style="margin-top:10px">
-        ${opts.map(o=>`<div class="tile" data-w="${esc(o.w)}" style="font-size:30px">${esc(o.f)}</div>`).join("")}
+        ${opts.map(o=>`<div class="tile" data-w="${esc(o.w)}" style="font-size:32px">${esc(o.f)}</div>`).join("")}
       </div>
     `;
+
     root.querySelectorAll(".tile").forEach(t=>{
       t.addEventListener("click", ()=>{
         if(rt.isPaused()) return;
@@ -1885,19 +2001,20 @@ function game_Emotions(lvl, root, setGoal, setPct, rt, finish){
           t.classList.add("good");
           done++;
           setPct(Math.round((done/rounds)*100));
-          if(done>=rounds) return finish(true);
-          setTimeout(round, 360);
+          if(done >= rounds) return finish(true);
+          setTimeout(round, 320);
         }else{
           t.classList.add("bad");
-          setTimeout(()=>t.classList.remove("bad"), 260);
+          setTimeout(()=>t.classList.remove("bad"), 220);
         }
       });
     });
   }
+
   round();
 }
 
-/* ==== GAME 5: Sensory ==== */
+/* ==== GAME 5 (FIXED: more pairs + unique within level) ==== */
 function game_Sensory(lvl, root, setGoal, setPct, rt, finish){
   const pairs = [
     {q:"Zhurmë e lartë apo zë i butë?", a:["Zë i butë","Zhurmë e lartë"], ok:0},
@@ -1905,16 +2022,22 @@ function game_Sensory(lvl, root, setGoal, setPct, rt, finish){
     {q:"Teksturë e ashpër apo e butë?", a:["E butë","E ashpër"], ok:0},
     {q:"Shumë njerëz apo kënd i qetë?", a:["Kënd i qetë","Shumë njerëz"], ok:0},
     {q:"Ritëm i shpejtë apo i ngadaltë?", a:["I ngadaltë","I shpejtë"], ok:0},
+    {q:"Erë e fortë apo erë neutrale?", a:["Erë neutrale","Erë e fortë"], ok:0},
+    {q:"Prekje e papritur apo paralajmërim i butë?", a:["Paralajmërim i butë","Prekje e papritur"], ok:0},
+    {q:"Ambient i ndriçuar fort apo dritë e ulët?", a:["Dritë e ulët","Ndriçim i fortë"], ok:0},
+    {q:"Muzikë e fortë apo muzikë e butë?", a:["Muzikë e butë","Muzikë e fortë"], ok:0},
+    {q:"Shumë ngjyra apo pak ngjyra?", a:["Pak ngjyra","Shumë ngjyra"], ok:0},
   ];
 
-  const rounds = Math.max(4, 3+lvl);
+  const rounds = Math.min(pairs.length, Math.max(4, 3+lvl));
   let i=0, ok=0;
-  const deck = shuffle(pairs);
+  const deck = shuffle(pairs).slice(0, rounds);
+
   setGoal(`Zgjidh opsionin më qetësues (raunde: ${rounds}).`);
   setPct(0);
 
   function draw(){
-    const s = deck[i % deck.length];
+    const s = deck[i];
     root.innerHTML = `
       <div class="note small"><b>Pyetje:</b> ${esc(s.q)}</div>
       <div class="row" style="margin-top:10px">
@@ -1938,7 +2061,7 @@ function game_Sensory(lvl, root, setGoal, setPct, rt, finish){
   draw();
 }
 
-/* ==== GAME 6: Coordination ==== */
+/* ==== GAME 6 ==== */
 function game_Coordination(lvl, root, setGoal, setPct, rt, finish){
   const needed = Math.max(8, 6 + lvl*4);
   let hit = 0;
@@ -1947,7 +2070,7 @@ function game_Coordination(lvl, root, setGoal, setPct, rt, finish){
 
   root.innerHTML = `
     <div class="note small">Prek shenjën kur shfaqet. Merr kohën tënde.</div>
-    <div id="arena" class="glass" style="height:320px; border-radius:22px; position:relative; overflow:hidden; margin-top:10px; background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14)"></div>
+    <div id="arena" class="glass" style="height:320px; border-radius:22px; position:relative; overflow:hidden; margin-top:10px; background: rgba(255,255,255,.20); border:1px solid rgba(255,255,255,.35)"></div>
   `;
   const arena = document.getElementById("arena");
 
@@ -1959,12 +2082,12 @@ function game_Coordination(lvl, root, setGoal, setPct, rt, finish){
     b.className = "marker";
     b.style.width = "60px";
     b.style.height = "60px";
-    b.style.borderRadius = "18px";
+    b.style.borderRadius = "20px";
     b.style.left = (10 + Math.random()*80) + "%";
     b.style.top = (10 + Math.random()*70) + "%";
 
-    const c = ["rgba(58,174,111,.95)","rgba(122,230,174,.90)","rgba(191,233,255,.75)","rgba(255,213,138,.75)","rgba(255,155,199,.70)"][Math.floor(Math.random()*5)];
-    b.innerHTML = `<span style="background:${c}; width:34px; height:34px">●</span>`;
+    const c = ["#2f8a5e","#43a874","#67c08f","#7fd7ff","#ffd36a","#ff78b7"][Math.floor(Math.random()*6)];
+    b.innerHTML = `<span style="background:${c}; width:36px; height:36px">●</span>`;
     arena.appendChild(b);
 
     b.addEventListener("click", ()=>{
@@ -1991,7 +2114,7 @@ function stopGameRuntime(){
 }
 
 /* =======================
-   Fillo Ndryshimin (12 Q)
+   CHANGE (12 Q)
 ======================= */
 function renderChange(){
   const questions = [
@@ -2052,8 +2175,8 @@ function renderChange(){
     const msg = interpretPct(pct);
     text.innerHTML = `
       <div><b>Probabilitet orientues:</b> <span style="font-size:22px">${pct}%</span></div>
-      <div class="small muted" style="margin-top:6px; color:rgba(255,255,255,.78)">${esc(msg)}</div>
-      <div class="tiny muted" style="margin-top:10px; color:rgba(255,255,255,.70)">Këshillë: Nëse keni shqetësime, konsultohuni me specialist.</div>
+      <div class="small muted" style="margin-top:6px">${esc(msg)}</div>
+      <div class="tiny muted" style="margin-top:10px">Këshillë: Nëse keni shqetësime, konsultohuni me specialist.</div>
     `;
 
     const u = currentUser();
@@ -2079,7 +2202,7 @@ function renderChange(){
 }
 
 /* =======================
-   Rutina Ime (20 Q + Plan)
+   ROUTINE (20 Q + plan)
 ======================= */
 function renderRoutine(){
   const questions = [
@@ -2184,7 +2307,9 @@ function renderRoutine(){
   });
 
   const existing = loadRoutine();
-  if(existing) showPlan(existing.plan, existing.emphasis, true);
+  if(existing){
+    showPlan(existing.plan, existing.emphasis, true);
+  }
 
   function showPlan(plan, emphasis, existing=false){
     form.classList.add("hidden");
@@ -2192,9 +2317,7 @@ function renderRoutine(){
 
     planNote.innerHTML = `
       <b>Fokus:</b> ${esc(emphasis.join(", "))}<br>
-      <span class="muted" style="color:rgba(255,255,255,.70)">
-        Plani është ${existing ? "i ruajtur nga më parë" : "gjeneruar tani"} dhe mund të kontrollohet me checklist.
-      </span>
+      <span class="muted">Plani është ${existing ? "i ruajtur nga më parë" : "gjeneruar tani"} dhe mund të kontrollohet me checklist.</span>
     `;
 
     const store = loadRoutine() || { checks:{} };
@@ -2207,7 +2330,7 @@ function renderRoutine(){
       return `
         <div class="glass card-pad stack">
           <div class="row" style="justify-content:space-between">
-            <b style="color:rgba(255,255,255,.92)">${esc(day.name)}</b>
+            <b>${esc(day.name)}</b>
             <span class="pill secondary">${allChecked ? "✅ Dita e plotë" : "☑️ Checklist"}</span>
           </div>
           ${day.tasks.map((t, ti)=>{
@@ -2217,7 +2340,7 @@ function renderRoutine(){
               <div class="task">
                 <div>
                   <b>${esc(t.title)}</b>
-                  <div class="tiny muted" style="color:rgba(255,255,255,.70)">${esc(t.how)}</div>
+                  <div class="tiny muted">${esc(t.how)}</div>
                 </div>
                 <div class="check ${on ? "on":""}" data-check="${k}">${on ? "✓" : ""}</div>
               </div>
@@ -2241,6 +2364,785 @@ function renderRoutine(){
 
     maybeUpdateStreak(plan, checks);
   }
+}
+
+/* =======================
+   MOSHA E TRURIT (12 MINI-GAMES)
+   - “Age-equivalent performance” only (not diagnosis)
+======================= */
+function renderBrainAge(){
+  const u = currentUser();
+  const suggestedAge = u?.childAge ? Number(u.childAge) : 8;
+
+  const existing = loadBrainAge();
+  const last = existing?.result;
+
+  view.innerHTML = `
+    <div class="glass card-pad stack" id="brainAgeCard">
+      <div class="row" style="justify-content:space-between; align-items:flex-start">
+        <div>
+          <div class="section-title">Mosha e trurit</div>
+          <div class="muted small">
+            12 mini-lojëra të qeta → nxjerrin <b>moshë-ekuivalente të performancës</b> (orientuese).
+          </div>
+        </div>
+        <button class="pill secondary" onclick="go('home')">🏠 Kryesore</button>
+      </div>
+
+      <div class="note tiny">
+        <b>Kujdes:</b> Ky nuk është test IQ dhe nuk jep diagnozë. Është vetëm “moshë loje” (performancë në mini-lojëra).
+        Për vlerësim klinik, konsultohuni me specialist.
+      </div>
+
+      <div class="grid2">
+        <div class="glass card-pad stack">
+          <div class="section-title">Para se të fillosh</div>
+          <div class="muted small">
+            Zgjidh moshën kronologjike të fëmijës (për llogaritjen e moshës-ekuivalente).
+          </div>
+
+          <div class="row">
+            <div class="field" style="flex:1">
+              <label>Mosha kronologjike (vjeç)</label>
+              <input id="brainAgeInput" type="number" min="1" max="18" value="${esc(suggestedAge)}"/>
+            </div>
+          </div>
+
+          <div class="row">
+            <button class="pill" id="startBrainAge">Fillo 12 lojërat</button>
+            <button class="pill secondary" id="resumeBrainAge">Vazhdo nga ku mbete</button>
+          </div>
+
+          ${last ? `
+            <div class="note">
+              <b>Rezultati i fundit (orientues):</b><br>
+              Mosha-ekuivalente: <b>${esc(last.ageEq)} vjeç</b><br>
+              Skor mesatar: <b>${esc(last.avgScore)}%</b><br>
+              <span class="tiny muted">Ruajtur: ${niceDate(new Date(last.at))}</span>
+            </div>
+          ` : `
+            <div class="note tiny">Nuk ka rezultat të ruajtur ende.</div>
+          `}
+        </div>
+
+        <div class="glass card-pad stack">
+          <div class="section-title">Si funksionon</div>
+          <div class="muted small">
+            - 12 lojëra të shkurtra (30–60 sek secila)<br>
+            - Për secilën lojë merret një skor (0–100)<br>
+            - Skori mesatar kthehet në “moshë loje” (orientuese)
+          </div>
+          <div class="note">
+            <b>Këshillë për autizëm:</b> Mbaje ambientin e qetë, përdor pauza, dhe mos e bëj me nxitim.
+          </div>
+        </div>
+      </div>
+
+      <div class="glass card-pad stack hidden" id="brainAgePlayBox">
+        <div class="row" style="justify-content:space-between; align-items:center">
+          <div class="row" style="gap:10px; align-items:center">
+            <span class="pill secondary" id="brainAgeTitle">Loja 1/12</span>
+            <span class="pill secondary" id="brainAgeHint">—</span>
+          </div>
+          <div class="row" style="gap:10px">
+            <button class="pill secondary" id="brainAgeQuit">Pusho & kthehu</button>
+          </div>
+        </div>
+
+        <div class="stepper" id="brainAgeStepper"></div>
+        <div id="brainAgeArea"></div>
+      </div>
+
+      <div class="glass card-pad stack hidden" id="brainAgeResultBox">
+        <div class="section-title">Rezultati (orientues)</div>
+        <div class="note" id="brainAgeResultText"></div>
+        <div class="row">
+          <button class="pill" id="brainAgeSaveImg">Ruaje në gallery</button>
+          <button class="pill secondary" id="brainAgeAgain">Bëje përsëri</button>
+          <button class="pill secondary" onclick="go('home')">🏠 Kryesore</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  const startBtn = document.getElementById("startBrainAge");
+  const resumeBtn = document.getElementById("resumeBrainAge");
+  const playBox = document.getElementById("brainAgePlayBox");
+  const resBox = document.getElementById("brainAgeResultBox");
+  const area = document.getElementById("brainAgeArea");
+  const titleEl = document.getElementById("brainAgeTitle");
+  const hintEl = document.getElementById("brainAgeHint");
+  const stepperEl = document.getElementById("brainAgeStepper");
+  const quitBtn = document.getElementById("brainAgeQuit");
+
+  const ageInput = document.getElementById("brainAgeInput");
+
+  function resetRun(){
+    state.brainAgeStep = 0;
+    state.brainAgeScores = [];
+    saveBrainAge({ progress:{ step:0, scores:[] }, chronoAge: Number(ageInput.value||suggestedAge) });
+  }
+
+  function loadRun(){
+    const store = loadBrainAge();
+    if(store?.progress){
+      state.brainAgeStep = Number(store.progress.step||0);
+      state.brainAgeScores = Array.isArray(store.progress.scores) ? store.progress.scores : [];
+    }else{
+      resetRun();
+    }
+  }
+
+  startBtn.addEventListener("click", ()=>{
+    resetRun();
+    startPlay();
+  });
+
+  resumeBtn.addEventListener("click", ()=>{
+    loadRun();
+    startPlay();
+  });
+
+  quitBtn.addEventListener("click", ()=>{
+    // save progress
+    saveBrainAge({ progress:{ step: state.brainAgeStep, scores: state.brainAgeScores }, chronoAge: Number(ageInput.value||suggestedAge), result: loadBrainAge()?.result || null });
+    playBox.classList.add("hidden");
+    resBox.classList.add("hidden");
+    // show setup again
+    renderBrainAge();
+  });
+
+  function startPlay(){
+    playBox.classList.remove("hidden");
+    resBox.classList.add("hidden");
+    runStep();
+  }
+
+  const games12 = [
+    { key:"tap", name:"Reagim i butë", hint:"Prek yllin 6 herë", run: miniTap },
+    { key:"match", name:"Përputhje figurash", hint:"Gjej çiftet (2x3)", run: miniMatchPairs },
+    { key:"odd", name:"Gjeje të ndryshmen", hint:"Zgjidh atë që s’përket", run: miniOddOneOut },
+    { key:"mem2", name:"Kujtesë e shpejtë", hint:"Mbaj mend 3 numra", run: miniMemorySequence },
+    { key:"count", name:"Numërim i qetë", hint:"Zgjidh numrin e saktë", run: miniCounting },
+    { key:"order", name:"Renditje", hint:"Nga më e vogla tek më e madhja", run: miniOrder },
+    { key:"em", name:"Emocione të buta", hint:"Zgjidh fytyrën e duhur", run: miniEmotionPick },
+    { key:"color", name:"Ngjyra", hint:"Gjej ngjyrën e kërkuar", run: miniColorPick },
+    { key:"shape", name:"Forma", hint:"Gjej formën e kërkuar", run: miniShapePick },
+    { key:"focus", name:"Fokus i shkurtër", hint:"Prek vetëm “●”", run: miniSelectiveAttention },
+    { key:"route", name:"Ndjekje udhëzimi", hint:"Zgjidh veprimin e sjellshëm", run: miniSocialChoice },
+    { key:"final", name:"Puzzle i lehtë", hint:"Zgjidh pjesën që plotëson", run: miniPuzzleFill },
+  ];
+
+  function renderStepper(){
+    stepperEl.innerHTML = games12.map((_,i)=>`<div class="stepDot ${i===state.brainAgeStep?'on':''}">${i+1}</div>`).join("");
+  }
+
+  async function runStep(){
+    const idx = state.brainAgeStep || 0;
+    if(idx >= games12.length){
+      return showResult();
+    }
+
+    renderStepper();
+
+    const g = games12[idx];
+    titleEl.textContent = `Loja ${idx+1}/12 • ${g.name}`;
+    hintEl.textContent = g.hint;
+
+    // ensure chrono age saved
+    const chronoAge = Number(ageInput.value || suggestedAge);
+    saveBrainAge({ progress:{ step: state.brainAgeStep, scores: state.brainAgeScores }, chronoAge, result: loadBrainAge()?.result || null });
+
+    area.innerHTML = `<div class="note small">Duke u përgatitur…</div>`;
+    const score = await g.run(area);
+    const s = clampInt(score, 0, 100);
+
+    state.brainAgeScores[idx] = s;
+    state.brainAgeStep = idx + 1;
+
+    saveBrainAge({ progress:{ step: state.brainAgeStep, scores: state.brainAgeScores }, chronoAge, result: loadBrainAge()?.result || null });
+
+    // short calm transition
+    area.innerHTML = `
+      <div class="note">
+        <b>Skori i lojës:</b> <span style="font-size:20px">${s}%</span><br>
+        <span class="tiny muted">Kalojmë te loja tjetër…</span>
+      </div>
+    `;
+    setTimeout(runStep, 650);
+  }
+
+  function showResult(){
+    playBox.classList.add("hidden");
+    resBox.classList.remove("hidden");
+
+    const chronoAge = Number(ageInput.value || suggestedAge);
+    const scores = state.brainAgeScores.filter(x => typeof x === "number");
+    const avg = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) : 0;
+
+    // Map avgScore -> age equivalent (0% => 40% of age; 100% => 120% of age)
+    const factor = 0.4 + 0.8*(avg/100);
+    const ageEq = clampInt(Math.round(chronoAge * factor), 2, 18);
+
+    const msg = brainAgeMessage(avg);
+
+    const result = { ageEq, avgScore: avg, chronoAge, scores, at: Date.now() };
+
+    // save to profile if exists
+    const uu = currentUser();
+    if(uu){
+      const u2 = ensureUserProgress(uu);
+      u2.lastResults = u2.lastResults || {};
+      u2.lastResults.brainAge = result;
+      updateUser(u2);
+    }
+
+    // save store
+    saveBrainAge({ progress:{ step:0, scores:[] }, chronoAge, result });
+
+    const box = document.getElementById("brainAgeResultText");
+    box.innerHTML = `
+      <div><b>Mosha kronologjike:</b> ${esc(chronoAge)} vjeç</div>
+      <div><b>Skor mesatar:</b> <span style="font-size:22px">${esc(avg)}%</span></div>
+      <div style="margin-top:8px"><b>Mosha-ekuivalente e performancës (orientuese):</b> <span style="font-size:22px">${esc(ageEq)} vjeç</span></div>
+      <div class="small muted" style="margin-top:8px">${esc(msg)}</div>
+      <div class="tiny muted" style="margin-top:10px">
+        Kjo është “moshë loje” dhe mund të ndryshojë shumë nga dita në ditë (lodhje, motivim, stres, etj.).
+      </div>
+    `;
+
+    document.getElementById("brainAgeAgain").addEventListener("click", ()=>{
+      state.brainAgeStep = 0;
+      state.brainAgeScores = [];
+      renderBrainAge();
+    });
+
+    document.getElementById("brainAgeSaveImg").addEventListener("click", async ()=>{
+      await saveElementAsImage(document.getElementById("brainAgeCard"));
+    });
+  }
+}
+
+/* ----- 12 MINI GAMES (all calm, no harsh timers) ----- */
+function miniTap(root){
+  return new Promise(resolve=>{
+    let hit = 0;
+    const need = 6;
+    root.innerHTML = `
+      <div class="note small">Prek yllin kur e sheh. Duhet: <b>${need}</b> herë.</div>
+      <div id="tapArena" class="glass" style="height:320px; border-radius:22px; position:relative; overflow:hidden; margin-top:10px; background: rgba(255,255,255,.20); border:1px solid rgba(255,255,255,.35)"></div>
+      <div class="row" style="margin-top:10px"><span class="pill secondary" id="tapHud">0/${need}</span></div>
+    `;
+    const arena = root.querySelector("#tapArena");
+    const hud = root.querySelector("#tapHud");
+
+    function spawn(){
+      arena.innerHTML = "";
+      const b = document.createElement("div");
+      b.className = "marker";
+      b.style.width="64px"; b.style.height="64px"; b.style.borderRadius="22px";
+      b.style.left = (8 + Math.random()*84) + "%";
+      b.style.top  = (10 + Math.random()*72) + "%";
+      const c = ["#2f8a5e","#43a874","#67c08f","#7fd7ff","#ffd36a","#ff78b7"][Math.floor(Math.random()*6)];
+      b.innerHTML = `<span style="background:${c}; width:38px; height:38px">★</span>`;
+      arena.appendChild(b);
+
+      b.addEventListener("click", ()=>{
+        hit++;
+        hud.textContent = `${hit}/${need}`;
+        b.style.transform="translateY(2px) scale(.98)";
+        if(hit>=need){
+          // score: always 100 here (no timer stress)
+          return resolve(100);
+        }
+        setTimeout(spawn, 380);
+      });
+    }
+    spawn();
+  });
+}
+
+function miniMatchPairs(root){
+  // 2x3 pairs = 6 tiles (3 pairs)
+  return new Promise(resolve=>{
+    const icons = shuffle(["🍏","🍌","🍓","🍇","🍉","🍊","🐶","🐱","🐼","🦊"]).slice(0,3);
+    const deck = shuffle([...icons, ...icons]);
+    let open = [];
+    let matched = 0;
+    let moves = 0;
+
+    root.innerHTML = `
+      <div class="note small">Gjej çiftet. Prek 2 karta. Qëllimi: 3 çifte.</div>
+      <div class="tiles" style="grid-template-columns: repeat(3, 1fr);">
+        ${deck.map((x,i)=>`<div class="tile" data-i="${i}" style="font-size:30px">?</div>`).join("")}
+      </div>
+      <div class="row"><span class="pill secondary" id="mpHud">Çifte: 0/3</span></div>
+    `;
+    const hud = root.querySelector("#mpHud");
+    const tiles = [...root.querySelectorAll(".tile")];
+
+    function reveal(i){
+      tiles[i].textContent = deck[i];
+      tiles[i].classList.add("good");
+    }
+    function hide(i){
+      tiles[i].textContent = "?";
+      tiles[i].classList.remove("good");
+      tiles[i].classList.remove("bad");
+    }
+
+    tiles.forEach(t=>{
+      t.addEventListener("click", ()=>{
+        const i = Number(t.getAttribute("data-i"));
+        if(t.getAttribute("data-done")==="1") return;
+        if(open.includes(i)) return;
+        if(open.length===2) return;
+
+        reveal(i);
+        open.push(i);
+
+        if(open.length===2){
+          moves++;
+          const [a,b] = open;
+          if(deck[a] === deck[b]){
+            tiles[a].setAttribute("data-done","1");
+            tiles[b].setAttribute("data-done","1");
+            matched++;
+            hud.textContent = `Çifte: ${matched}/3`;
+            open = [];
+            if(matched===3){
+              // score based on moves (best 3 moves)
+              const score = clampInt(Math.round(100 - (moves-3)*15), 55, 100);
+              return resolve(score);
+            }
+          }else{
+            tiles[a].classList.add("bad");
+            tiles[b].classList.add("bad");
+            setTimeout(()=>{
+              hide(a); hide(b);
+              open = [];
+            }, 520);
+          }
+        }
+      });
+    });
+  });
+}
+
+function miniOddOneOut(root){
+  return new Promise(resolve=>{
+    const rounds = 5;
+    let i=0, ok=0;
+
+    function round(){
+      const sets = [
+        {items:["🍎","🍐","🍌","🐶"], odd:3},
+        {items:["⚽","🏀","🎾","🍞"], odd:3},
+        {items:["🚗","🚌","🚲","🍇"], odd:3},
+        {items:["🌙","⭐","☀️","🧦"], odd:3},
+        {items:["🐱","🐶","🐰","🥕"], odd:3},
+        {items:["📘","✏️","🧠","🍊"], odd:3},
+      ];
+      const s = shuffle(sets)[0];
+
+      root.innerHTML = `
+        <div class="note small">Gjeje të ndryshmen. Raundi: <b>${i+1}/${rounds}</b></div>
+        <div class="tiles" style="grid-template-columns: repeat(4, 1fr);">
+          ${s.items.map((x,idx)=>`<div class="tile" data-i="${idx}" style="font-size:30px">${x}</div>`).join("")}
+        </div>
+      `;
+
+      root.querySelectorAll(".tile").forEach(t=>{
+        t.addEventListener("click", ()=>{
+          const idx = Number(t.getAttribute("data-i"));
+          if(idx===s.odd){ ok++; t.classList.add("good"); } else t.classList.add("bad");
+          i++;
+          setTimeout(()=>{
+            if(i>=rounds){
+              const score = Math.round((ok/rounds)*100);
+              return resolve(score);
+            }
+            round();
+          }, 420);
+        });
+      });
+    }
+    round();
+  });
+}
+
+function miniMemorySequence(root){
+  return new Promise(resolve=>{
+    const rounds = 3;
+    let done=0, ok=0;
+
+    function next(){
+      const seqLen = 3;
+      const nums = shuffle([1,2,3,4,5,6,7,8,9]).slice(0, seqLen);
+      root.innerHTML = `
+        <div class="note small">Shiko 3 numra për 2 sekonda, pastaj zgjidhi në rend.</div>
+        <div class="note" style="text-align:center; font-size:34px; font-weight:1000">${nums.join("  ")}</div>
+      `;
+      setTimeout(()=>{
+        const opts = shuffle([ ...nums, ...shuffle([1,2,3,4,5,6,7,8,9].filter(x=>!nums.includes(x))).slice(0,3) ]);
+        let input=[];
+        root.innerHTML = `
+          <div class="note small">Zgjidh numrat në rend: (raundi ${done+1}/${rounds})</div>
+          <div class="tiles" style="grid-template-columns: repeat(4, 1fr);">
+            ${opts.map(n=>`<div class="tile" data-n="${n}" style="font-size:18px">${n}</div>`).join("")}
+          </div>
+          <div class="row"><span class="pill secondary" id="msHud">0/${seqLen}</span></div>
+        `;
+        const hud = root.querySelector("#msHud");
+        root.querySelectorAll(".tile").forEach(t=>{
+          t.addEventListener("click", ()=>{
+            const n = Number(t.getAttribute("data-n"));
+            input.push(n);
+            hud.textContent = `${input.length}/${seqLen}`;
+            if(n !== nums[input.length-1]){
+              t.classList.add("bad");
+              done++;
+              setTimeout(()=>{
+                if(done>=rounds){
+                  const score = Math.round((ok/rounds)*100);
+                  return resolve(score);
+                }
+                next();
+              }, 420);
+              return;
+            }else{
+              t.classList.add("good");
+            }
+            if(input.length>=seqLen){
+              ok++;
+              done++;
+              setTimeout(()=>{
+                if(done>=rounds){
+                  const score = Math.round((ok/rounds)*100);
+                  return resolve(score);
+                }
+                next();
+              }, 420);
+            }
+          });
+        });
+      }, 2000);
+    }
+    next();
+  });
+}
+
+function miniCounting(root){
+  return new Promise(resolve=>{
+    const rounds=5;
+    let i=0, ok=0;
+    const icons = ["●","●","●","●","●","●","●","●"];
+
+    function round(){
+      const count = 2 + Math.floor(Math.random()*6); // 2..7
+      const shown = shuffle(icons).slice(0,count);
+      const options = shuffle([count, count+1, Math.max(1,count-1), count+2].filter((v,idx,arr)=>arr.indexOf(v)===idx)).slice(0,3);
+      if(!options.includes(count)) options[Math.floor(Math.random()*options.length)] = count;
+      const opts = shuffle(options);
+
+      root.innerHTML = `
+        <div class="note small">Sa pika shikon? Raundi: <b>${i+1}/${rounds}</b></div>
+        <div class="note" style="text-align:center; font-size:28px">${shown.join(" ")}</div>
+        <div class="row" style="margin-top:10px">
+          ${opts.map(n=>`<div class="tile" data-n="${n}" style="flex:1; min-height:70px">${n}</div>`).join("")}
+        </div>
+      `;
+      root.querySelectorAll(".tile").forEach(t=>{
+        t.addEventListener("click", ()=>{
+          const n = Number(t.getAttribute("data-n"));
+          if(n===count){ ok++; t.classList.add("good"); } else t.classList.add("bad");
+          i++;
+          setTimeout(()=>{
+            if(i>=rounds) return resolve(Math.round((ok/rounds)*100));
+            round();
+          }, 360);
+        });
+      });
+    }
+    round();
+  });
+}
+
+function miniOrder(root){
+  return new Promise(resolve=>{
+    const rounds=4;
+    let i=0, ok=0;
+
+    function round(){
+      const nums = shuffle([1,2,3,4,5,6,7,8,9]).slice(0,4);
+      const sorted = nums.slice().sort((a,b)=>a-b);
+      let input=[];
+
+      root.innerHTML = `
+        <div class="note small">Prek numrat nga më i vogli tek më i madhi. Raundi: <b>${i+1}/${rounds}</b></div>
+        <div class="tiles" style="grid-template-columns: repeat(4,1fr);">
+          ${nums.map(n=>`<div class="tile" data-n="${n}" style="font-size:18px">${n}</div>`).join("")}
+        </div>
+      `;
+      root.querySelectorAll(".tile").forEach(t=>{
+        t.addEventListener("click", ()=>{
+          const n = Number(t.getAttribute("data-n"));
+          input.push(n);
+          if(n !== sorted[input.length-1]){
+            t.classList.add("bad");
+            i++;
+            setTimeout(()=>{
+              if(i>=rounds) return resolve(Math.round((ok/rounds)*100));
+              round();
+            }, 380);
+            return;
+          }else{
+            t.classList.add("good");
+          }
+          if(input.length===sorted.length){
+            ok++;
+            i++;
+            setTimeout(()=>{
+              if(i>=rounds) return resolve(Math.round((ok/rounds)*100));
+              round();
+            }, 380);
+          }
+        });
+      });
+    }
+    round();
+  });
+}
+
+function miniEmotionPick(root){
+  return new Promise(resolve=>{
+    const faces = [
+      {w:"I gëzuar", f:"😊"},
+      {w:"I trishtuar", f:"😢"},
+      {w:"I zemëruar", f:"😠"},
+      {w:"I qetë", f:"😌"},
+      {w:"I befasuar", f:"😮"},
+    ];
+    const rounds = 5;
+    let i=0, ok=0;
+    const cycle = shuffle(faces).slice(0, rounds);
+
+    function round(){
+      const target = cycle[i];
+      const opts = shuffle([target, ...shuffle(faces.filter(x=>x!==target)).slice(0,2)]);
+      root.innerHTML = `
+        <div class="note small">Emocioni: <b>${esc(target.w)}</b> (raundi ${i+1}/${rounds})</div>
+        <div class="tiles" style="grid-template-columns: repeat(3,1fr);">
+          ${opts.map(o=>`<div class="tile" data-w="${esc(o.w)}" style="font-size:34px">${esc(o.f)}</div>`).join("")}
+        </div>
+      `;
+      root.querySelectorAll(".tile").forEach(t=>{
+        t.addEventListener("click", ()=>{
+          const w = t.getAttribute("data-w");
+          if(w===target.w){ ok++; t.classList.add("good"); } else t.classList.add("bad");
+          i++;
+          setTimeout(()=>{
+            if(i>=rounds) return resolve(Math.round((ok/rounds)*100));
+            round();
+          }, 360);
+        });
+      });
+    }
+    round();
+  });
+}
+
+function miniColorPick(root){
+  return new Promise(resolve=>{
+    const colors = [
+      {name:"Jeshile", hex:"#67c08f"},
+      {name:"Blu", hex:"#7fd7ff"},
+      {name:"Verdhë", hex:"#ffd36a"},
+      {name:"Rozë", hex:"#ff78b7"},
+    ];
+    const rounds=5;
+    let i=0, ok=0;
+    const cycle = shuffle(colors).slice(0, rounds);
+
+    function round(){
+      const target = cycle[i];
+      const opts = shuffle([target, ...shuffle(colors.filter(x=>x!==target)).slice(0,2)]);
+      root.innerHTML = `
+        <div class="note small">Gjej ngjyrën: <b>${esc(target.name)}</b> (raundi ${i+1}/${rounds})</div>
+        <div class="tiles" style="grid-template-columns: repeat(3,1fr);">
+          ${opts.map(o=>`
+            <div class="tile" data-n="${esc(o.name)}" style="min-height:86px">
+              <div style="width:36px; height:36px; border-radius:14px; background:${o.hex}; border:1px solid rgba(255,255,255,.55)"></div>
+            </div>
+          `).join("")}
+        </div>
+      `;
+      root.querySelectorAll(".tile").forEach(t=>{
+        t.addEventListener("click", ()=>{
+          const n = t.getAttribute("data-n");
+          if(n===target.name){ ok++; t.classList.add("good"); } else t.classList.add("bad");
+          i++;
+          setTimeout(()=>{
+            if(i>=rounds) return resolve(Math.round((ok/rounds)*100));
+            round();
+          }, 360);
+        });
+      });
+    }
+    round();
+  });
+}
+
+function miniShapePick(root){
+  return new Promise(resolve=>{
+    const shapes = [
+      {name:"Rreth", s:"●"},
+      {name:"Katror", s:"■"},
+      {name:"Trekëndësh", s:"▲"},
+      {name:"Yll", s:"★"},
+    ];
+    const rounds=5;
+    let i=0, ok=0;
+    const cycle = shuffle(shapes).slice(0, rounds);
+
+    function round(){
+      const target = cycle[i];
+      const opts = shuffle([target, ...shuffle(shapes.filter(x=>x!==target)).slice(0,2)]);
+      root.innerHTML = `
+        <div class="note small">Gjej formën: <b>${esc(target.name)}</b> (raundi ${i+1}/${rounds})</div>
+        <div class="tiles" style="grid-template-columns: repeat(3,1fr);">
+          ${opts.map(o=>`<div class="tile" data-n="${esc(o.name)}" style="font-size:34px">${esc(o.s)}</div>`).join("")}
+        </div>
+      `;
+      root.querySelectorAll(".tile").forEach(t=>{
+        t.addEventListener("click", ()=>{
+          const n = t.getAttribute("data-n");
+          if(n===target.name){ ok++; t.classList.add("good"); } else t.classList.add("bad");
+          i++;
+          setTimeout(()=>{
+            if(i>=rounds) return resolve(Math.round((ok/rounds)*100));
+            round();
+          }, 360);
+        });
+      });
+    }
+    round();
+  });
+}
+
+function miniSelectiveAttention(root){
+  return new Promise(resolve=>{
+    // tap only ● among mixed shapes
+    const rounds=10;
+    let i=0, ok=0;
+
+    function round(){
+      const items = shuffle(["●","■","▲","★","◆"]).slice(0,4);
+      if(!items.includes("●")) items[0] = "●";
+      const opts = shuffle(items);
+
+      root.innerHTML = `
+        <div class="note small">Prek vetëm <b>●</b>. Raundi: <b>${i+1}/${rounds}</b></div>
+        <div class="tiles" style="grid-template-columns: repeat(4,1fr);">
+          ${opts.map(x=>`<div class="tile" data-x="${esc(x)}" style="font-size:30px">${esc(x)}</div>`).join("")}
+        </div>
+      `;
+      root.querySelectorAll(".tile").forEach(t=>{
+        t.addEventListener("click", ()=>{
+          const x = t.getAttribute("data-x");
+          if(x==="●"){ ok++; t.classList.add("good"); } else t.classList.add("bad");
+          i++;
+          setTimeout(()=>{
+            if(i>=rounds) return resolve(Math.round((ok/rounds)*100));
+            round();
+          }, 260);
+        });
+      });
+    }
+    round();
+  });
+}
+
+function miniSocialChoice(root){
+  return new Promise(resolve=>{
+    const scenarios = shuffle([
+      {q:"Dikush thotë: “A mund të luaj?”", a:["Po, hajde.","Ik.","S’dua."], ok:0},
+      {q:"Kur presim në radhë:", a:["Presim radhën.","Shtyjmë.","Marrim pa pyetur."], ok:0},
+      {q:"Kur lodhem:", a:["Kërkoj pushim.","Bërtas.","Ik pa thënë gjë."], ok:0},
+      {q:"Kur dikush flet:", a:["Dëgjoj.","Flas mbi të.","E injoroj."], ok:0},
+      {q:"Kur mbaroj një lojë:", a:["Faleminderit.","S’ka.","Hë."], ok:0},
+    ]);
+    const rounds=5;
+    let i=0, ok=0;
+
+    function round(){
+      const s = scenarios[i];
+      root.innerHTML = `
+        <div class="note small">Zgjidh përgjigjen më të sjellshme. Raundi: <b>${i+1}/${rounds}</b></div>
+        <div class="note small"><b>Situata:</b> ${esc(s.q)}</div>
+        <div class="stack">
+          ${s.a.map((x,idx)=>`<div class="tile" data-i="${idx}" style="min-height:64px; font-size:14px">${esc(x)}</div>`).join("")}
+        </div>
+      `;
+      root.querySelectorAll(".tile").forEach(t=>{
+        t.addEventListener("click", ()=>{
+          const idx = Number(t.getAttribute("data-i"));
+          if(idx===s.ok){ ok++; t.classList.add("good"); } else t.classList.add("bad");
+          i++;
+          setTimeout(()=>{
+            if(i>=rounds) return resolve(Math.round((ok/rounds)*100));
+            round();
+          }, 360);
+        });
+      });
+    }
+    round();
+  });
+}
+
+function miniPuzzleFill(root){
+  return new Promise(resolve=>{
+    const rounds=4;
+    let i=0, ok=0;
+
+    function round(){
+      const puzzles = [
+        {q:"★ ★ _ ★", missing:"★", opts:["★","●","▲"]},
+        {q:"● ▲ ● _", missing:"▲", opts:["▲","■","●"]},
+        {q:"■ ■ ■ _", missing:"■", opts:["■","★","●"]},
+        {q:"▲ ● ▲ _", missing:"●", opts:["●","▲","◆"]},
+        {q:"◆ _ ◆ ◆", missing:"◆", opts:["◆","★","■"]},
+      ];
+      const p = shuffle(puzzles)[0];
+
+      root.innerHTML = `
+        <div class="note small">Zgjidh pjesën që plotëson modelin. Raundi: <b>${i+1}/${rounds}</b></div>
+        <div class="note" style="text-align:center; font-size:26px; letter-spacing:.22em">${esc(p.q)}</div>
+        <div class="row" style="margin-top:10px">
+          ${shuffle(p.opts).map(x=>`<div class="tile" data-x="${esc(x)}" style="flex:1; min-height:70px; font-size:28px">${esc(x)}</div>`).join("")}
+        </div>
+      `;
+      root.querySelectorAll(".tile").forEach(t=>{
+        t.addEventListener("click", ()=>{
+          const x = t.getAttribute("data-x");
+          if(x===p.missing){ ok++; t.classList.add("good"); } else t.classList.add("bad");
+          i++;
+          setTimeout(()=>{
+            if(i>=rounds) return resolve(Math.round((ok/rounds)*100));
+            round();
+          }, 360);
+        });
+      });
+    }
+    round();
+  });
+}
+
+function brainAgeMessage(avg){
+  if(avg >= 85) return "Performancë shumë e mirë në mini-lojëra. Mund të shtoni gradualisht vështirësinë dhe kohën e fokusit.";
+  if(avg >= 65) return "Performancë e mirë. Vazhdo me rutinë të qetë dhe ushtrime të shkurtra (5–10 min).";
+  if(avg >= 45) return "Performancë mesatare. Ndihmon strukturë, pushime të shkurtra, dhe motivim i butë.";
+  return "Performancë e ulët sot. Kjo mund të ndikohet nga lodhja/stresi. Provo përsëri një ditë tjetër në ambient të qetë.";
 }
 
 /* =======================
@@ -2301,7 +3203,7 @@ function interpretPct(pct){
 }
 
 /* =======================
-   ROUTINE PLAN LOGIC (core unchanged)
+   ROUTINE LOGIC
 ======================= */
 function getEmphasisFromAnswers(answers, pct){
   const buckets = {
@@ -2332,7 +3234,7 @@ function buildWeeklyPlan(emphasis){
     ],
     "Socializimi":[
       {title:"Lojë me radhë", how:"2–3 minuta: radhë me top ose zar."},
-      {title:"Pershëndetje e butë", how:"Model: “Përshëndetje” + buzëqeshje."},
+      {title:"Përshëndetje e butë", how:"Model: “Përshëndetje” + buzëqeshje."},
       {title:"Kontakt i shkurtër", how:"1–2 sekonda kontakt sysh gjatë një pyetjeje."},
       {title:"Rregull i vetëm", how:"“Presim radhën” në një aktivitet të vogël."},
     ],
@@ -2365,7 +3267,7 @@ function buildWeeklyPlan(emphasis){
   const days = ["E Hënë","E Martë","E Mërkurë","E Enjte","E Premte","E Shtunë","E Diel"];
   const picks = emphasis.flatMap(k => (bank[k]||[]).map(x=>({...x, tag:k})));
 
-  return days.map((name, di)=>{
+  const plan = days.map((name, di)=>{
     const tasks = [];
     for(let i=0;i<3;i++){
       const item = picks[(di*3+i) % picks.length] || {title:"Aktivitet i qetë", how:"Lexim i shkurtër dhe pushim.", tag:"—"};
@@ -2373,38 +3275,48 @@ function buildWeeklyPlan(emphasis){
     }
     return { name, tasks };
   });
+
+  return plan;
 }
 
 function routineKeyForUser(){
   const u = currentUser();
   return u ? `${LS_ROUTINE}_${u.username}` : `${LS_ROUTINE}_guest`;
 }
-function loadRoutine(){ try{ const raw = localStorage.getItem(routineKeyForUser()); return raw ? JSON.parse(raw) : null; }catch(e){ return null; } }
-function saveRoutine(obj){ localStorage.setItem(routineKeyForUser(), JSON.stringify(obj)); }
+function loadRoutine(){
+  try{
+    const raw = localStorage.getItem(routineKeyForUser());
+    return raw ? JSON.parse(raw) : null;
+  }catch(e){ return null; }
+}
+function saveRoutine(obj){
+  localStorage.setItem(routineKeyForUser(), JSON.stringify(obj));
+}
 
 function maybeUpdateStreak(plan, checks){
   const u = currentUser();
   if(!u) return;
 
   const today = new Date().toISOString().slice(0,10);
-
   const anyFullDay = plan.some((day, di)=> day.tasks.every((_, ti)=>checks[`d${di}_t${ti}`]===true));
   if(!anyFullDay) return;
 
   const uu = ensureUserProgress(u);
   uu.progress.routines = uu.progress.routines || { streak:0, lastDay:null };
-
   if(uu.progress.routines.lastDay === today) return;
 
   const last = uu.progress.routines.lastDay;
   if(last){
-    const yest = new Date(Date.now() - 86400000).toISOString().slice(0,10);
-    if(last === yest) uu.progress.routines.streak = (uu.progress.routines.streak||0) + 1;
-    else uu.progress.routines.streak = 1;
+    const yest = new Date(Date.now() - 86400000);
+    const yestKey = yest.toISOString().slice(0,10);
+    if(last === yestKey){
+      uu.progress.routines.streak = (uu.progress.routines.streak||0) + 1;
+    }else{
+      uu.progress.routines.streak = 1;
+    }
   }else{
     uu.progress.routines.streak = 1;
   }
-
   uu.progress.routines.lastDay = today;
   updateUser(uu);
 }
@@ -2434,6 +3346,11 @@ function shuffle(arr){
     [a[i],a[j]] = [a[j],a[i]];
   }
   return a;
+}
+function clampInt(n, min, max){
+  n = Number(n);
+  if(Number.isNaN(n)) return min;
+  return Math.max(min, Math.min(max, Math.round(n)));
 }
 
 /* =======================
